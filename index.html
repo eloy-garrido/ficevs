@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sistema de gestión de fichas clínicas de acupuntura">
+    <meta name="keywords" content="acupuntura, ficha clínica, MTC, medicina tradicional china">
+    <meta name="author" content="Ficha Clínica Acupuntura">
+    <meta name="theme-color" content="#2563eb">
+
+    <title>Ficha Clínica de Acupuntura</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+
+    <!-- Manifest PWA -->
+    <link rel="manifest" href="manifest.json">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/images/favicon.png">
+
+    <!-- Preload Supabase JS -->
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" as="script">
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+
+    <!-- Header -->
+    <header class="bg-white shadow-md">
+        <nav class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                </svg>
+                <h1 class="text-2xl font-bold text-gray-800">Ficha Clínica MTC</h1>
+            </div>
+
+            <div class="flex items-center space-x-4">
+                <a href="#features" class="text-gray-600 hover:text-blue-600 transition desktop-only">Características</a>
+                <a href="#about" class="text-gray-600 hover:text-blue-600 transition desktop-only">Acerca</a>
+                <button id="login-btn" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition">
+                    Iniciar Sesión
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <main class="container mx-auto px-4 py-16">
+        <div class="max-w-4xl mx-auto text-center">
+            <!-- Título Principal -->
+            <h2 class="text-5xl font-bold text-gray-900 mb-6 fade-in">
+                Sistema de Fichas Clínicas
+                <span class="text-blue-600">de Acupuntura</span>
+            </h2>
+
+            <p class="text-xl text-gray-600 mb-8 fade-in">
+                Gestiona tus fichas clínicas de forma digital, segura y eficiente.
+                Diseñado específicamente para profesionales de Medicina Tradicional China.
+            </p>
+
+            <!-- CTA Buttons -->
+            <div class="flex flex-col sm:flex-row gap-4 justify-center mb-12 fade-in">
+                <button id="start-btn" class="bg-blue-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-blue-700 transition shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                    Crear Nueva Ficha
+                </button>
+                <button id="demo-btn" class="bg-white text-blue-600 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-gray-50 transition shadow-lg border-2 border-blue-600">
+                    Ver Demo
+                </button>
+            </div>
+
+            <!-- Estadísticas -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16">
+                <div class="bg-white p-6 rounded-xl shadow-md card">
+                    <div class="text-4xl font-bold text-blue-600 mb-2">100%</div>
+                    <div class="text-gray-600">Seguro y Privado</div>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md card">
+                    <div class="text-4xl font-bold text-green-600 mb-2">Cloud</div>
+                    <div class="text-gray-600">Acceso desde Cualquier Lugar</div>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md card">
+                    <div class="text-4xl font-bold text-purple-600 mb-2">Gratis</div>
+                    <div class="text-gray-600">Sin Costo de Implementación</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <section id="features" class="mt-24">
+            <h3 class="text-3xl font-bold text-center text-gray-900 mb-12">Características Principales</h3>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="bg-white p-6 rounded-xl shadow-md card">
+                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                    </div>
+                    <h4 class="text-xl font-semibold mb-2">Formulario Completo</h4>
+                    <p class="text-gray-600">Captura todos los datos necesarios: anamnesis, diagnóstico MTC, pulso, lengua y plan de tratamiento.</p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="bg-white p-6 rounded-xl shadow-md card">
+                    <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                        </svg>
+                    </div>
+                    <h4 class="text-xl font-semibold mb-2">Seguridad Total</h4>
+                    <p class="text-gray-600">Protección de datos con Row Level Security (RLS). Solo tú puedes ver tus fichas clínicas.</p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="bg-white p-6 rounded-xl shadow-md card">
+                    <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                        </svg>
+                    </div>
+                    <h4 class="text-xl font-semibold mb-2">Responsive</h4>
+                    <p class="text-gray-600">Funciona perfectamente en celulares, tablets y computadoras. Accede desde cualquier dispositivo.</p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="bg-white p-6 rounded-xl shadow-md card">
+                    <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                        </svg>
+                    </div>
+                    <h4 class="text-xl font-semibold mb-2">En la Nube</h4>
+                    <p class="text-gray-600">Tus datos siempre disponibles y respaldados automáticamente en Supabase.</p>
+                </div>
+
+                <!-- Feature 5 -->
+                <div class="bg-white p-6 rounded-xl shadow-md card">
+                    <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                    </div>
+                    <h4 class="text-xl font-semibold mb-2">Rápido y Ligero</h4>
+                    <p class="text-gray-600">Sin frameworks pesados. Carga instantánea y rendimiento óptimo.</p>
+                </div>
+
+                <!-- Feature 6 -->
+                <div class="bg-white p-6 rounded-xl shadow-md card">
+                    <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                        </svg>
+                    </div>
+                    <h4 class="text-xl font-semibold mb-2">Historial de Sesiones</h4>
+                    <p class="text-gray-600">Registra y consulta el historial completo de tratamientos de cada paciente.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="mt-24">
+            <div class="bg-white rounded-2xl shadow-xl p-12">
+                <h3 class="text-3xl font-bold text-center text-gray-900 mb-6">Acerca del Sistema</h3>
+                <div class="max-w-3xl mx-auto text-gray-600 space-y-4">
+                    <p class="text-lg">
+                        Este sistema fue diseñado específicamente para profesionales de Medicina Tradicional China que necesitan una herramienta moderna, segura y fácil de usar para gestionar las fichas clínicas de sus pacientes.
+                    </p>
+                    <p class="text-lg">
+                        Construido con tecnologías web modernas y Supabase como backend, garantiza la seguridad de los datos mediante Row Level Security (RLS) y permite el acceso desde cualquier dispositivo con conexión a internet.
+                    </p>
+                    <p class="text-lg">
+                        El formulario multi-paso facilita la captura organizada de información, desde datos básicos del paciente hasta diagnóstico MTC completo, incluyendo lengua, pulso, síntomas y plan de tratamiento.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 mt-24">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2025 Ficha Clínica de Acupuntura. Todos los derechos reservados.</p>
+            <p class="mt-2 text-gray-400">Construido con ❤️ para profesionales de MTC</p>
+        </div>
+    </footer>
+
+    <!-- Modal de Login -->
+    <div id="login-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 modal-overlay">
+        <div class="bg-white rounded-xl p-8 max-w-md w-full mx-4 modal-content">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-gray-900">Iniciar Sesión</h3>
+                <button id="close-modal" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+            </div>
+
+            <form id="login-form" class="space-y-4">
+                <div>
+                    <label for="login-email" class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                    <input type="email" id="login-email" required
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                </div>
+
+                <div>
+                    <label for="login-password" class="block text-sm font-medium text-gray-700 mb-2">Contraseña</label>
+                    <input type="password" id="login-password" required
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                </div>
+
+                <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition font-semibold">
+                    Entrar
+                </button>
+            </form>
+
+            <div class="mt-6 text-center">
+                <button id="magic-link-btn" class="text-blue-600 hover:underline">Enviar link mágico por email</button>
+            </div>
+
+            <div class="mt-4 text-center">
+                <button id="anonymous-login-btn" class="text-sm text-gray-600 hover:underline">Entrar como invitado (demo)</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Supabase JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- App Scripts -->
+    <script type="module">
+        import { initSupabase, signInWithEmail, signInWithMagicLink, signInAnonymously, isAuthenticated } from './js/auth.js';
+        import { validateConfig } from './js/config.js';
+        import { notifications } from './js/utils.js';
+
+        // Inicializar aplicación
+        async function init() {
+            // Validar configuración
+            if (!validateConfig()) {
+                notifications.error('Error en la configuración. Por favor, contacta al administrador.');
+                return;
+            }
+
+            // Inicializar Supabase
+            await initSupabase();
+
+            // Verificar si ya está autenticado
+            const authenticated = await isAuthenticated();
+            if (authenticated) {
+                // Redirigir al formulario
+                window.location.href = 'ficha-clinica.html';
+                return;
+            }
+
+            // Setup event listeners
+            setupEventListeners();
+        }
+
+        function setupEventListeners() {
+            // Botón de login en header
+            document.getElementById('login-btn')?.addEventListener('click', showLoginModal);
+
+            // Botón de iniciar (crear nueva ficha)
+            document.getElementById('start-btn')?.addEventListener('click', async () => {
+                const authenticated = await isAuthenticated();
+                if (authenticated) {
+                    window.location.href = 'ficha-clinica.html';
+                } else {
+                    showLoginModal();
+                }
+            });
+
+            // Botón de demo
+            document.getElementById('demo-btn')?.addEventListener('click', async () => {
+                try {
+                    await signInAnonymously();
+                    window.location.href = 'ficha-clinica.html';
+                } catch (error) {
+                    console.error('Error en demo:', error);
+                }
+            });
+
+            // Modal de login
+            document.getElementById('close-modal')?.addEventListener('click', hideLoginModal);
+            document.getElementById('login-modal')?.addEventListener('click', (e) => {
+                if (e.target.id === 'login-modal') {
+                    hideLoginModal();
+                }
+            });
+
+            // Form de login
+            document.getElementById('login-form')?.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const email = document.getElementById('login-email').value;
+                const password = document.getElementById('login-password').value;
+
+                try {
+                    await signInWithEmail(email, password);
+                    window.location.href = 'ficha-clinica.html';
+                } catch (error) {
+                    console.error('Error en login:', error);
+                }
+            });
+
+            // Magic link
+            document.getElementById('magic-link-btn')?.addEventListener('click', async () => {
+                const email = document.getElementById('login-email').value;
+                if (!email) {
+                    notifications.warning('Por favor, ingresa tu email primero');
+                    return;
+                }
+
+                try {
+                    await signInWithMagicLink(email);
+                    hideLoginModal();
+                } catch (error) {
+                    console.error('Error al enviar magic link:', error);
+                }
+            });
+
+            // Login anónimo
+            document.getElementById('anonymous-login-btn')?.addEventListener('click', async () => {
+                try {
+                    await signInAnonymously();
+                    window.location.href = 'ficha-clinica.html';
+                } catch (error) {
+                    console.error('Error en login anónimo:', error);
+                }
+            });
+        }
+
+        function showLoginModal() {
+            document.getElementById('login-modal')?.classList.remove('hidden');
+        }
+
+        function hideLoginModal() {
+            document.getElementById('login-modal')?.classList.add('hidden');
+        }
+
+        // Inicializar cuando el DOM esté listo
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+# =====================================================
+# CONFIGURACIÓN DE NETLIFY
+# =====================================================
+# Archivo de configuración para deployment en Netlify
+# =====================================================
+
+[build]
+  # Directorio de publicación (raíz del proyecto)
+  publish = "."
+
+  # Comando de build (no necesario para sitio estático)
+  command = "echo 'Sitio estático - sin build necesario'"
+
+# Headers de seguridad
+[[headers]]
+  for = "/*"
+  [headers.values]
+    # Seguridad
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+    # Permisos
+    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+
+    # Cache para assets estáticos
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Headers específicos para archivos HTML
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# Headers para el service worker
+[[headers]]
+  for = "/service-worker.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+    Service-Worker-Allowed = "/"
+
+# Headers para manifest.json
+[[headers]]
+  for = "/manifest.json"
+  [headers.values]
+    Content-Type = "application/manifest+json"
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# Redirecciones
+[[redirects]]
+  from = "/app"
+  to = "/ficha-clinica.html"
+  status = 301
+
+[[redirects]]
+  from = "/formulario"
+  to = "/ficha-clinica.html"
+  status = 301
+
+# SPA fallback (todas las rutas no encontradas van a index.html)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Plugin de Netlify para PWA
+[[plugins]]
+  package = "@netlify/plugin-lighthouse"
+
+  [plugins.inputs]
+    output_path = "reports/lighthouse.html"
+
+# Configuración de contexto de desarrollo
+[context.development]
+  command = "echo 'Development build'"
+
+# Configuración de contexto de producción
+[context.production]
+  command = "echo 'Production build'"
+
+# Variables de entorno (no incluir credenciales sensibles aquí)
+# Las variables de entorno deben configurarse en el dashboard de Netlify

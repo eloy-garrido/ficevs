@@ -1,0 +1,529 @@
+/**
+ * =====================================================
+ * ESTILOS PERSONALIZADOS - FICHA CLÍNICA
+ * =====================================================
+ * Estilos que complementan Tailwind CSS
+ * =====================================================
+ */
+
+/* =====================================================
+ * VARIABLES CSS
+ * ===================================================== */
+:root {
+    --primary-color: #2563eb;
+    --primary-dark: #1d4ed8;
+    --success-color: #10b981;
+    --error-color: #ef4444;
+    --warning-color: #f59e0b;
+    --gray-50: #f9fafb;
+    --gray-100: #f3f4f6;
+    --gray-200: #e5e7eb;
+    --gray-300: #d1d5db;
+    --gray-400: #9ca3af;
+    --gray-500: #6b7280;
+    --gray-600: #4b5563;
+    --gray-700: #374151;
+    --gray-800: #1f2937;
+    --gray-900: #111827;
+
+    --transition-speed: 0.3s;
+    --border-radius: 0.5rem;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+/* =====================================================
+ * RESETEO Y BASE
+ * ===================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--gray-800);
+    background-color: var(--gray-50);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* =====================================================
+ * TIPOGRAFÍA
+ * ===================================================== */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--gray-900);
+}
+
+h1 { font-size: 2.5rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.75rem; }
+h4 { font-size: 1.5rem; }
+h5 { font-size: 1.25rem; }
+h6 { font-size: 1rem; }
+
+/* =====================================================
+ * FORMULARIOS
+ * ===================================================== */
+
+/* Inputs y textareas mejorados */
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="number"],
+input[type="password"],
+textarea,
+select {
+    transition: all var(--transition-speed) ease;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    ring: 2px;
+    ring-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+/* Checkboxes y radios personalizados */
+input[type="checkbox"],
+input[type="radio"] {
+    width: 1.25rem;
+    height: 1.25rem;
+    cursor: pointer;
+    transition: all var(--transition-speed) ease;
+}
+
+input[type="checkbox"]:checked,
+input[type="radio"]:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+/* Labels */
+label {
+    cursor: pointer;
+    user-select: none;
+}
+
+/* Placeholder mejorado */
+::placeholder {
+    color: var(--gray-400);
+    opacity: 1;
+}
+
+/* =====================================================
+ * BOTONES
+ * ===================================================== */
+button,
+.btn {
+    transition: all var(--transition-speed) ease;
+    cursor: pointer;
+    font-weight: 600;
+    border: none;
+    outline: none;
+}
+
+button:disabled,
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+button:active:not(:disabled),
+.btn:active:not(:disabled) {
+    transform: scale(0.98);
+}
+
+/* Efecto ripple en botones */
+.btn-ripple {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-ripple::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.btn-ripple:active::after {
+    width: 300px;
+    height: 300px;
+}
+
+/* =====================================================
+ * BARRA DE PROGRESO
+ * ===================================================== */
+.progress-container {
+    width: 100%;
+    height: 8px;
+    background-color: var(--gray-200);
+    border-radius: 9999px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));
+    border-radius: 9999px;
+    transition: width 0.5s ease;
+    box-shadow: 0 0 10px rgba(37, 99, 235, 0.5);
+}
+
+/* Animación de progreso */
+@keyframes progress-animation {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.progress-bar.animated {
+    background-size: 200% 200%;
+    animation: progress-animation 2s ease infinite;
+}
+
+/* =====================================================
+ * INDICADORES DE PASO
+ * ===================================================== */
+.step-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    font-weight: 700;
+    transition: all var(--transition-speed) ease;
+    box-shadow: var(--shadow-sm);
+}
+
+.step-indicator.active {
+    transform: scale(1.1);
+    box-shadow: var(--shadow-md);
+}
+
+.step-indicator.completed {
+    position: relative;
+}
+
+.step-indicator.completed::before {
+    content: "✓";
+    position: absolute;
+    font-size: 1.25rem;
+}
+
+/* =====================================================
+ * TARJETAS Y CONTENEDORES
+ * ===================================================== */
+.card {
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-md);
+    padding: 1.5rem;
+    transition: all var(--transition-speed) ease;
+}
+
+.card:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+}
+
+/* =====================================================
+ * ANIMACIONES
+ * ===================================================== */
+
+/* Fade in */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease;
+}
+
+/* Slide in from right */
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.slide-in-right {
+    animation: slideInRight 0.5s ease;
+}
+
+/* Slide in from left */
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.slide-in-left {
+    animation: slideInLeft 0.5s ease;
+}
+
+/* Bounce */
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.bounce {
+    animation: bounce 1s ease infinite;
+}
+
+/* Pulse */
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.pulse {
+    animation: pulse 2s ease infinite;
+}
+
+/* Spinner de carga */
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.spinner {
+    animation: spin 1s linear infinite;
+}
+
+/* =====================================================
+ * NOTIFICACIONES
+ * ===================================================== */
+#notifications-container {
+    pointer-events: none;
+}
+
+#notifications-container > * {
+    pointer-events: auto;
+}
+
+.notification {
+    min-width: 300px;
+    max-width: 500px;
+}
+
+/* =====================================================
+ * MODAL/DIALOG
+ * ===================================================== */
+.modal-overlay {
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+}
+
+.modal-content {
+    animation: fadeIn 0.3s ease;
+}
+
+/* =====================================================
+ * LOADER/SPINNER
+ * ===================================================== */
+#app-loader {
+    backdrop-filter: blur(4px);
+}
+
+/* =====================================================
+ * SCROLL PERSONALIZADO
+ * ===================================================== */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--gray-100);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--gray-400);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--gray-500);
+}
+
+/* =====================================================
+ * UTILIDADES
+ * ===================================================== */
+
+/* Ocultar elementos */
+.hidden {
+    display: none !important;
+}
+
+/* Mostrar solo en mobile */
+@media (min-width: 768px) {
+    .mobile-only {
+        display: none !important;
+    }
+}
+
+/* Mostrar solo en desktop */
+@media (max-width: 767px) {
+    .desktop-only {
+        display: none !important;
+    }
+}
+
+/* Texto truncado */
+.truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Sombra de texto */
+.text-shadow {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Transición suave */
+.smooth-transition {
+    transition: all var(--transition-speed) ease;
+}
+
+/* =====================================================
+ * RESPONSIVE
+ * ===================================================== */
+
+/* Tablets */
+@media (max-width: 1024px) {
+    h1 { font-size: 2rem; }
+    h2 { font-size: 1.75rem; }
+    h3 { font-size: 1.5rem; }
+}
+
+/* Móviles */
+@media (max-width: 640px) {
+    h1 { font-size: 1.75rem; }
+    h2 { font-size: 1.5rem; }
+    h3 { font-size: 1.25rem; }
+
+    .card {
+        padding: 1rem;
+    }
+
+    .step-indicator {
+        width: 2rem;
+        height: 2rem;
+        font-size: 0.875rem;
+    }
+}
+
+/* =====================================================
+ * MODO OSCURO (OPCIONAL)
+ * ===================================================== */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --gray-50: #111827;
+        --gray-100: #1f2937;
+        --gray-800: #f9fafb;
+        --gray-900: #ffffff;
+    }
+
+    body {
+        background-color: var(--gray-900);
+        color: var(--gray-100);
+    }
+
+    .card {
+        background-color: var(--gray-800);
+    }
+}
+
+/* =====================================================
+ * ACCESIBILIDAD
+ * ===================================================== */
+
+/* Focus visible mejorado */
+*:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+/* Reducir movimiento para usuarios con preferencias de accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* =====================================================
+ * PRINT STYLES
+ * ===================================================== */
+@media print {
+    body {
+        background: white;
+    }
+
+    button,
+    .no-print {
+        display: none !important;
+    }
+
+    .card {
+        box-shadow: none;
+        border: 1px solid var(--gray-300);
+    }
+}

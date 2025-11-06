@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Formulario de ficha clínica de acupuntura">
+    <meta name="theme-color" content="#2563eb">
+
+    <title>Nueva Ficha Clínica - Acupuntura</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+
+    <!-- Manifest PWA -->
+    <link rel="manifest" href="manifest.json">
+</head>
+<body class="bg-gray-50 min-h-screen">
+
+    <!-- Header -->
+    <header class="bg-white shadow-md sticky top-0 z-40">
+        <nav class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                </svg>
+                <h1 class="text-xl md:text-2xl font-bold text-gray-800">Nueva Ficha Clínica</h1>
+            </div>
+
+            <div class="flex items-center space-x-2 md:space-x-4">
+                <button id="save-draft-btn" class="text-sm md:text-base text-gray-600 hover:text-blue-600 transition">
+                    Guardar Borrador
+                </button>
+                <button id="logout-btn" class="text-sm md:text-base bg-red-500 text-white px-3 md:px-4 py-2 rounded-lg hover:bg-red-600 transition">
+                    Salir
+                </button>
+            </div>
+        </nav>
+
+        <!-- Barra de progreso -->
+        <div class="bg-gray-100 py-4">
+            <div class="container mx-auto px-4">
+                <!-- Indicador de progreso -->
+                <div class="flex justify-between items-center mb-2">
+                    <span id="progress-text" class="text-sm font-medium text-gray-700">Paso 1 de 5</span>
+                    <span class="text-sm text-gray-500">Auto-guardado activo</span>
+                </div>
+
+                <!-- Barra -->
+                <div class="progress-container">
+                    <div id="progress-bar" class="progress-bar" style="width: 20%"></div>
+                </div>
+
+                <!-- Indicadores de pasos -->
+                <div class="flex justify-between mt-4">
+                    <div class="flex flex-col items-center">
+                        <div id="step-indicator-1" class="step-indicator bg-blue-600 text-white">1</div>
+                        <span class="text-xs mt-1 text-gray-600 hidden md:block">Paciente</span>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div id="step-indicator-2" class="step-indicator bg-gray-300 text-gray-600">2</div>
+                        <span class="text-xs mt-1 text-gray-600 hidden md:block">MTC</span>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div id="step-indicator-3" class="step-indicator bg-gray-300 text-gray-600">3</div>
+                        <span class="text-xs mt-1 text-gray-600 hidden md:block">Síntomas</span>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div id="step-indicator-4" class="step-indicator bg-gray-300 text-gray-600">4</div>
+                        <span class="text-xs mt-1 text-gray-600 hidden md:block">Dolor</span>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div id="step-indicator-5" class="step-indicator bg-gray-300 text-gray-600">5</div>
+                        <span class="text-xs mt-1 text-gray-600 hidden md:block">Finalizar</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenedor Principal del Formulario -->
+    <main class="container mx-auto px-4 py-8 max-w-4xl">
+
+        <!-- PASO 1: Datos del Paciente -->
+        <div id="step-1" class="card fade-in">
+            <h2 class="text-3xl font-bold text-gray-900 mb-6">Paso 1: Datos del Paciente</h2>
+
+            <form class="space-y-6">
+                <!-- Nombre del Paciente -->
+                <div>
+                    <label for="nombre-paciente" class="block text-sm font-medium text-gray-700 mb-2">
+                        Nombre Completo del Paciente <span class="text-red-500">*</span>
+                    </label>
+                    <input type="text" id="nombre-paciente" required
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="Juan Pérez">
+                </div>
+
+                <!-- Edad y Teléfono -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="edad" class="block text-sm font-medium text-gray-700 mb-2">Edad</label>
+                        <input type="number" id="edad" min="0" max="150"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            placeholder="35">
+                    </div>
+
+                    <div>
+                        <label for="telefono" class="block text-sm font-medium text-gray-700 mb-2">Teléfono</label>
+                        <input type="tel" id="telefono"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            placeholder="+56 9 1234 5678">
+                    </div>
+                </div>
+
+                <!-- Email y Ocupación -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                        <input type="email" id="email"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            placeholder="juan@ejemplo.com">
+                    </div>
+
+                    <div>
+                        <label for="ocupacion" class="block text-sm font-medium text-gray-700 mb-2">Ocupación</label>
+                        <input type="text" id="ocupacion"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            placeholder="Ingeniero">
+                    </div>
+                </div>
+
+                <!-- Motivo de Consulta -->
+                <div>
+                    <label for="motivo-consulta" class="block text-sm font-medium text-gray-700 mb-2">
+                        Motivo de Consulta <span class="text-red-500">*</span>
+                    </label>
+                    <textarea id="motivo-consulta" required rows="4"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="Describa el motivo principal de la consulta..."></textarea>
+                </div>
+            </form>
+        </div>
+
+        <!-- PASO 2: Diagnóstico MTC (Lengua y Pulso) -->
+        <div id="step-2" class="card fade-in hidden">
+            <h2 class="text-3xl font-bold text-gray-900 mb-6">Paso 2: Diagnóstico MTC</h2>
+
+            <form class="space-y-8">
+                <!-- Sección Lengua -->
+                <div class="bg-blue-50 p-6 rounded-lg">
+                    <h3 class="text-xl font-semibold text-blue-900 mb-4">Lengua</h3>
+
+                    <!-- Color de la Lengua -->
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Color</label>
+                        <div class="space-y-2">
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="lengua-color" value="palida" class="text-blue-600">
+                                <span>Pálida</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="lengua-color" value="normal" class="text-blue-600">
+                                <span>Normal (rosada)</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="lengua-color" value="roja" class="text-blue-600">
+                                <span>Roja</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="lengua-color" value="purpura" class="text-blue-600">
+                                <span>Púrpura</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Saburra -->
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Saburra</label>
+                        <div class="space-y-2">
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="lengua-saburra" value="fina-blanca" class="text-blue-600">
+                                <span>Fina y blanca</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="lengua-saburra" value="gruesa" class="text-blue-600">
+                                <span>Gruesa</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="lengua-saburra" value="amarilla" class="text-blue-600">
+                                <span>Amarilla</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="lengua-saburra" value="sin-saburra" class="text-blue-600">
+                                <span>Sin saburra</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Forma -->
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Forma</label>
+                        <div class="space-y-2">
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="lengua-forma" value="normal" class="text-blue-600">
+                                <span>Normal</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="lengua-forma" value="hinchada" class="text-blue-600">
+                                <span>Hinchada</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="lengua-forma" value="delgada" class="text-blue-600">
+                                <span>Delgada</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="lengua-forma" value="rigida" class="text-blue-600">
+                                <span>Rígida</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Observaciones de Lengua -->
+                    <div>
+                        <label for="lengua-observaciones" class="block text-sm font-medium text-gray-700 mb-2">
+                            Observaciones adicionales
+                        </label>
+                        <textarea id="lengua-observaciones" rows="2"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            placeholder="Observaciones sobre la lengua..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Sección Pulso -->
+                <div class="bg-green-50 p-6 rounded-lg">
+                    <h3 class="text-xl font-semibold text-green-900 mb-4">Pulso</h3>
+
+                    <!-- Profundidad -->
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Profundidad</label>
+                        <div class="space-y-2">
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="pulso-profundidad" value="superficial" class="text-green-600">
+                                <span>Superficial</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="pulso-profundidad" value="medio" class="text-green-600">
+                                <span>Medio</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="pulso-profundidad" value="profundo" class="text-green-600">
+                                <span>Profundo</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Velocidad -->
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Velocidad</label>
+                        <div class="space-y-2">
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="pulso-velocidad" value="lento" class="text-green-600">
+                                <span>Lento (< 4 latidos/respiración)</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="pulso-velocidad" value="normal" class="text-green-600">
+                                <span>Normal (4-5 latidos/respiración)</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="pulso-velocidad" value="rapido" class="text-green-600">
+                                <span>Rápido (> 5 latidos/respiración)</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Fuerza -->
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Fuerza</label>
+                        <div class="space-y-2">
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="pulso-fuerza" value="debil" class="text-green-600">
+                                <span>Débil</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="pulso-fuerza" value="normal" class="text-green-600">
+                                <span>Normal</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="pulso-fuerza" value="fuerte" class="text-green-600">
+                                <span>Fuerte</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Calidad -->
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Calidad</label>
+                        <div class="space-y-2">
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="pulso-calidad" value="resbaladizo" class="text-green-600">
+                                <span>Resbaladizo</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="pulso-calidad" value="rugoso" class="text-green-600">
+                                <span>Rugoso</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="pulso-calidad" value="tenso" class="text-green-600">
+                                <span>Tenso</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="pulso-calidad" value="filiforme" class="text-green-600">
+                                <span>Filiforme</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Observaciones de Pulso -->
+                    <div>
+                        <label for="pulso-observaciones" class="block text-sm font-medium text-gray-700 mb-2">
+                            Observaciones adicionales
+                        </label>
+                        <textarea id="pulso-observaciones" rows="2"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                            placeholder="Observaciones sobre el pulso..."></textarea>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- PASO 3: Síntomas Generales -->
+        <div id="step-3" class="card fade-in hidden">
+            <h2 class="text-3xl font-bold text-gray-900 mb-6">Paso 3: Síntomas Generales</h2>
+
+            <form class="space-y-6">
+                <!-- Síntomas Generales -->
+                <div class="bg-yellow-50 p-6 rounded-lg">
+                    <h3 class="text-xl font-semibold text-yellow-900 mb-4">Síntomas Principales</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="checkbox" name="sintomas" value="dolor_cabeza" class="text-yellow-600">
+                            <span>Dolor de cabeza</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="checkbox" name="sintomas" value="mareos" class="text-yellow-600">
+                            <span>Mareos</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="checkbox" name="sintomas" value="insomnio" class="text-yellow-600">
+                            <span>Insomnio</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="checkbox" name="sintomas" value="fatiga" class="text-yellow-600">
+                            <span>Fatiga</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="checkbox" name="sintomas" value="sudoracion" class="text-yellow-600">
+                            <span>Sudoración excesiva</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="checkbox" name="sintomas" value="frio" class="text-yellow-600">
+                            <span>Sensación de frío</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="checkbox" name="sintomas" value="calor" class="text-yellow-600">
+                            <span>Sensación de calor</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="checkbox" name="sintomas" value="palpitaciones" class="text-yellow-600">
+                            <span>Palpitaciones</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Emociones -->
+                <div class="bg-purple-50 p-6 rounded-lg">
+                    <h3 class="text-xl font-semibold text-purple-900 mb-4">Estado Emocional</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="checkbox" name="emociones" value="ansiedad" class="text-purple-600">
+                            <span>Ansiedad</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="checkbox" name="emociones" value="estres" class="text-purple-600">
+                            <span>Estrés</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="checkbox" name="emociones" value="tristeza" class="text-purple-600">
+                            <span>Tristeza</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="checkbox" name="emociones" value="irritabilidad" class="text-purple-600">
+                            <span>Irritabilidad</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="checkbox" name="emociones" value="preocupacion" class="text-purple-600">
+                            <span>Preocupación excesiva</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="checkbox" name="emociones" value="miedo" class="text-purple-600">
+                            <span>Miedo</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Síntomas Digestivos -->
+                <div class="bg-green-50 p-6 rounded-lg">
+                    <h3 class="text-xl font-semibold text-green-900 mb-4">Síntomas Digestivos</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="checkbox" name="digestivos" value="nauseas" class="text-green-600">
+                            <span>Náuseas</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="checkbox" name="digestivos" value="vomitos" class="text-green-600">
+                            <span>Vómitos</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="checkbox" name="digestivos" value="diarrea" class="text-green-600">
+                            <span>Diarrea</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="checkbox" name="digestivos" value="estreñimiento" class="text-green-600">
+                            <span>Estreñimiento</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="checkbox" name="digestivos" value="hinchazon" class="text-green-600">
+                            <span>Hinchazón abdominal</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="checkbox" name="digestivos" value="gastritis" class="text-green-600">
+                            <span>Gastritis</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Síntomas Menstruales (si aplica) -->
+                <div class="bg-pink-50 p-6 rounded-lg">
+                    <h3 class="text-xl font-semibold text-pink-900 mb-4">Síntomas Menstruales (si aplica)</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="checkbox" name="menstruales" value="irregularidad" class="text-pink-600">
+                            <span>Irregularidad menstrual</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="checkbox" name="menstruales" value="dolor" class="text-pink-600">
+                            <span>Dolor menstrual</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="checkbox" name="menstruales" value="flujo_abundante" class="text-pink-600">
+                            <span>Flujo abundante</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="checkbox" name="menstruales" value="flujo_escaso" class="text-pink-600">
+                            <span>Flujo escaso</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="checkbox" name="menstruales" value="coagulos" class="text-pink-600">
+                            <span>Coágulos</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Otros síntomas -->
+                <div>
+                    <label for="otros-sintomas" class="block text-sm font-medium text-gray-700 mb-2">
+                        Otros síntomas no listados
+                    </label>
+                    <textarea id="otros-sintomas" rows="3"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="Describa cualquier otro síntoma relevante..."></textarea>
+                </div>
+            </form>
+        </div>
+
+        <!-- PASO 4: Datos del Dolor -->
+        <div id="step-4" class="card fade-in hidden">
+            <h2 class="text-3xl font-bold text-gray-900 mb-6">Paso 4: Evaluación del Dolor</h2>
+
+            <form class="space-y-6">
+                <!-- Ubicación del Dolor -->
+                <div class="bg-red-50 p-6 rounded-lg">
+                    <h3 class="text-xl font-semibold text-red-900 mb-4">Ubicación del Dolor</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="checkbox" name="dolor-ubicacion" value="cervical" class="text-red-600">
+                            <span>Cervical</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="checkbox" name="dolor-ubicacion" value="dorsal" class="text-red-600">
+                            <span>Dorsal</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="checkbox" name="dolor-ubicacion" value="lumbar" class="text-red-600">
+                            <span>Lumbar</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="checkbox" name="dolor-ubicacion" value="hombro" class="text-red-600">
+                            <span>Hombro</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="checkbox" name="dolor-ubicacion" value="rodilla" class="text-red-600">
+                            <span>Rodilla</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="checkbox" name="dolor-ubicacion" value="cadera" class="text-red-600">
+                            <span>Cadera</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="checkbox" name="dolor-ubicacion" value="extremidades" class="text-red-600">
+                            <span>Extremidades</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="checkbox" name="dolor-ubicacion" value="abdomen" class="text-red-600">
+                            <span>Abdomen</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Tipo de Dolor -->
+                <div class="bg-orange-50 p-6 rounded-lg">
+                    <h3 class="text-xl font-semibold text-orange-900 mb-4">Tipo de Dolor</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="checkbox" name="dolor-tipo" value="punzante" class="text-orange-600">
+                            <span>Punzante</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="checkbox" name="dolor-tipo" value="sordo" class="text-orange-600">
+                            <span>Sordo</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="checkbox" name="dolor-tipo" value="quemante" class="text-orange-600">
+                            <span>Quemante</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="checkbox" name="dolor-tipo" value="opresivo" class="text-orange-600">
+                            <span>Opresivo</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="checkbox" name="dolor-tipo" value="pulsatil" class="text-orange-600">
+                            <span>Pulsátil</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="checkbox" name="dolor-tipo" value="lacerante" class="text-orange-600">
+                            <span>Lacerante</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Intensidad del Dolor -->
+                <div>
+                    <label for="dolor-intensidad" class="block text-sm font-medium text-gray-700 mb-2">
+                        Intensidad del Dolor (1-10)
+                    </label>
+                    <div class="flex items-center space-x-4">
+                        <span class="text-sm text-gray-600">Leve</span>
+                        <input type="range" id="dolor-intensidad" min="1" max="10" value="5"
+                            class="flex-1 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                        <span class="text-sm text-gray-600">Severo</span>
+                        <span id="dolor-intensidad-valor" class="text-2xl font-bold text-red-600 ml-4">5</span>
+                    </div>
+                </div>
+
+                <!-- Frecuencia del Dolor -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Frecuencia del Dolor</label>
+                    <div class="space-y-2">
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="radio" name="dolor-frecuencia" value="constante" class="text-blue-600">
+                            <span>Constante</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="radio" name="dolor-frecuencia" value="intermitente" class="text-blue-600">
+                            <span>Intermitente</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="radio" name="dolor-frecuencia" value="ocasional" class="text-blue-600">
+                            <span>Ocasional</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Factores de Alivio -->
+                <div>
+                    <label for="factores-alivio" class="block text-sm font-medium text-gray-700 mb-2">
+                        ¿Qué alivia el dolor?
+                    </label>
+                    <textarea id="factores-alivio" rows="2"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="Ej: reposo, calor, masajes..."></textarea>
+                </div>
+
+                <!-- Factores de Agravación -->
+                <div>
+                    <label for="factores-agravacion" class="block text-sm font-medium text-gray-700 mb-2">
+                        ¿Qué agrava el dolor?
+                    </label>
+                    <textarea id="factores-agravacion" rows="2"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="Ej: movimiento, frío, estrés..."></textarea>
+                </div>
+            </form>
+        </div>
+
+        <!-- PASO 5: Diagnóstico y Plan -->
+        <div id="step-5" class="card fade-in hidden">
+            <h2 class="text-3xl font-bold text-gray-900 mb-6">Paso 5: Diagnóstico y Plan de Tratamiento</h2>
+
+            <form class="space-y-6">
+                <!-- Resumen de la Ficha -->
+                <div class="bg-gray-50 p-6 rounded-lg border-2 border-gray-200">
+                    <h3 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+                        <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                        </svg>
+                        Resumen de la Ficha
+                    </h3>
+                    <div id="ficha-summary"></div>
+                </div>
+
+                <!-- Diagnóstico del Terapeuta -->
+                <div>
+                    <label for="diagnostico" class="block text-sm font-medium text-gray-700 mb-2">
+                        Diagnóstico del Terapeuta (MTC)
+                    </label>
+                    <textarea id="diagnostico" rows="4"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="Ej: Deficiencia de Qi de Bazo, Estancamiento de Qi de Hígado..."></textarea>
+                </div>
+
+                <!-- Plan de Tratamiento -->
+                <div>
+                    <label for="plan-tratamiento" class="block text-sm font-medium text-gray-700 mb-2">
+                        Plan de Tratamiento
+                    </label>
+                    <textarea id="plan-tratamiento" rows="4"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="Describa el plan de tratamiento propuesto..."></textarea>
+                </div>
+
+                <!-- Puntos de Acupuntura -->
+                <div>
+                    <label for="puntos-acupuntura" class="block text-sm font-medium text-gray-700 mb-2">
+                        Puntos de Acupuntura
+                    </label>
+                    <input type="text" id="puntos-acupuntura"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="Ej: E36, IG4, H3, B6... (separados por comas)">
+                    <p class="mt-1 text-sm text-gray-500">Ingrese los puntos separados por comas</p>
+                </div>
+
+                <!-- Técnicas Aplicadas -->
+                <div class="bg-blue-50 p-6 rounded-lg">
+                    <h3 class="text-lg font-semibold text-blue-900 mb-3">Técnicas a Aplicar</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="checkbox" name="tecnicas" value="acupuntura" class="text-blue-600">
+                            <span>Acupuntura</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="checkbox" name="tecnicas" value="moxibustion" class="text-blue-600">
+                            <span>Moxibustión</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="checkbox" name="tecnicas" value="ventosas" class="text-blue-600">
+                            <span>Ventosas</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="checkbox" name="tecnicas" value="electroacupuntura" class="text-blue-600">
+                            <span>Electroacupuntura</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="checkbox" name="tecnicas" value="tuina" class="text-blue-600">
+                            <span>Tuina (masaje)</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="checkbox" name="tecnicas" value="auriculoterapia" class="text-blue-600">
+                            <span>Auriculoterapia</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Recomendaciones -->
+                <div>
+                    <label for="recomendaciones" class="block text-sm font-medium text-gray-700 mb-2">
+                        Recomendaciones para el Paciente
+                    </label>
+                    <textarea id="recomendaciones" rows="4"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="Recomendaciones dietéticas, ejercicios, hábitos, etc."></textarea>
+                </div>
+
+                <!-- Consentimiento Informado -->
+                <div class="bg-green-50 p-6 rounded-lg border-2 border-green-200">
+                    <label class="flex items-start space-x-3 cursor-pointer">
+                        <input type="checkbox" id="consentimiento" required class="mt-1 text-green-600">
+                        <div>
+                            <span class="font-semibold text-green-900">Consentimiento Informado <span class="text-red-500">*</span></span>
+                            <p class="text-sm text-gray-700 mt-1">
+                                El paciente ha sido informado sobre el tratamiento propuesto, sus posibles beneficios y riesgos,
+                                y ha dado su consentimiento para proceder. El paciente entiende que puede retirar su consentimiento
+                                en cualquier momento.
+                            </p>
+                        </div>
+                    </label>
+                </div>
+            </form>
+        </div>
+
+        <!-- Botones de Navegación -->
+        <div class="flex justify-between items-center mt-8">
+            <button id="prev-btn" class="hidden bg-gray-500 text-white px-6 py-3 rounded-lg hover:bg-gray-600 transition font-semibold">
+                ← Anterior
+            </button>
+
+            <div class="flex-1"></div>
+
+            <button id="next-btn" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition font-semibold">
+                Siguiente →
+            </button>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-6 mt-12">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2025 Ficha Clínica de Acupuntura</p>
+        </div>
+    </footer>
+
+    <!-- Supabase JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- App Scripts -->
+    <script type="module">
+        import { initSupabase, requireAuth, signOut } from './js/auth.js';
+        import { initFormManager } from './js/formManager.js';
+        import { storage } from './js/utils.js';
+
+        // Inicializar aplicación
+        async function init() {
+            // Inicializar Supabase
+            await initSupabase();
+
+            // Requiere autenticación
+            const authenticated = await requireAuth();
+            if (!authenticated) return;
+
+            // Inicializar gestor de formulario
+            initFormManager();
+
+            // Setup event listeners adicionales
+            setupEventListeners();
+        }
+
+        function setupEventListeners() {
+            // Botón de logout
+            document.getElementById('logout-btn')?.addEventListener('click', async () => {
+                if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
+                    await signOut();
+                }
+            });
+
+            // Botón de guardar borrador manual
+            document.getElementById('save-draft-btn')?.addEventListener('click', () => {
+                // La función de guardado está en formManager.js
+                storage.saveDraft(window.formState?.formData || {});
+            });
+
+            // Actualizar valor de intensidad de dolor
+            const dolorIntensidad = document.getElementById('dolor-intensidad');
+            const dolorIntensidadValor = document.getElementById('dolor-intensidad-valor');
+
+            if (dolorIntensidad && dolorIntensidadValor) {
+                dolorIntensidad.addEventListener('input', (e) => {
+                    dolorIntensidadValor.textContent = e.target.value;
+                });
+            }
+        }
+
+        // Inicializar cuando el DOM esté listo
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+    </script>
+</body>
+</html>
