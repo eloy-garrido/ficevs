@@ -276,10 +276,17 @@ function collectDataFromStep(step) {
         case 1:
             // Datos del paciente
             data.nombre_paciente = document.getElementById('nombre-paciente')?.value.trim();
+            data.rut = document.getElementById('rut')?.value.trim();
+            data.fecha_nacimiento = document.getElementById('fecha-nacimiento')?.value;
             data.edad = document.getElementById('edad')?.value;
-            data.telefono = document.getElementById('telefono')?.value.trim();
+            data.fecha_ingreso = document.getElementById('fecha-ingreso')?.value;
+            // Combinar código de país + número de teléfono
+            const telefonoCodigo = document.getElementById('telefono-codigo')?.value || '+569';
+            const telefonoNumero = document.getElementById('telefono-numero')?.value.trim();
+            data.telefono = telefonoNumero ? `${telefonoCodigo} ${telefonoNumero}` : '';
             data.email = document.getElementById('email')?.value.trim();
             data.ocupacion = document.getElementById('ocupacion')?.value.trim();
+            data.direccion = document.getElementById('direccion')?.value.trim();
             data.motivo_consulta = document.getElementById('motivo-consulta')?.value.trim();
             break;
 
@@ -407,6 +414,34 @@ function validateStep(step, data) {
             if (nombreError) {
                 formHelpers.showFieldError('nombre-paciente', nombreError);
                 errors.push(nombreError);
+                isValid = false;
+            }
+
+            // Validar RUT
+            const rutError = validators.required(data.rut, 'RUT');
+            if (rutError) {
+                formHelpers.showFieldError('rut', rutError);
+                errors.push(rutError);
+                isValid = false;
+            }
+
+            // Validar fecha de nacimiento
+            const fechaNacError = validators.required(data.fecha_nacimiento, 'Fecha de nacimiento');
+            if (fechaNacError) {
+                formHelpers.showFieldError('fecha-nacimiento', fechaNacError);
+                errors.push(fechaNacError);
+                isValid = false;
+            }
+
+            // Validar teléfono
+            const telefonoNumeroInput = document.getElementById('telefono-numero');
+            if (!telefonoNumeroInput?.value || telefonoNumeroInput.value.trim() === '') {
+                formHelpers.showFieldError('telefono-numero', 'Teléfono es requerido');
+                errors.push('Teléfono requerido');
+                isValid = false;
+            } else if (telefonoNumeroInput.value.length !== 8) {
+                formHelpers.showFieldError('telefono-numero', 'Debe tener 8 dígitos');
+                errors.push('Teléfono inválido');
                 isValid = false;
             }
 

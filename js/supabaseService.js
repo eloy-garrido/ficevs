@@ -35,10 +35,14 @@ export async function createFichaClinica(fichaData) {
 
             // Datos del paciente (Paso 1)
             nombre_paciente: fichaData.nombre_paciente,
+            rut: fichaData.rut || null,
+            fecha_nacimiento: fichaData.fecha_nacimiento || null,
             edad: fichaData.edad ? parseInt(fichaData.edad) : null,
+            fecha_ingreso: fichaData.fecha_ingreso || new Date().toISOString().split('T')[0],
             telefono: fichaData.telefono || null,
             email: fichaData.email || null,
             ocupacion: fichaData.ocupacion || null,
+            direccion: fichaData.direccion || null,
             motivo_consulta: fichaData.motivo_consulta,
 
             // Datos MTC (Paso 2) - JSONB
