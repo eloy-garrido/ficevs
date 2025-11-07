@@ -55,13 +55,13 @@ const APP_CONFIG = {
     // Configuración del formulario
     form: {
         // Número total de pasos
-        totalSteps: 5,
+        totalSteps: 3,
 
         // Validar al cambiar de paso
         validateOnStepChange: true,
 
         // Mostrar resumen antes de guardar
-        showSummaryBeforeSave: true
+        showSummaryBeforeSave: false
     },
 
     // Configuración de notificaciones
