@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Sistema de gestión de fichas clínicas de acupuntura">
+    <meta name="description" content="Centro Vida Sana Austral - Sistema de Fichas Clínicas">
     <meta name="theme-color" content="#2563eb">
 
-    <title>Login - Ficha Clínica de Acupuntura</title>
+    <title>Centro Vida Sana Austral - Login</title>
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -17,44 +17,51 @@
     <!-- Manifest PWA -->
     <link rel="manifest" href="manifest.json">
 </head>
-<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen flex items-center justify-center">
+<body class="min-h-screen flex items-center justify-center p-4">
 
     <!-- Contenedor Principal de Login -->
-    <div class="w-full max-w-md px-4">
+    <div class="w-full max-w-md">
 
-        <!-- Tarjeta de Login -->
-        <div class="bg-white rounded-2xl shadow-2xl p-8 fade-in">
+        <!-- Tarjeta de Login con Glassmorfismo -->
+        <div class="card fade-in text-center">
 
             <!-- Logo y Título -->
-            <div class="text-center mb-8">
-                <div class="flex justify-center mb-4">
-                    <svg class="w-16 h-16 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                    </svg>
+            <div class="mb-8">
+                <!-- Icono de Salud -->
+                <div class="flex justify-center mb-6">
+                    <div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center shadow-lg">
+                        <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                        </svg>
+                    </div>
                 </div>
-                <h1 class="text-3xl font-bold text-gray-900 mb-2">Ficha Clínica MTC</h1>
-                <p class="text-gray-600">Sistema de gestión de fichas clínicas</p>
+
+                <h1 class="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">
+                    Centro Vida Sana Austral
+                </h1>
+                <p class="text-gray-600 text-lg mb-1">Sistema de Fichas Clínicas</p>
+                <p class="text-sm text-gray-500">Kinesiología • Acupuntura</p>
             </div>
 
             <!-- Banner de Credenciales de Demo -->
-            <div class="bg-blue-50 border-2 border-blue-200 rounded-lg p-4 mb-6">
-                <div class="flex items-start">
+            <div class="bg-gradient-to-r from-blue-50 to-purple-50 border-2 border-blue-200 rounded-xl p-4 mb-6 backdrop-blur-sm">
+                <div class="flex items-start text-left">
                     <svg class="w-5 h-5 text-blue-600 mt-0.5 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
-                    <div>
-                        <p class="text-sm font-semibold text-blue-900 mb-2">Credenciales de Acceso:</p>
+                    <div class="flex-1">
+                        <p class="text-sm font-semibold text-blue-900 mb-2">Credenciales de Acceso (Demo)</p>
                         <div class="space-y-1 text-sm text-blue-800">
                             <p><strong>Usuario:</strong> admin@example.com</p>
                             <p><strong>Contraseña:</strong> admin</p>
                         </div>
-                        <p class="text-xs text-blue-600 mt-2 italic">Versión de demostración</p>
+                        <p class="text-xs text-blue-600 mt-2 italic">Ambiente de pruebas</p>
                     </div>
                 </div>
             </div>
 
             <!-- Formulario de Login -->
-            <form id="login-form" class="space-y-6">
+            <form id="login-form" class="space-y-5 text-left">
 
                 <!-- Campo Email -->
                 <div>
@@ -72,7 +79,7 @@
                             id="email"
                             required
                             value="admin@example.com"
-                            class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                            class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition backdrop-blur-sm bg-white/80"
                             placeholder="usuario@ejemplo.com">
                     </div>
                 </div>
@@ -93,14 +100,14 @@
                             id="password"
                             required
                             value="admin"
-                            class="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                            class="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition backdrop-blur-sm bg-white/80"
                             placeholder="••••••••">
                         <!-- Botón para mostrar/ocultar contraseña -->
                         <button
                             type="button"
                             id="toggle-password"
                             class="absolute inset-y-0 right-0 pr-3 flex items-center">
-                            <svg id="eye-icon" class="h-5 w-5 text-gray-400 hover:text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg id="eye-icon" class="h-5 w-5 text-gray-400 hover:text-gray-600 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
                             </svg>
@@ -112,7 +119,7 @@
                 <button
                     type="submit"
                     id="login-btn"
-                    class="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition transform hover:scale-[1.02] active:scale-[0.98]">
+                    class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-4 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition transform hover:scale-[1.02] active:scale-[0.98] shadow-lg">
                     <span id="login-btn-text">Iniciar Sesión</span>
                     <span id="login-btn-loading" class="hidden">
                         <svg class="animate-spin inline-block h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24">
@@ -129,17 +136,18 @@
                 <p class="text-sm text-gray-500">
                     Sistema seguro con encriptación de datos
                 </p>
+                <p class="text-xs text-gray-400 mt-2">
+                    Protegido por autenticación avanzada
+                </p>
             </div>
 
         </div>
 
         <!-- Footer -->
-        <div class="text-center mt-8 text-gray-600">
-            <p class="text-sm">
-                &copy; 2025 Ficha Clínica de Acupuntura
-            </p>
-            <p class="text-xs mt-2">
-                Hecho con ❤️ para profesionales de MTC
+        <div class="text-center mt-6 text-white/90 text-sm">
+            <p>&copy; 2025 Centro Vida Sana Austral</p>
+            <p class="text-xs mt-1 text-white/70">
+                Kinesiología • Acupuntura • Medicina Integral
             </p>
         </div>
     </div>
@@ -215,7 +223,7 @@
                         await signInWithEmail(email, password);
 
                         // Redirigir a la ficha clínica
-                        notifications.success('¡Bienvenido! Redirigiendo...');
+                        notifications.success('¡Bienvenido al Centro Vida Sana Austral!');
                         setTimeout(() => {
                             window.location.href = 'ficha-clinica.html';
                         }, 1000);
@@ -255,33 +263,5 @@
             init();
         }
     </script>
-
-    <!-- Animación de entrada -->
-    <style>
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .fade-in {
-            animation: fadeIn 0.6s ease-out;
-        }
-
-        /* Efecto hover en el botón */
-        #login-btn:hover {
-            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
-        }
-
-        /* Efecto focus en inputs */
-        input:focus {
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-        }
-    </style>
 </body>
 </html>
