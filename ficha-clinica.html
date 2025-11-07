@@ -21,36 +21,36 @@
 
     <!-- Header -->
     <header class="bg-white shadow-md sticky top-0 z-40">
-        <nav class="container mx-auto px-4 py-4 flex justify-between items-center">
-            <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center shadow-md flex-shrink-0">
-                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <nav class="container mx-auto px-4 py-2 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center shadow-md flex-shrink-0">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
                     </svg>
                 </div>
                 <div>
-                    <h1 class="text-lg md:text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Centro Vida Sana Austral</h1>
-                    <p class="text-xs md:text-sm text-gray-600">Nueva Ficha Clínica</p>
+                    <h1 class="text-sm md:text-base font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Centro Vida Sana Austral</h1>
+                    <p class="text-xs text-gray-600 hidden md:block">Nueva Ficha Clínica</p>
                 </div>
             </div>
 
-            <div class="flex items-center space-x-2 md:space-x-4">
-                <button id="save-draft-btn" class="text-sm md:text-base text-gray-600 hover:text-blue-600 transition">
-                    Guardar Borrador
+            <div class="flex items-center space-x-2">
+                <button id="save-draft-btn" class="text-xs md:text-sm text-gray-600 hover:text-blue-600 transition hidden md:block">
+                    Guardar
                 </button>
-                <button id="logout-btn" class="text-sm md:text-base bg-red-500 text-white px-3 md:px-4 py-2 rounded-lg hover:bg-red-600 transition">
+                <button id="logout-btn" class="text-xs md:text-sm bg-red-500 text-white px-2 md:px-3 py-1.5 rounded-lg hover:bg-red-600 transition">
                     Salir
                 </button>
             </div>
         </nav>
 
         <!-- Barra de progreso -->
-        <div class="bg-gray-100 py-4">
+        <div class="bg-gray-100 py-2">
             <div class="container mx-auto px-4">
                 <!-- Indicador de progreso -->
-                <div class="flex justify-between items-center mb-2">
-                    <span id="progress-text" class="text-sm font-medium text-gray-700">Paso 1 de 3</span>
-                    <span class="text-sm text-gray-500">Auto-guardado activo</span>
+                <div class="flex justify-between items-center mb-1.5">
+                    <span id="progress-text" class="text-xs font-medium text-gray-700">Paso 1 de 3</span>
+                    <span class="text-xs text-gray-500 hidden md:block">Auto-guardado</span>
                 </div>
 
                 <!-- Barra -->
@@ -59,18 +59,18 @@
                 </div>
 
                 <!-- Indicadores de pasos -->
-                <div class="flex justify-center gap-8 mt-4">
+                <div class="flex justify-center gap-6 md:gap-8 mt-2">
                     <div class="flex flex-col items-center">
                         <div id="step-indicator-1" class="step-indicator bg-blue-600 text-white">1</div>
-                        <span class="text-xs mt-1 text-gray-600">Datos Personales</span>
+                        <span class="text-xs mt-0.5 text-gray-600 hidden sm:block">Datos</span>
                     </div>
                     <div class="flex flex-col items-center">
                         <div id="step-indicator-2" class="step-indicator bg-gray-300 text-gray-600">2</div>
-                        <span class="text-xs mt-1 text-gray-600">Profesional</span>
+                        <span class="text-xs mt-0.5 text-gray-600 hidden sm:block">Profesional</span>
                     </div>
                     <div class="flex flex-col items-center">
                         <div id="step-indicator-3" class="step-indicator bg-gray-300 text-gray-600">3</div>
-                        <span class="text-xs mt-1 text-gray-600">Evaluación</span>
+                        <span class="text-xs mt-0.5 text-gray-600 hidden sm:block">Evaluación</span>
                     </div>
                 </div>
             </div>
@@ -78,117 +78,113 @@
     </header>
 
     <!-- Contenedor Principal del Formulario -->
-    <main class="container mx-auto px-4 py-8 max-w-4xl">
+    <main class="container mx-auto px-4 py-4 max-w-4xl">
 
         <!-- PASO 1: Datos del Paciente -->
         <div id="step-1" class="card fade-in">
-            <h2 class="text-3xl font-bold text-gray-900 mb-6">Paso 1: Datos del Paciente</h2>
+            <h2 class="text-xl md:text-2xl font-bold text-gray-900 mb-4">Paso 1: Datos del Paciente</h2>
 
-            <form class="space-y-6">
+            <form class="space-y-3">
                 <!-- Nombre del Paciente -->
                 <div>
-                    <label for="nombre-paciente" class="block text-sm font-medium text-gray-700 mb-2">
-                        Nombre Completo del Paciente <span class="text-red-500">*</span>
+                    <label for="nombre-paciente" class="block text-xs font-medium text-gray-700 mb-1">
+                        Nombre Completo <span class="text-red-500">*</span>
                     </label>
                     <input type="text" id="nombre-paciente" required
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 backdrop-blur-sm bg-white/80"
+                        class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 backdrop-blur-sm bg-white/80"
                         placeholder="Juan Pérez">
                 </div>
 
-                <!-- RUT y Fecha de Nacimiento -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- RUT, Fecha de Nacimiento y Edad -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                     <div>
-                        <label for="rut" class="block text-sm font-medium text-gray-700 mb-2">
+                        <label for="rut" class="block text-xs font-medium text-gray-700 mb-1">
                             RUT <span class="text-red-500">*</span>
                         </label>
                         <input type="text" id="rut" required
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 backdrop-blur-sm bg-white/80"
+                            class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 backdrop-blur-sm bg-white/80"
                             placeholder="12.345.678-9"
                             maxlength="12">
                     </div>
 
                     <div>
-                        <label for="fecha-nacimiento" class="block text-sm font-medium text-gray-700 mb-2">
-                            Fecha de Nacimiento <span class="text-red-500">*</span>
+                        <label for="fecha-nacimiento" class="block text-xs font-medium text-gray-700 mb-1">
+                            Fecha Nac. <span class="text-red-500">*</span>
                         </label>
                         <input type="date" id="fecha-nacimiento" required
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 backdrop-blur-sm bg-white/80">
+                            class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 backdrop-blur-sm bg-white/80">
+                    </div>
+
+                    <div>
+                        <label for="edad" class="block text-xs font-medium text-gray-700 mb-1">
+                            Edad <span class="text-xs text-gray-500">(auto)</span>
+                        </label>
+                        <input type="number" id="edad" readonly
+                            class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg bg-gray-100 cursor-not-allowed"
+                            placeholder="Auto">
                     </div>
                 </div>
 
-                <!-- Edad (calculada automáticamente) y Fecha de Ingreso -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Teléfono y Fecha de Ingreso -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div>
-                        <label for="edad" class="block text-sm font-medium text-gray-700 mb-2">
-                            Edad
-                            <span class="text-xs text-gray-500">(se calcula automáticamente)</span>
+                        <label class="block text-xs font-medium text-gray-700 mb-1">
+                            Teléfono <span class="text-red-500">*</span>
                         </label>
-                        <input type="number" id="edad" readonly
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-100 cursor-not-allowed"
-                            placeholder="Se calculará automáticamente">
+                        <div class="flex gap-2">
+                            <input type="text" id="telefono-codigo" value="+569"
+                                class="w-16 px-2 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 backdrop-blur-sm bg-white/80 text-center font-semibold"
+                                placeholder="+569">
+                            <input type="tel" id="telefono-numero" required
+                                class="flex-1 px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 backdrop-blur-sm bg-white/80"
+                                placeholder="12345678"
+                                maxlength="8"
+                                pattern="[0-9]{8}">
+                        </div>
                     </div>
 
                     <div>
-                        <label for="fecha-ingreso" class="block text-sm font-medium text-gray-700 mb-2">
+                        <label for="fecha-ingreso" class="block text-xs font-medium text-gray-700 mb-1">
                             Fecha de Ingreso
                         </label>
                         <input type="date" id="fecha-ingreso"
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 backdrop-blur-sm bg-white/80">
+                            class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 backdrop-blur-sm bg-white/80">
                     </div>
                 </div>
 
-                <!-- Teléfono (código país + número) -->
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">
-                        Teléfono <span class="text-red-500">*</span>
-                    </label>
-                    <div class="flex gap-3">
-                        <input type="text" id="telefono-codigo" value="+569"
-                            class="w-24 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 backdrop-blur-sm bg-white/80 text-center font-semibold"
-                            placeholder="+569">
-                        <input type="tel" id="telefono-numero" required
-                            class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 backdrop-blur-sm bg-white/80"
-                            placeholder="1234 5678"
-                            maxlength="8"
-                            pattern="[0-9]{8}">
-                    </div>
-                    <p class="mt-1 text-xs text-gray-500">Código país + 8 dígitos del número</p>
-                </div>
-
-                <!-- Email y Ocupación -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Email, Ocupación y Dirección -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                     <div>
-                        <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                        <label for="email" class="block text-xs font-medium text-gray-700 mb-1">Email</label>
                         <input type="email" id="email"
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 backdrop-blur-sm bg-white/80"
+                            class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 backdrop-blur-sm bg-white/80"
                             placeholder="juan@ejemplo.com">
                     </div>
 
                     <div>
-                        <label for="ocupacion" class="block text-sm font-medium text-gray-700 mb-2">Ocupación</label>
+                        <label for="ocupacion" class="block text-xs font-medium text-gray-700 mb-1">Ocupación</label>
                         <input type="text" id="ocupacion"
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 backdrop-blur-sm bg-white/80"
+                            class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 backdrop-blur-sm bg-white/80"
                             placeholder="Ingeniero">
                     </div>
-                </div>
 
-                <!-- Dirección -->
-                <div>
-                    <label for="direccion" class="block text-sm font-medium text-gray-700 mb-2">
-                        Dirección
-                    </label>
-                    <input type="text" id="direccion"
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 backdrop-blur-sm bg-white/80"
-                        placeholder="Av. Principal 123, Depto. 45, Comuna, Ciudad">
+                    <div>
+                        <label for="direccion" class="block text-xs font-medium text-gray-700 mb-1">
+                            Dirección
+                        </label>
+                        <input type="text" id="direccion"
+                            class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 backdrop-blur-sm bg-white/80"
+                            placeholder="Calle 123, Comuna">
+                    </div>
                 </div>
 
                 <!-- Motivo de Consulta -->
                 <div>
-                    <label for="motivo-consulta" class="block text-sm font-medium text-gray-700 mb-2">
+                    <label for="motivo-consulta" class="block text-xs font-medium text-gray-700 mb-1">
                         Motivo de Consulta <span class="text-red-500">*</span>
                     </label>
-                    <textarea id="motivo-consulta" required rows="4"
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 backdrop-blur-sm bg-white/80"
+                    <textarea id="motivo-consulta" required rows="3"
+                        class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 backdrop-blur-sm bg-white/80"
                         placeholder="Describa el motivo principal de la consulta..."></textarea>
                 </div>
             </form>
@@ -196,13 +192,13 @@
 
         <!-- PASO 2: Selección de Profesional -->
         <div id="step-2" class="card fade-in hidden">
-            <h2 class="text-3xl font-bold text-gray-900 mb-6">Paso 2: Seleccione el Profesional</h2>
+            <h2 class="text-xl md:text-2xl font-bold text-gray-900 mb-3">Paso 2: Seleccione el Profesional</h2>
 
-            <p class="text-gray-600 mb-8 text-center">¿Con qué profesional será la atención?</p>
+            <p class="text-gray-600 text-sm mb-4 text-center">¿Con qué profesional será la atención?</p>
 
-            <form class="space-y-4">
+            <form class="space-y-3">
                 <!-- Selección de Profesional -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
                     <!-- Opción: Kinesiólogo -->
                     <label for="profesional-kinesiologo" class="cursor-pointer">
