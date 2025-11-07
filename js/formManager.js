@@ -194,6 +194,7 @@ function updateUI() {
  * Actualiza la barra de progreso
  */
 function updateProgressIndicator() {
+    // Ya no usamos progress-bar, pero mantenemos compatibilidad
     const progressBar = document.getElementById('progress-bar');
     if (progressBar) {
         const progress = (formState.currentStep / formState.totalSteps) * 100;
@@ -202,7 +203,7 @@ function updateProgressIndicator() {
 
     const progressText = document.getElementById('progress-text');
     if (progressText) {
-        progressText.textContent = `Paso ${formState.currentStep} de ${formState.totalSteps}`;
+        progressText.textContent = `${formState.currentStep}/${formState.totalSteps}`;
     }
 }
 
@@ -245,18 +246,35 @@ function updateStepIndicators() {
         if (!indicator) continue;
 
         // Quitar todas las clases de estado
-        indicator.classList.remove('bg-blue-600', 'bg-green-600', 'bg-gray-300', 'text-white', 'text-gray-600');
+        indicator.classList.remove('bg-blue-600', 'bg-green-600', 'bg-gray-300', 'text-white', 'text-gray-600',
+                                   'active', 'completed', 'from-blue-500', 'to-blue-600',
+                                   'from-green-500', 'to-green-600', 'bg-gradient-to-br');
 
         if (i < formState.currentStep) {
-            // Paso completado
-            indicator.classList.add('bg-green-600', 'text-white');
+            // Paso completado - verde con check
+            indicator.classList.add('completed', 'text-white');
+            indicator.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
         } else if (i === formState.currentStep) {
-            // Paso actual
-            indicator.classList.add('bg-blue-600', 'text-white');
+            // Paso actual - azul activo
+            indicator.classList.add('active', 'text-white');
+            indicator.style.background = 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)';
         } else {
-            // Paso pendiente
+            // Paso pendiente - gris
             indicator.classList.add('bg-gray-300', 'text-gray-600');
+            indicator.style.background = '';
         }
+    }
+
+    // Actualizar líneas de progreso
+    const progressLine1 = document.getElementById('progress-line-1');
+    const progressLine2 = document.getElementById('progress-line-2');
+
+    if (progressLine1) {
+        progressLine1.style.width = formState.currentStep >= 2 ? '100%' : '0%';
+    }
+
+    if (progressLine2) {
+        progressLine2.style.width = formState.currentStep >= 3 ? '100%' : '0%';
     }
 }
 
