@@ -562,43 +562,56 @@ async function saveStep1Data() {
         // Simular delay mínimo para que se vea la animación
         await new Promise(resolve => setTimeout(resolve, 800));
 
-        // Preparar datos parciales para guardar
+        // Preparar datos solo con campos del paso 1 (sin is_draft ni step_completed)
         const partialData = {
-            ...formState.formData,
-            // Marcar como borrador parcial
-            is_draft: true,
-            step_completed: 1
+            nombre_paciente: formState.formData.nombre_paciente,
+            rut: formState.formData.rut,
+            fecha_nacimiento: formState.formData.fecha_nacimiento,
+            edad: formState.formData.edad,
+            fecha_ingreso: formState.formData.fecha_ingreso,
+            telefono: formState.formData.telefono,
+            email: formState.formData.email,
+            ocupacion: formState.formData.ocupacion,
+            direccion: formState.formData.direccion,
+            motivo_consulta: formState.formData.motivo_consulta,
+            // Campos opcionales vacíos para evitar errores
+            datos_mtc: {},
+            sintomas_generales: {},
+            datos_dolor: {}
         };
 
-        // Guardar en la BD (solo paso 1)
+        // Guardar en la BD
         const result = await createFichaClinica(partialData);
 
-        if (result.success) {
-            // Guardar el ID de la ficha para actualizaciones futuras
-            formState.fichaId = result.data.id;
+        // Guardar el ID de la ficha para actualizaciones futuras
+        formState.fichaId = result.id;
 
-            // Mostrar estado de éxito
-            showSaveSuccess();
+        // Mostrar estado de éxito
+        showSaveSuccess();
 
-            // Esperar un momento para que se vea el éxito
-            await new Promise(resolve => setTimeout(resolve, 1500));
+        // Esperar un momento para que se vea el éxito
+        await new Promise(resolve => setTimeout(resolve, 1500));
 
-            // Ocultar modal
-            hideSaveModal();
+        // Ocultar modal
+        hideSaveModal();
 
-            // Avanzar al paso 2
-            formState.currentStep++;
-            updateUI();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-
-        } else {
-            throw new Error(result.error || 'Error al guardar');
-        }
+        // Avanzar al paso 2
+        formState.currentStep++;
+        updateUI();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
 
     } catch (error) {
         console.error('Error al guardar paso 1:', error);
         hideSaveModal();
-        notifications.error('Error al guardar los datos. Por favor, intenta nuevamente.');
+
+        // Mostrar mensaje de error más específico
+        let errorMessage = 'Error al guardar los datos. ';
+        if (error.message) {
+            errorMessage += error.message;
+        } else {
+            errorMessage += 'Por favor, intenta nuevamente.';
+        }
+        notifications.error(errorMessage);
     }
 }
 
