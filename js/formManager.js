@@ -194,17 +194,8 @@ function updateUI() {
  * Actualiza la barra de progreso
  */
 function updateProgressIndicator() {
-    // Ya no usamos progress-bar, pero mantenemos compatibilidad
-    const progressBar = document.getElementById('progress-bar');
-    if (progressBar) {
-        const progress = (formState.currentStep / formState.totalSteps) * 100;
-        progressBar.style.width = `${progress}%`;
-    }
-
-    const progressText = document.getElementById('progress-text');
-    if (progressText) {
-        progressText.textContent = `${formState.currentStep}/${formState.totalSteps}`;
-    }
+    // El nuevo diseño no usa progress-bar ni progress-text
+    // Todo se maneja en updateStepIndicators()
 }
 
 /**
@@ -259,9 +250,9 @@ function updateStepIndicators() {
             indicator.classList.add('active', 'text-white');
             indicator.style.background = 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)';
         } else {
-            // Paso pendiente - gris
-            indicator.classList.add('bg-gray-300', 'text-gray-600');
-            indicator.style.background = '';
+            // Paso pendiente - semi-transparente blanco
+            indicator.classList.add('text-white');
+            indicator.style.background = 'rgba(255, 255, 255, 0.25)';
         }
     }
 

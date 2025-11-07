@@ -218,27 +218,26 @@ button:active:not(:disabled),
 }
 
 /* =====================================================
- * INDICADORES DE PASO - DISEÑO COMPACTO CON GLASSMORFISMO
+ * INDICADORES DE PASO - GLASSMORFISMO ULTRA COMPACTO
  * ===================================================== */
-.step-indicator {
-    transition: all 0.3s ease;
-}
 
-/* Indicadores activos con gradiente */
+/* Indicadores activos con gradiente brillante */
 #step-indicator-1.active,
 #step-indicator-2.active,
 #step-indicator-3.active {
     background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4) !important;
-    transform: scale(1.1);
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.6), 0 4px 12px rgba(59, 130, 246, 0.4) !important;
+    transform: scale(1.15);
 }
 
-/* Indicadores completados con check */
+/* Indicadores completados con check verde brillante */
 #step-indicator-1.completed,
 #step-indicator-2.completed,
 #step-indicator-3.completed {
     background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
-    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4) !important;
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.6), 0 4px 12px rgba(16, 185, 129, 0.4) !important;
+    transform: scale(1.05);
+    position: relative;
 }
 
 #step-indicator-1.completed::before,
@@ -248,12 +247,24 @@ button:active:not(:disabled),
     position: absolute;
     font-size: 0.875rem;
     font-weight: bold;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
 }
 
 /* Animación de las líneas de progreso */
 #progress-line-1,
 #progress-line-2 {
-    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+    box-shadow: 0 0 10px rgba(96, 165, 250, 0.5);
+}
+
+/* Header glassmorfismo animado */
+header {
+    transition: all 0.3s ease;
+}
+
+header:hover {
+    background: rgba(255, 255, 255, 0.2) !important;
 }
 
 /* =====================================================
