@@ -104,6 +104,12 @@ export async function nextStep() {
     // Guardar datos del paso
     Object.assign(formState.formData, stepData);
 
+    // Si estamos en el paso 1, guardar automáticamente en la BD
+    if (formState.currentStep === 1) {
+        await saveStep1Data();
+        return; // saveStep1Data() manejará la transición al paso 2
+    }
+
     // Si es el último paso, mostrar resumen y guardar
     if (formState.currentStep === formState.totalSteps) {
         await submitForm();
@@ -504,9 +510,102 @@ function validateStep(step, data) {
 
 /**
  * =====================================================
- * RESUMEN Y GUARDADO
- * =====================================================
+ * GUARDADO AUTOMÁTICO DEL PASO 1
+ * ===================================================== */
+
+/**
+ * Muestra el modal de guardado
  */
+function showSaveModal() {
+    const modal = document.getElementById('save-modal');
+    const savingState = document.getElementById('save-modal-saving');
+    const successState = document.getElementById('save-modal-success');
+
+    if (modal) {
+        modal.classList.remove('hidden');
+        savingState.classList.remove('hidden');
+        successState.classList.add('hidden');
+    }
+}
+
+/**
+ * Cambia el modal al estado de éxito
+ */
+function showSaveSuccess() {
+    const savingState = document.getElementById('save-modal-saving');
+    const successState = document.getElementById('save-modal-success');
+
+    if (savingState && successState) {
+        savingState.classList.add('hidden');
+        successState.classList.remove('hidden');
+    }
+}
+
+/**
+ * Cierra el modal de guardado
+ */
+function hideSaveModal() {
+    const modal = document.getElementById('save-modal');
+    if (modal) {
+        modal.classList.add('hidden');
+    }
+}
+
+/**
+ * Guarda los datos del paso 1 en la base de datos
+ */
+async function saveStep1Data() {
+    try {
+        // Mostrar modal de guardado
+        showSaveModal();
+
+        // Simular delay mínimo para que se vea la animación
+        await new Promise(resolve => setTimeout(resolve, 800));
+
+        // Preparar datos parciales para guardar
+        const partialData = {
+            ...formState.formData,
+            // Marcar como borrador parcial
+            is_draft: true,
+            step_completed: 1
+        };
+
+        // Guardar en la BD (solo paso 1)
+        const result = await createFichaClinica(partialData);
+
+        if (result.success) {
+            // Guardar el ID de la ficha para actualizaciones futuras
+            formState.fichaId = result.data.id;
+
+            // Mostrar estado de éxito
+            showSaveSuccess();
+
+            // Esperar un momento para que se vea el éxito
+            await new Promise(resolve => setTimeout(resolve, 1500));
+
+            // Ocultar modal
+            hideSaveModal();
+
+            // Avanzar al paso 2
+            formState.currentStep++;
+            updateUI();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        } else {
+            throw new Error(result.error || 'Error al guardar');
+        }
+
+    } catch (error) {
+        console.error('Error al guardar paso 1:', error);
+        hideSaveModal();
+        notifications.error('Error al guardar los datos. Por favor, intenta nuevamente.');
+    }
+}
+
+/**
+ * =====================================================
+ * RESUMEN Y GUARDADO
+ * ===================================================== */
 
 /**
  * Genera el resumen de la ficha en el paso final

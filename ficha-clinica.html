@@ -12,7 +12,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/styles.css?v=3.0">
+    <link rel="stylesheet" href="css/styles.css?v=4.0">
 
     <!-- Manifest PWA -->
     <link rel="manifest" href="manifest.json">
@@ -63,6 +63,33 @@
             </div>
         </div>
     </header>
+
+    <!-- Modal de Guardado con Glassmorfismo -->
+    <div id="save-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center" style="background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);">
+        <div class="save-modal-content" style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 24px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3); padding: 3rem; min-width: 320px; text-align: center;">
+            <!-- Estado: Guardando -->
+            <div id="save-modal-saving" class="save-state">
+                <div class="save-spinner">
+                    <div class="spinner-ring"></div>
+                    <div class="spinner-ring"></div>
+                    <div class="spinner-ring"></div>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-800 mt-6 mb-2">Guardando información</h3>
+                <p class="text-gray-600 text-sm">Por favor espere...</p>
+            </div>
+
+            <!-- Estado: Guardado -->
+            <div id="save-modal-success" class="save-state hidden">
+                <div class="success-checkmark">
+                    <svg class="w-20 h-20 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                </div>
+                <h3 class="text-2xl font-bold text-green-600 mt-6 mb-2">¡Guardado correctamente!</h3>
+                <p class="text-gray-600 text-sm">Los datos se han almacenado exitosamente</p>
+            </div>
+        </div>
+    </div>
 
     <!-- Contenedor Principal del Formulario -->
     <main class="container mx-auto px-4 py-4 max-w-4xl">
