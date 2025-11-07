@@ -679,14 +679,7 @@
                             placeholder="Observaciones sobre el pulso..."></textarea>
                     </div>
                 </div>
-            </form>
-        </div>
 
-        <!-- PASO 3: Síntomas Generales -->
-        <div id="step-3" class="card fade-in hidden">
-            <h2 class="text-3xl font-bold text-gray-900 mb-6">Paso 3: Síntomas Generales</h2>
-
-            <form class="space-y-6">
                 <!-- Síntomas Generales -->
                 <div class="bg-yellow-50 p-6 rounded-lg">
                     <h3 class="text-xl font-semibold text-yellow-900 mb-4">Síntomas Principales</h3>
@@ -788,7 +781,7 @@
                     </div>
                 </div>
 
-                <!-- Síntomas Menstruales (si aplica) -->
+                <!-- Síntomas Menstruales -->
                 <div class="bg-pink-50 p-6 rounded-lg">
                     <h3 class="text-xl font-semibold text-pink-900 mb-4">Síntomas Menstruales (si aplica)</h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -816,7 +809,7 @@
                 </div>
 
                 <!-- Otros síntomas -->
-                <div>
+                <div class="mb-6">
                     <label for="otros-sintomas" class="block text-sm font-medium text-gray-700 mb-2">
                         Otros síntomas no listados
                     </label>
@@ -824,15 +817,8 @@
                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                         placeholder="Describa cualquier otro síntoma relevante..."></textarea>
                 </div>
-            </form>
-        </div>
 
-        <!-- PASO 4: Datos del Dolor -->
-        <div id="step-4" class="card fade-in hidden">
-            <h2 class="text-3xl font-bold text-gray-900 mb-6">Paso 4: Evaluación del Dolor</h2>
-
-            <form class="space-y-6">
-                <!-- Ubicación del Dolor -->
+                <!-- Evaluación del Dolor -->
                 <div class="bg-red-50 p-6 rounded-lg">
                     <h3 class="text-xl font-semibold text-red-900 mb-4">Ubicación del Dolor</h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -903,7 +889,7 @@
                 </div>
 
                 <!-- Intensidad del Dolor -->
-                <div>
+                <div class="mb-6">
                     <label for="dolor-intensidad" class="block text-sm font-medium text-gray-700 mb-2">
                         Intensidad del Dolor (1-10)
                     </label>
@@ -917,7 +903,7 @@
                 </div>
 
                 <!-- Frecuencia del Dolor -->
-                <div>
+                <div class="mb-6">
                     <label class="block text-sm font-medium text-gray-700 mb-2">Frecuencia del Dolor</label>
                     <div class="space-y-2">
                         <label class="flex items-center space-x-2 cursor-pointer">
@@ -936,7 +922,7 @@
                 </div>
 
                 <!-- Factores de Alivio -->
-                <div>
+                <div class="mb-6">
                     <label for="factores-alivio" class="block text-sm font-medium text-gray-700 mb-2">
                         ¿Qué alivia el dolor?
                     </label>
@@ -946,7 +932,7 @@
                 </div>
 
                 <!-- Factores de Agravación -->
-                <div>
+                <div class="mb-6">
                     <label for="factores-agravacion" class="block text-sm font-medium text-gray-700 mb-2">
                         ¿Qué agrava el dolor?
                     </label>
@@ -954,16 +940,9 @@
                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                         placeholder="Ej: movimiento, frío, estrés..."></textarea>
                 </div>
-            </form>
-        </div>
 
-        <!-- PASO 5: Diagnóstico y Plan -->
-        <div id="step-5" class="card fade-in hidden">
-            <h2 class="text-3xl font-bold text-gray-900 mb-6">Paso 5: Diagnóstico y Plan de Tratamiento</h2>
-
-            <form class="space-y-6">
-                <!-- Resumen de la Ficha -->
-                <div class="bg-gray-50 p-6 rounded-lg border-2 border-gray-200">
+                <!-- Diagnóstico y Tratamiento MTC -->
+                <div class="bg-gray-50 p-6 rounded-lg border-2 border-gray-200 mb-6">
                     <h3 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
                         <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
@@ -974,7 +953,7 @@
                 </div>
 
                 <!-- Diagnóstico del Terapeuta -->
-                <div>
+                <div class="mb-6">
                     <label for="diagnostico" class="block text-sm font-medium text-gray-700 mb-2">
                         Diagnóstico del Terapeuta (MTC)
                     </label>
@@ -984,7 +963,7 @@
                 </div>
 
                 <!-- Plan de Tratamiento -->
-                <div>
+                <div class="mb-6">
                     <label for="plan-tratamiento" class="block text-sm font-medium text-gray-700 mb-2">
                         Plan de Tratamiento
                     </label>
@@ -994,7 +973,7 @@
                 </div>
 
                 <!-- Puntos de Acupuntura -->
-                <div>
+                <div class="mb-6">
                     <label for="puntos-acupuntura" class="block text-sm font-medium text-gray-700 mb-2">
                         Puntos de Acupuntura
                     </label>
@@ -1005,7 +984,7 @@
                 </div>
 
                 <!-- Técnicas Aplicadas -->
-                <div class="bg-blue-50 p-6 rounded-lg">
+                <div class="bg-blue-50 p-6 rounded-lg mb-6">
                     <h3 class="text-lg font-semibold text-blue-900 mb-3">Técnicas a Aplicar</h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                         <label class="flex items-center space-x-2 cursor-pointer">
@@ -1036,7 +1015,7 @@
                 </div>
 
                 <!-- Recomendaciones -->
-                <div>
+                <div class="mb-6">
                     <label for="recomendaciones" class="block text-sm font-medium text-gray-700 mb-2">
                         Recomendaciones para el Paciente
                     </label>
@@ -1061,6 +1040,9 @@
                 </div>
             </form>
         </div>
+        </div>
+
+        <!-- OLD STEPS REMOVED - Content integrated above into step-3-acupunturista -->
 
         <!-- Botones de Navegación -->
         <div class="flex justify-between items-center mt-8">
@@ -1123,13 +1105,23 @@
                 storage.saveDraft(window.formState?.formData || {});
             });
 
-            // Actualizar valor de intensidad de dolor
+            // Actualizar valor de intensidad de dolor (Acupuntura)
             const dolorIntensidad = document.getElementById('dolor-intensidad');
             const dolorIntensidadValor = document.getElementById('dolor-intensidad-valor');
 
             if (dolorIntensidad && dolorIntensidadValor) {
                 dolorIntensidad.addEventListener('input', (e) => {
                     dolorIntensidadValor.textContent = e.target.value;
+                });
+            }
+
+            // Actualizar valor de intensidad de dolor (Kinesiología)
+            const kineDolorIntensidad = document.getElementById('kine-dolor-intensidad');
+            const kineDolorIntensidadValor = document.getElementById('kine-dolor-intensidad-valor');
+
+            if (kineDolorIntensidad && kineDolorIntensidadValor) {
+                kineDolorIntensidad.addEventListener('input', (e) => {
+                    kineDolorIntensidadValor.textContent = e.target.value;
                 });
             }
 
