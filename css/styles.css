@@ -10,9 +10,21 @@
  * VARIABLES CSS
  * ===================================================== */
 :root {
-    --primary-color: #2563eb;
-    --primary-dark: #1d4ed8;
-    --success-color: #10b981;
+    /* Paleta de colores - Centro Vida Sana Austral */
+    --primary-green: #a8c5a0;
+    --light-green: #c9d9c3;
+    --dark-green: #7a9872;
+    --accent-green: #8fb185;
+    --text-dark: #2d3e2d;
+    --text-light: #f5f5f0;
+    --bg-light: #f8faf8;
+    --shadow: rgba(122, 152, 114, .15);
+    --shadow-hover: rgba(122, 152, 114, .25);
+
+    /* Colores heredados para compatibilidad */
+    --primary-color: #7a9872;
+    --primary-dark: #5a7852;
+    --success-color: #a8c5a0;
     --error-color: #ef4444;
     --warning-color: #f59e0b;
     --gray-50: #f9fafb;
@@ -49,11 +61,11 @@ html {
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     line-height: 1.6;
-    color: var(--gray-800);
-    /* Gradiente de fondo animado con múltiples colores */
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #4facfe 75%, #00f2fe 100%);
+    color: var(--text-dark);
+    /* Gradiente de fondo con paleta verde del Centro Vida Sana */
+    background: linear-gradient(135deg, #f8faf8 0%, #c9d9c3 25%, #a8c5a0 50%, #8fb185 75%, #7a9872 100%);
     background-size: 400% 400%;
-    animation: gradientShift 15s ease infinite;
+    animation: gradientShift 20s ease infinite;
     min-height: 100vh;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -101,9 +113,8 @@ input:focus,
 textarea:focus,
 select:focus {
     outline: none;
-    ring: 2px;
-    ring-color: var(--primary-color);
-    border-color: var(--primary-color);
+    border-color: var(--dark-green);
+    box-shadow: 0 0 0 3px rgba(122, 152, 114, 0.1);
 }
 
 /* Checkboxes y radios personalizados */
@@ -117,8 +128,8 @@ input[type="radio"] {
 
 input[type="checkbox"]:checked,
 input[type="radio"]:checked {
-    background-color: var(--primary-color);
-    border-color: var(--primary-color);
+    background-color: var(--dark-green);
+    border-color: var(--dark-green);
 }
 
 /* Labels */
@@ -193,10 +204,10 @@ button:active:not(:disabled),
 
 .progress-bar {
     height: 100%;
-    background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));
+    background: linear-gradient(90deg, var(--primary-green), var(--dark-green));
     border-radius: 9999px;
     transition: width 0.5s ease;
-    box-shadow: 0 0 10px rgba(37, 99, 235, 0.5);
+    box-shadow: 0 0 10px rgba(122, 152, 114, 0.5);
 }
 
 /* Animación de progreso */
@@ -221,12 +232,12 @@ button:active:not(:disabled),
  * INDICADORES DE PASO - GLASSMORFISMO ULTRA COMPACTO
  * ===================================================== */
 
-/* Indicadores activos con gradiente brillante */
+/* Indicadores activos con gradiente verde brillante */
 #step-indicator-1.active,
 #step-indicator-2.active,
 #step-indicator-3.active {
-    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
-    box-shadow: 0 0 20px rgba(59, 130, 246, 0.6), 0 4px 12px rgba(59, 130, 246, 0.4) !important;
+    background: linear-gradient(135deg, #a8c5a0 0%, #7a9872 100%) !important;
+    box-shadow: 0 0 20px rgba(122, 152, 114, 0.6), 0 4px 12px rgba(122, 152, 114, 0.4) !important;
     transform: scale(1.15);
 }
 
@@ -234,8 +245,8 @@ button:active:not(:disabled),
 #step-indicator-1.completed,
 #step-indicator-2.completed,
 #step-indicator-3.completed {
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
-    box-shadow: 0 0 20px rgba(16, 185, 129, 0.6), 0 4px 12px rgba(16, 185, 129, 0.4) !important;
+    background: linear-gradient(135deg, #7a9872 0%, #5a7852 100%) !important;
+    box-shadow: 0 0 20px rgba(122, 152, 114, 0.6), 0 4px 12px rgba(122, 152, 114, 0.4) !important;
     transform: scale(1.05);
     position: relative;
 }
@@ -255,7 +266,7 @@ button:active:not(:disabled),
 /* Animación de las líneas de progreso */
 #progress-line-1,
 #progress-line-2 {
-    box-shadow: 0 0 10px rgba(96, 165, 250, 0.5);
+    box-shadow: 0 0 10px rgba(122, 152, 114, 0.5);
 }
 
 /* Header glassmorfismo animado */
@@ -302,13 +313,13 @@ header:hover {
     width: 100%;
     height: 100%;
     border: 4px solid transparent;
-    border-top-color: #3b82f6;
+    border-top-color: #7a9872;
     border-radius: 50%;
     animation: spin 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
 }
 
 .spinner-ring:nth-child(2) {
-    border-top-color: #8b5cf6;
+    border-top-color: #a8c5a0;
     animation-delay: 0.2s;
     width: 70%;
     height: 70%;
@@ -317,7 +328,7 @@ header:hover {
 }
 
 .spinner-ring:nth-child(3) {
-    border-top-color: #06b6d4;
+    border-top-color: #8fb185;
     animation-delay: 0.4s;
     width: 40%;
     height: 40%;
@@ -390,20 +401,20 @@ header:hover {
 
 /* Contenedor con gradiente (para secciones dentro del card) - Glassmorfismo premium */
 .bg-blue-50 {
-    background: linear-gradient(135deg, rgba(219, 234, 254, 0.8) 0%, rgba(191, 219, 254, 0.8) 100%) !important;
+    background: linear-gradient(135deg, rgba(201, 217, 195, 0.8) 0%, rgba(168, 197, 160, 0.8) 100%) !important;
     backdrop-filter: blur(16px) saturate(150%);
     -webkit-backdrop-filter: blur(16px) saturate(150%);
-    border: 1px solid rgba(147, 197, 253, 0.5);
-    box-shadow: 0 4px 16px 0 rgba(59, 130, 246, 0.12),
+    border: 1px solid rgba(122, 152, 114, 0.5);
+    box-shadow: 0 4px 16px 0 rgba(122, 152, 114, 0.12),
                 inset 0 1px 1px rgba(255, 255, 255, 0.4);
 }
 
 .bg-green-50 {
-    background: linear-gradient(135deg, rgba(220, 252, 231, 0.8) 0%, rgba(187, 247, 208, 0.8) 100%) !important;
+    background: linear-gradient(135deg, rgba(201, 217, 195, 0.8) 0%, rgba(168, 197, 160, 0.8) 100%) !important;
     backdrop-filter: blur(16px) saturate(150%);
     -webkit-backdrop-filter: blur(16px) saturate(150%);
-    border: 1px solid rgba(134, 239, 172, 0.5);
-    box-shadow: 0 4px 16px 0 rgba(34, 197, 94, 0.12),
+    border: 1px solid rgba(122, 152, 114, 0.5);
+    box-shadow: 0 4px 16px 0 rgba(122, 152, 114, 0.12),
                 inset 0 1px 1px rgba(255, 255, 255, 0.4);
 }
 
@@ -540,12 +551,12 @@ header:hover {
 }
 
 #rut-suggestions::-webkit-scrollbar-thumb {
-    background: rgba(59, 130, 246, 0.6);
+    background: rgba(122, 152, 114, 0.6);
     border-radius: 10px;
 }
 
 #rut-suggestions::-webkit-scrollbar-thumb:hover {
-    background: rgba(59, 130, 246, 0.8);
+    background: rgba(122, 152, 114, 0.8);
 }
 
 /* =====================================================
@@ -563,13 +574,13 @@ header:hover {
 }
 
 #patient-history thead {
-    background: linear-gradient(135deg, rgba(168, 85, 247, 0.15) 0%, rgba(236, 72, 153, 0.15) 100%);
+    background: linear-gradient(135deg, rgba(122, 152, 114, 0.15) 0%, rgba(168, 197, 160, 0.15) 100%);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
 }
 
 #patient-history tbody tr:hover {
-    background: linear-gradient(135deg, rgba(250, 245, 255, 0.9) 0%, rgba(252, 231, 243, 0.9) 100%);
+    background: linear-gradient(135deg, rgba(201, 217, 195, 0.9) 0%, rgba(168, 197, 160, 0.9) 100%);
     transform: translateX(2px);
     transition: all 0.2s ease;
 }

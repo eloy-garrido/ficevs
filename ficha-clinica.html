@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Centro Vida Sana Austral - Sistema de fichas clínicas para Kinesiología y Acupuntura">
-    <meta name="theme-color" content="#2563eb">
+    <meta name="theme-color" content="#7a9872">
 
     <title>Centro Vida Sana Austral - Nueva Ficha Clínica</title>
 
@@ -19,27 +19,23 @@
 </head>
 <body class="bg-gray-50 min-h-screen">
 
-    <!-- Header con Glassmorfismo Puro -->
-    <header class="sticky top-0 z-40" style="background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);">
+    <!-- Header con Glasmorfismo y Paleta Verde -->
+    <header class="sticky top-0 z-40" style="background: linear-gradient(135deg, rgba(122, 152, 114, 0.1) 0%, rgba(168, 197, 160, 0.1) 100%); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgba(122, 152, 114, 0.2); box-shadow: 0 4px 24px rgba(122, 152, 114, 0.15);">
         <div class="container mx-auto px-3 md:px-4 py-2">
             <div class="flex items-center justify-between gap-3">
                 <!-- Logo + Título (compacto) -->
                 <div class="flex items-center gap-2">
-                    <div class="w-7 h-7 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center shadow-lg flex-shrink-0">
-                        <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
-                        </svg>
-                    </div>
-                    <h1 class="text-xs md:text-sm font-bold text-white drop-shadow-lg hidden sm:block">Centro Vida Sana</h1>
+                    <img src="pix/logo-sin-texto.webp" alt="Centro Vida Sana" class="w-7 h-7 drop-shadow-lg flex-shrink-0">
+                    <h1 class="text-xs md:text-sm font-bold text-white drop-shadow-lg hidden sm:block" style="color: #2d3e2d;">Centro Vida Sana</h1>
                 </div>
 
                 <!-- Indicadores de Paso (Centro) -->
                 <div class="flex items-center gap-2">
-                    <div id="step-indicator-1" class="w-7 h-7 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 text-white flex items-center justify-center text-xs font-bold shadow-lg transition-all duration-300">1</div>
-                    <div class="w-8 md:w-12 h-0.5 rounded-full" style="background: rgba(255, 255, 255, 0.3);">
-                        <div id="progress-line-1" class="h-full bg-gradient-to-r from-blue-400 to-blue-500 rounded-full transition-all duration-500" style="width: 0%;"></div>
+                    <div id="step-indicator-1" class="w-7 h-7 rounded-full text-white flex items-center justify-center text-xs font-bold shadow-lg transition-all duration-300" style="background: linear-gradient(135deg, #a8c5a0 0%, #7a9872 100%); color: white;">1</div>
+                    <div class="w-8 md:w-12 h-0.5 rounded-full" style="background: rgba(122, 152, 114, 0.2);">
+                        <div id="progress-line-1" class="h-full rounded-full transition-all duration-500" style="background: linear-gradient(90deg, #a8c5a0 0%, #7a9872 100%); width: 0%;"></div>
                     </div>
-                    <div id="step-indicator-2" class="w-7 h-7 rounded-full text-white flex items-center justify-center text-xs font-bold shadow-lg transition-all duration-300" style="background: rgba(255, 255, 255, 0.25);">2</div>
+                    <div id="step-indicator-2" class="w-7 h-7 rounded-full text-white flex items-center justify-center text-xs font-bold shadow-lg transition-all duration-300" style="background: rgba(122, 152, 114, 0.25);">2</div>
                 </div>
 
                 <!-- Botones (compacto) -->
@@ -49,7 +45,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path>
                         </svg>
                     </button>
-                    <button id="logout-btn" class="flex items-center gap-1 text-xs text-white bg-red-500/90 hover:bg-red-500 px-2 py-1 rounded-lg transition shadow-lg">
+                    <button id="logout-btn" class="flex items-center gap-1 text-xs text-white px-2 py-1 rounded-lg transition shadow-lg" style="background: linear-gradient(135deg, #7a9872 0%, #5a7852 100%); color: white;">
                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
                         </svg>
@@ -60,9 +56,9 @@
         </div>
     </header>
 
-    <!-- Modal de Guardado con Glassmorfismo -->
+    <!-- Modal de Guardado con Glassmorfismo Verde -->
     <div id="save-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center" style="background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);">
-        <div class="save-modal-content" style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 24px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3); padding: 3rem; min-width: 320px; text-align: center;">
+        <div class="save-modal-content" style="background: rgba(255, 255, 255, 0.97); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); border: 1px solid rgba(122, 152, 114, 0.3); border-radius: 24px; box-shadow: 0 20px 60px rgba(122, 152, 114, 0.2); padding: 3rem; min-width: 320px; text-align: center;">
             <!-- Estado: Guardando -->
             <div id="save-modal-saving" class="save-state">
                 <div class="save-spinner">
@@ -70,19 +66,19 @@
                     <div class="spinner-ring"></div>
                     <div class="spinner-ring"></div>
                 </div>
-                <h3 class="text-2xl font-bold text-gray-800 mt-6 mb-2">Guardando información</h3>
-                <p class="text-gray-600 text-sm">Por favor espere...</p>
+                <h3 class="text-2xl font-bold mt-6 mb-2" style="color: #2d3e2d;">Guardando información</h3>
+                <p class="text-sm" style="color: #7a9872;">Por favor espere...</p>
             </div>
 
             <!-- Estado: Guardado -->
             <div id="save-modal-success" class="save-state hidden">
                 <div class="success-checkmark">
-                    <svg class="w-20 h-20 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-20 h-20 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: #7a9872;">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>
                     </svg>
                 </div>
-                <h3 class="text-2xl font-bold text-green-600 mt-6 mb-2">¡Guardado correctamente!</h3>
-                <p class="text-gray-600 text-sm">Los datos se han almacenado exitosamente</p>
+                <h3 class="text-2xl font-bold mt-6 mb-2" style="color: #7a9872;">¡Guardado correctamente!</h3>
+                <p class="text-sm" style="color: #8fb185;">Los datos se han almacenado exitosamente</p>
             </div>
         </div>
     </div>
