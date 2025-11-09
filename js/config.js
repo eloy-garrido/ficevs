@@ -55,7 +55,7 @@ const APP_CONFIG = {
     // Configuración del formulario
     form: {
         // Número total de pasos
-        totalSteps: 3,
+        totalSteps: 2,
 
         // Validar al cambiar de paso
         validateOnStepChange: true,

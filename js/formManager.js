@@ -162,7 +162,7 @@ export function goToStep(stepNumber) {
  * Actualiza la interfaz según el paso actual
  */
 function updateUI() {
-    // Ocultar todos los pasos
+    // Ocultar todos los pasos básicos
     for (let i = 1; i <= formState.totalSteps; i++) {
         const stepDiv = document.getElementById(`step-${i}`);
         if (stepDiv) {
@@ -170,10 +170,27 @@ function updateUI() {
         }
     }
 
+    // Ocultar formularios condicionales (paso 2)
+    const kinesiologoForm = document.getElementById('step-2-kinesiologo');
+    const acupuntristaForm = document.getElementById('step-2-acupunturista');
+    if (kinesiologoForm) kinesiologoForm.classList.add('hidden');
+    if (acupuntristaForm) acupuntristaForm.classList.add('hidden');
+
     // Mostrar paso actual
-    const currentStepDiv = document.getElementById(`step-${formState.currentStep}`);
-    if (currentStepDiv) {
-        currentStepDiv.classList.remove('hidden');
+    if (formState.currentStep === 1) {
+        // Paso 1: Datos personales + selección de profesional
+        const step1 = document.getElementById('step-1');
+        if (step1) step1.classList.remove('hidden');
+    } else if (formState.currentStep === 2) {
+        // Paso 2: Mostrar formulario según profesional seleccionado
+        const profesional = formState.formData.profesional ||
+                           document.querySelector('input[name="profesional"]:checked')?.value;
+
+        if (profesional === 'kinesiologo' && kinesiologoForm) {
+            kinesiologoForm.classList.remove('hidden');
+        } else if (profesional === 'acupunturista' && acupuntristaForm) {
+            acupuntristaForm.classList.remove('hidden');
+        }
     }
 
     // Actualizar indicador de progreso
@@ -264,14 +281,9 @@ function updateStepIndicators() {
 
     // Actualizar líneas de progreso
     const progressLine1 = document.getElementById('progress-line-1');
-    const progressLine2 = document.getElementById('progress-line-2');
 
     if (progressLine1) {
         progressLine1.style.width = formState.currentStep >= 2 ? '100%' : '0%';
-    }
-
-    if (progressLine2) {
-        progressLine2.style.width = formState.currentStep >= 3 ? '100%' : '0%';
     }
 }
 
@@ -303,6 +315,8 @@ function collectDataFromStep(step) {
             data.ocupacion = document.getElementById('ocupacion')?.value.trim();
             data.direccion = document.getElementById('direccion')?.value.trim();
             data.motivo_consulta = document.getElementById('motivo-consulta')?.value.trim();
+            // Selección de profesional
+            data.profesional = document.querySelector('input[name="profesional"]:checked')?.value;
             break;
 
         case 2:
@@ -486,6 +500,18 @@ function validateStep(step, data) {
                     errors.push(edadError);
                     isValid = false;
                 }
+            }
+
+            // Validar que se haya seleccionado un profesional
+            const profesionalSelected = document.querySelector('input[name="profesional"]:checked');
+            if (!profesionalSelected) {
+                const errorDiv = document.getElementById('profesional-error');
+                if (errorDiv) errorDiv.classList.remove('hidden');
+                errors.push('Debe seleccionar un profesional');
+                isValid = false;
+            } else {
+                const errorDiv = document.getElementById('profesional-error');
+                if (errorDiv) errorDiv.classList.add('hidden');
             }
             break;
 
