@@ -432,8 +432,8 @@ export async function searchPatientByRut(rut) {
         // Buscar tanto con el formato original como limpio
         const searchRut = rut.trim();
 
-        if (searchRut.length < 3) {
-            return []; // No buscar si es muy corto
+        if (searchRut.length < 1) {
+            return []; // No buscar si está vacío
         }
 
         // Búsqueda en tabla PACIENTES (no fichas_clinicas) para evitar duplicados

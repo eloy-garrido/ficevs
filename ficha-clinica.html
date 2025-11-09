@@ -1257,7 +1257,8 @@
                     searchTimeout = setTimeout(async () => {
                         const rutValue = e.target.value.trim();
 
-                        if (rutValue.length >= 3) {
+                        // Buscar desde el primer carácter (búsqueda más inteligente)
+                        if (rutValue.length >= 1) {
                             try {
                                 // Importar la función de búsqueda
                                 const { searchPatientByRut } = await import('./js/supabaseService.js');
@@ -1275,7 +1276,7 @@
                         } else {
                             hideSuggestions();
                         }
-                    }, 300); // 300ms de debounce
+                    }, 200); // 200ms de debounce (más rápido)
                 });
 
                 // Validar RUT al salir del campo
@@ -1303,7 +1304,7 @@
                 // Mostrar sugerencias nuevamente al hacer focus
                 rutInput.addEventListener('focus', async () => {
                     const rutValue = rutInput.value.trim();
-                    if (rutValue.length >= 3) {
+                    if (rutValue.length >= 1) {
                         try {
                             const { searchPatientByRut } = await import('./js/supabaseService.js');
                             const patients = await searchPatientByRut(rutValue);
