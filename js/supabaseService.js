@@ -29,20 +29,16 @@ export async function createFichaClinica(fichaData) {
             throw new Error('Usuario no autenticado');
         }
 
-        // Preparar datos para inserción
+        // Preparar datos para inserción - solo campos que existen en el esquema base
         const payload = {
             terapeuta_id: user.id,
 
-            // Datos del paciente (Paso 1)
+            // Datos del paciente (Paso 1) - CAMPOS BASE
             nombre_paciente: fichaData.nombre_paciente,
-            rut: fichaData.rut || null,
-            fecha_nacimiento: fichaData.fecha_nacimiento || null,
             edad: fichaData.edad ? parseInt(fichaData.edad) : null,
-            fecha_ingreso: fichaData.fecha_ingreso || new Date().toISOString().split('T')[0],
             telefono: fichaData.telefono || null,
             email: fichaData.email || null,
             ocupacion: fichaData.ocupacion || null,
-            direccion: fichaData.direccion || null,
             motivo_consulta: fichaData.motivo_consulta,
 
             // Datos MTC (Paso 2) - JSONB
@@ -68,6 +64,13 @@ export async function createFichaClinica(fichaData) {
             // Estado
             estado: 'activo'
         };
+
+        // Agregar campos opcionales solo si existen en la DB
+        // Estos campos requieren la migración 05_add_new_fields.sql
+        if (fichaData.rut) payload.rut = fichaData.rut;
+        if (fichaData.fecha_nacimiento) payload.fecha_nacimiento = fichaData.fecha_nacimiento;
+        if (fichaData.fecha_ingreso) payload.fecha_ingreso = fichaData.fecha_ingreso;
+        // NO incluir direccion ya que causa error si no existe la columna
 
         debugLog('📤 Enviando ficha a Supabase:', payload);
 
