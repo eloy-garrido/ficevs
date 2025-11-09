@@ -12,7 +12,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/styles.css?v=4.0">
+    <link rel="stylesheet" href="css/styles.css?v=5.0">
 
     <!-- Manifest PWA -->
     <link rel="manifest" href="manifest.json">
@@ -99,6 +99,32 @@
             <h2 class="text-xl md:text-2xl font-bold text-gray-900 mb-4">Paso 1: Datos del Paciente</h2>
 
             <form class="space-y-3">
+                <!-- RUT - Campo Principal -->
+                <div class="bg-gradient-to-r from-blue-50 to-purple-50 p-4 rounded-xl border-2 border-blue-200 mb-4">
+                    <label for="rut" class="block text-sm font-bold text-blue-900 mb-2">
+                        <svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2"></path>
+                        </svg>
+                        RUT del Paciente <span class="text-red-500">*</span>
+                    </label>
+                    <div class="relative">
+                        <input type="text" id="rut" required
+                            class="w-full px-4 py-3 text-lg font-semibold border-2 border-blue-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 backdrop-blur-sm bg-white/90 shadow-sm"
+                            placeholder="12.345.678-9"
+                            maxlength="12"
+                            autocomplete="off">
+
+                        <!-- Dropdown de Sugerencias -->
+                        <div id="rut-suggestions" class="hidden absolute z-50 w-full mt-2 rounded-lg shadow-2xl overflow-hidden"
+                            style="background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); border: 1px solid rgba(59, 130, 246, 0.3); max-height: 300px; overflow-y: auto;">
+                            <!-- Las sugerencias se insertarán aquí dinámicamente -->
+                        </div>
+                    </div>
+                    <p class="text-xs text-blue-700 mt-2">
+                        💡 Ingrese el RUT del paciente. Si ya está registrado, se autocompletarán sus datos.
+                    </p>
+                </div>
+
                 <!-- Nombre del Paciente -->
                 <div>
                     <label for="nombre-paciente" class="block text-xs font-medium text-gray-700 mb-1">
@@ -109,18 +135,8 @@
                         placeholder="Juan Pérez">
                 </div>
 
-                <!-- RUT, Fecha de Nacimiento y Edad -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-                    <div>
-                        <label for="rut" class="block text-xs font-medium text-gray-700 mb-1">
-                            RUT <span class="text-red-500">*</span>
-                        </label>
-                        <input type="text" id="rut" required
-                            class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 backdrop-blur-sm bg-white/80"
-                            placeholder="12.345.678-9"
-                            maxlength="12">
-                    </div>
-
+                <!-- Fecha de Nacimiento y Edad -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div>
                         <label for="fecha-nacimiento" class="block text-xs font-medium text-gray-700 mb-1">
                             Fecha Nac. <span class="text-red-500">*</span>
@@ -1170,47 +1186,197 @@
                 });
             }
 
-            // Formatear RUT automáticamente (formato: 12.345.678-9)
+            // ====================================
+            // BÚSQUEDA Y AUTOCOMPLETADO POR RUT
+            // ====================================
             const rutInput = document.getElementById('rut');
-            if (rutInput) {
-                rutInput.addEventListener('input', (e) => {
+            const rutSuggestions = document.getElementById('rut-suggestions');
+            let searchTimeout = null;
+
+            if (rutInput && rutSuggestions) {
+                // Formatear y buscar al escribir
+                rutInput.addEventListener('input', async (e) => {
                     let value = e.target.value.replace(/[^0-9kK]/g, '');
 
+                    // Formatear RUT
                     if (value.length > 0) {
-                        // Separar dígito verificador
                         const dv = value.slice(-1);
                         let number = value.slice(0, -1);
-
-                        // Formatear número con puntos
                         number = number.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 
-                        // Juntar con guión y dígito verificador
                         if (value.length > 1) {
                             e.target.value = number + '-' + dv;
                         } else {
                             e.target.value = value;
                         }
                     }
+
+                    // Buscar pacientes con debounce
+                    clearTimeout(searchTimeout);
+                    searchTimeout = setTimeout(async () => {
+                        const rutValue = e.target.value.trim();
+
+                        if (rutValue.length >= 3) {
+                            try {
+                                // Importar la función de búsqueda
+                                const { searchPatientByRut } = await import('./js/supabaseService.js');
+                                const patients = await searchPatientByRut(rutValue);
+
+                                if (patients && patients.length > 0) {
+                                    showSuggestions(patients);
+                                } else {
+                                    hideSuggestions();
+                                }
+                            } catch (error) {
+                                console.error('Error al buscar pacientes:', error);
+                                hideSuggestions();
+                            }
+                        } else {
+                            hideSuggestions();
+                        }
+                    }, 300); // 300ms de debounce
                 });
 
                 // Validar RUT al salir del campo
                 rutInput.addEventListener('blur', (e) => {
-                    const rut = e.target.value;
-                    if (rut && !validarRUT(rut)) {
-                        e.target.classList.add('border-red-500');
-                        // Crear mensaje de error si no existe
-                        if (!document.getElementById('rut-error')) {
-                            const errorMsg = document.createElement('p');
-                            errorMsg.id = 'rut-error';
-                            errorMsg.className = 'text-red-500 text-sm mt-1';
-                            errorMsg.textContent = 'RUT inválido';
-                            e.target.parentElement.appendChild(errorMsg);
+                    // Delay para permitir clic en sugerencias
+                    setTimeout(() => {
+                        const rut = e.target.value;
+                        if (rut && !validarRUT(rut)) {
+                            e.target.classList.add('border-red-500');
+                            if (!document.getElementById('rut-error')) {
+                                const errorMsg = document.createElement('p');
+                                errorMsg.id = 'rut-error';
+                                errorMsg.className = 'text-red-500 text-sm mt-1';
+                                errorMsg.textContent = 'RUT inválido';
+                                e.target.parentElement.appendChild(errorMsg);
+                            }
+                        } else {
+                            e.target.classList.remove('border-red-500');
+                            document.getElementById('rut-error')?.remove();
                         }
-                    } else {
-                        e.target.classList.remove('border-red-500');
-                        document.getElementById('rut-error')?.remove();
+                        hideSuggestions();
+                    }, 200);
+                });
+
+                // Mostrar sugerencias nuevamente al hacer focus
+                rutInput.addEventListener('focus', async () => {
+                    const rutValue = rutInput.value.trim();
+                    if (rutValue.length >= 3) {
+                        try {
+                            const { searchPatientByRut } = await import('./js/supabaseService.js');
+                            const patients = await searchPatientByRut(rutValue);
+                            if (patients && patients.length > 0) {
+                                showSuggestions(patients);
+                            }
+                        } catch (error) {
+                            console.error('Error:', error);
+                        }
                     }
                 });
+            }
+
+            // Función para mostrar sugerencias
+            function showSuggestions(patients) {
+                if (!rutSuggestions) return;
+
+                rutSuggestions.innerHTML = '';
+
+                patients.forEach(patient => {
+                    const suggestion = document.createElement('div');
+                    suggestion.className = 'suggestion-item p-4 cursor-pointer hover:bg-blue-50 border-b border-blue-100 transition-colors';
+                    suggestion.innerHTML = `
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="font-semibold text-gray-900">${patient.nombre_paciente}</p>
+                                <p class="text-sm text-gray-600">RUT: ${patient.rut}</p>
+                                <p class="text-xs text-gray-500">Edad: ${patient.edad || 'N/A'} • Tel: ${patient.telefono || 'N/A'}</p>
+                            </div>
+                            <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                            </svg>
+                        </div>
+                    `;
+
+                    suggestion.addEventListener('click', () => {
+                        loadPatientData(patient);
+                        hideSuggestions();
+                    });
+
+                    rutSuggestions.appendChild(suggestion);
+                });
+
+                rutSuggestions.classList.remove('hidden');
+            }
+
+            // Función para ocultar sugerencias
+            function hideSuggestions() {
+                if (rutSuggestions) {
+                    rutSuggestions.classList.add('hidden');
+                }
+            }
+
+            // Función para cargar datos del paciente
+            function loadPatientData(patient) {
+                // Llenar todos los campos del formulario
+                document.getElementById('rut').value = patient.rut || '';
+                document.getElementById('nombre-paciente').value = patient.nombre_paciente || '';
+                document.getElementById('fecha-nacimiento').value = patient.fecha_nacimiento || '';
+                document.getElementById('edad').value = patient.edad || '';
+
+                // Separar el teléfono en código y número
+                if (patient.telefono) {
+                    const telefonoParts = patient.telefono.split(' ');
+                    if (telefonoParts.length >= 2) {
+                        document.getElementById('telefono-codigo').value = telefonoParts[0];
+                        document.getElementById('telefono-numero').value = telefonoParts[1];
+                    } else {
+                        document.getElementById('telefono-numero').value = patient.telefono;
+                    }
+                }
+
+                document.getElementById('email').value = patient.email || '';
+                document.getElementById('ocupacion').value = patient.ocupacion || '';
+                document.getElementById('direccion').value = patient.direccion || '';
+                document.getElementById('motivo-consulta').value = patient.motivo_consulta || '';
+                document.getElementById('fecha-ingreso').value = patient.fecha_ingreso || new Date().toISOString().split('T')[0];
+
+                // Guardar el ID de la ficha existente para posibles actualizaciones
+                if (window.formState) {
+                    window.formState.existingFichaId = patient.id;
+                }
+
+                // Mostrar notificación
+                console.log('✅ Datos del paciente cargados:', patient.nombre_paciente);
+
+                // Agregar indicador visual de que se cargaron datos existentes
+                const rutInput = document.getElementById('rut');
+                if (rutInput) {
+                    rutInput.classList.add('border-green-500');
+                    setTimeout(() => {
+                        rutInput.classList.remove('border-green-500');
+                    }, 2000);
+                }
+
+                // Mostrar mensaje informativo
+                const infoMsg = document.createElement('div');
+                infoMsg.className = 'mt-2 p-3 bg-green-50 border border-green-200 rounded-lg text-sm text-green-800 animate-fade-in';
+                infoMsg.innerHTML = `
+                    <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    Paciente existente cargado. Puedes actualizar la información y crear una nueva ficha.
+                `;
+
+                const rutContainer = rutInput.closest('.bg-gradient-to-r');
+                if (rutContainer && !document.getElementById('patient-loaded-msg')) {
+                    infoMsg.id = 'patient-loaded-msg';
+                    rutContainer.appendChild(infoMsg);
+
+                    setTimeout(() => {
+                        infoMsg.remove();
+                    }, 5000);
+                }
             }
 
             // Validar formato de teléfono (solo números)

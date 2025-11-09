@@ -497,6 +497,66 @@ header:hover {
     animation: slideInRight 0.5s ease;
 }
 
+/* Animate fade in */
+.animate-fade-in {
+    animation: fadeIn 0.3s ease;
+}
+
+/* =====================================================
+ * DROPDOWN DE SUGERENCIAS RUT (GLASSMORPHISM)
+ * ===================================================== */
+
+#rut-suggestions {
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Items de sugerencia */
+.suggestion-item {
+    position: relative;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.suggestion-item:hover {
+    background: linear-gradient(135deg, rgba(219, 234, 254, 0.9) 0%, rgba(191, 219, 254, 0.9) 100%);
+    transform: translateX(4px);
+}
+
+.suggestion-item:last-child {
+    border-bottom: none;
+}
+
+/* Scrollbar personalizado para el dropdown */
+#rut-suggestions::-webkit-scrollbar {
+    width: 6px;
+}
+
+#rut-suggestions::-webkit-scrollbar-track {
+    background: rgba(229, 231, 235, 0.5);
+    border-radius: 10px;
+}
+
+#rut-suggestions::-webkit-scrollbar-thumb {
+    background: rgba(59, 130, 246, 0.6);
+    border-radius: 10px;
+}
+
+#rut-suggestions::-webkit-scrollbar-thumb:hover {
+    background: rgba(59, 130, 246, 0.8);
+}
+
 /* Slide in from left */
 @keyframes slideInLeft {
     from {

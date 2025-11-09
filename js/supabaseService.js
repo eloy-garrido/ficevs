@@ -395,6 +395,44 @@ export async function searchFichas(searchTerm) {
 }
 
 /**
+ * Busca pacientes por RUT (para autocompletado)
+ */
+export async function searchPatientByRut(rut) {
+    try {
+        const supabase = getSupabaseClient();
+        const user = await getCurrentUser();
+
+        if (!user) {
+            throw new Error('Usuario no autenticado');
+        }
+
+        // Limpiar el RUT para la búsqueda (quitar puntos y guiones)
+        const cleanRut = rut.replace(/\./g, '').replace(/-/g, '');
+
+        if (cleanRut.length < 3) {
+            return []; // No buscar si es muy corto
+        }
+
+        const { data, error } = await supabase
+            .from('fichas_clinicas')
+            .select('*')
+            .eq('terapeuta_id', user.id)
+            .ilike('rut', `%${cleanRut}%`)
+            .order('created_at', { ascending: false })
+            .limit(5);
+
+        if (error) throw error;
+
+        debugLog('🔍 Búsqueda por RUT:', data.length, 'pacientes encontrados');
+        return data;
+
+    } catch (error) {
+        console.error('❌ Error al buscar por RUT:', error);
+        return [];
+    }
+}
+
+/**
  * =====================================================
  * ESTADÍSTICAS Y REPORTES
  * =====================================================
