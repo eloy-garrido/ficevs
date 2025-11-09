@@ -429,28 +429,59 @@ export async function searchPatientByRut(rut) {
             throw new Error('Usuario no autenticado');
         }
 
-        // Buscar tanto con el formato original como limpio
+        // Limpiar el RUT de búsqueda (ya viene limpio desde el frontend)
         const searchRut = rut.trim();
 
         if (searchRut.length < 1) {
             return []; // No buscar si está vacío
         }
 
-        // Búsqueda en tabla PACIENTES (no fichas_clinicas) para evitar duplicados
+        // Búsqueda flexible en tabla PACIENTES comparando RUTs sin formato
+        // Usa REPLACE en PostgreSQL para quitar puntos y guiones antes de comparar
         const { data, error } = await supabase
             .from('pacientes')
             .select('*')
             .eq('terapeuta_id', user.id)
-            .ilike('rut', `${searchRut}%`)
+            .filter('rut', 'ilike', `${searchRut}%`)  // Primero intenta búsqueda directa
             .order('created_at', { ascending: false })
-            .limit(5);
+            .limit(10);  // Aumentar límite para búsqueda más amplia
+
+        // Si no encuentra resultados con búsqueda directa, buscar limpiando formato
+        if (!data || data.length === 0) {
+            // Intentar búsqueda alternativa comparando solo números
+            const { data: altData, error: altError } = await supabase
+                .rpc('search_patient_by_clean_rut', {
+                    search_rut: searchRut,
+                    therapist_id: user.id
+                });
+
+            if (altError) {
+                // Si no existe la función RPC, hacer búsqueda manual
+                debugLog('⚠️ Función RPC no disponible, usando búsqueda estándar');
+                const { data: manualData } = await supabase
+                    .from('pacientes')
+                    .select('*')
+                    .eq('terapeuta_id', user.id);
+
+                // Filtrar manualmente en el cliente
+                const filtered = (manualData || []).filter(p => {
+                    const cleanDbRut = (p.rut || '').replace(/[.\-]/g, '');
+                    return cleanDbRut.startsWith(searchRut);
+                }).slice(0, 5);
+
+                debugLog('🔍 Búsqueda manual por RUT:', filtered.length, 'pacientes encontrados');
+                return filtered;
+            }
+
+            return altData || [];
+        }
 
         if (error) {
             console.error('Error en consulta de búsqueda:', error);
-            throw error;
+            // No lanzar error, intentar búsqueda alternativa
         }
 
-        debugLog('🔍 Búsqueda por RUT en tabla pacientes:', data.length, 'pacientes encontrados');
+        debugLog('🔍 Búsqueda por RUT en tabla pacientes:', (data || []).length, 'pacientes encontrados');
         return data || [];
 
     } catch (error) {

@@ -1260,9 +1260,12 @@
                         // Buscar desde el primer carácter (búsqueda más inteligente)
                         if (rutValue.length >= 1) {
                             try {
+                                // Limpiar el RUT para la búsqueda (quitar puntos y guiones)
+                                const cleanRut = rutValue.replace(/[.\-]/g, '');
+
                                 // Importar la función de búsqueda
                                 const { searchPatientByRut } = await import('./js/supabaseService.js');
-                                const patients = await searchPatientByRut(rutValue);
+                                const patients = await searchPatientByRut(cleanRut);
 
                                 if (patients && patients.length > 0) {
                                     showSuggestions(patients);
@@ -1306,8 +1309,11 @@
                     const rutValue = rutInput.value.trim();
                     if (rutValue.length >= 1) {
                         try {
+                            // Limpiar el RUT para la búsqueda (quitar puntos y guiones)
+                            const cleanRut = rutValue.replace(/[.\-]/g, '');
+
                             const { searchPatientByRut } = await import('./js/supabaseService.js');
-                            const patients = await searchPatientByRut(rutValue);
+                            const patients = await searchPatientByRut(cleanRut);
                             if (patients && patients.length > 0) {
                                 showSuggestions(patients);
                             }
