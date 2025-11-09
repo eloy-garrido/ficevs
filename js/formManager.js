@@ -7,7 +7,15 @@
  */
 
 import { APP_CONFIG } from './config.js';
-import { createFichaClinica, createOrUpdatePatient } from './supabaseService.js';
+import {
+    createOrUpdatePatient,
+    createSesionAcupuntura,
+    createSesionKinesiologia,
+    updateSesionAcupuntura,
+    updateSesionKinesiologia,
+    validateSessionPatientRut,
+    getPatientByRut
+} from './supabaseService.js';
 import { notifications, validators, formHelpers, storage, debugLog, debounce } from './utils.js';
 
 /**
@@ -578,7 +586,7 @@ function hideSaveModal() {
 }
 
 /**
- * Guarda los datos del paso 1 en la base de datos
+ * Guarda los datos del paso 1 (datos del paciente) en la base de datos
  */
 async function saveStep1Data() {
     try {
@@ -588,50 +596,70 @@ async function saveStep1Data() {
         // Simular delay mínimo para que se vea la animación
         await new Promise(resolve => setTimeout(resolve, 800));
 
-        // Preparar datos solo con campos del paso 1
-        // Asegurar que la edad sea número o null
-        const edadValue = formState.formData.edad;
-        const edadNum = edadValue && edadValue !== '' ? parseInt(edadValue) : null;
-
-        const partialData = {
+        // Preparar datos del paciente
+        const patientData = {
             nombre_paciente: formState.formData.nombre_paciente || '',
             rut: formState.formData.rut || null,
             fecha_nacimiento: formState.formData.fecha_nacimiento || null,
-            edad: edadNum,
-            fecha_ingreso: formState.formData.fecha_ingreso || new Date().toISOString().split('T')[0],
             telefono: formState.formData.telefono || null,
             email: formState.formData.email || null,
             ocupacion: formState.formData.ocupacion || null,
-            direccion: formState.formData.direccion || null,
-            motivo_consulta: formState.formData.motivo_consulta || '',
-            profesional: formState.formData.profesional || null,  // IMPORTANTE: Tipo de profesional seleccionado
-            // Campos JSONB vacíos
-            datos_mtc: {},
-            sintomas_generales: {},
-            datos_dolor: {}
+            direccion: formState.formData.direccion || null
         };
 
-        debugLog('📤 Datos a enviar:', partialData);
+        debugLog('📤 Datos del paciente a registrar:', patientData);
 
-        // IMPORTANTE: Primero crear/actualizar el paciente en la tabla pacientes
-        // Esto asegura que no haya duplicados por RUT
-        if (partialData.rut) {
+        // Crear o actualizar el paciente en la tabla pacientes
+        if (patientData.rut) {
             try {
-                await createOrUpdatePatient(partialData);
-                debugLog('✅ Paciente registrado/actualizado en tabla pacientes');
+                const paciente = await createOrUpdatePatient(patientData);
+                debugLog('✅ Paciente registrado/actualizado:', paciente.id);
+
+                // Guardar el ID del paciente en el estado del formulario
+                formState.pacienteId = paciente.id;
             } catch (patientError) {
-                console.error('⚠️ Error al gestionar paciente, pero continuando:', patientError);
-                // Continuar aunque falle, la ficha se creará de todos modos
+                console.error('❌ Error al registrar paciente:', patientError);
+                throw new Error('Error al registrar los datos del paciente: ' + patientError.message);
             }
+        } else {
+            throw new Error('El RUT es requerido para registrar un paciente');
         }
 
-        // Guardar en la BD (crear la ficha clínica)
-        const result = await createFichaClinica(partialData);
+        // Ahora guardar sesión mínima (solo fecha, motivo y profesional)
+        const profesional = formState.formData.profesional;
 
-        debugLog('✅ Ficha guardada con ID:', result.id);
+        if (profesional === 'acupunturista') {
+            // Crear sesión de acupuntura mínima
+            const sesionData = {
+                paciente_id: formState.pacienteId,
+                motivo_consulta: formState.formData.motivo_consulta || 'No especificado',
+                // Todos los demás campos quedarán null (datos MTC, sintomas, etc.)
+            };
 
-        // Guardar el ID de la ficha para actualizaciones futuras
-        formState.fichaId = result.id;
+            debugLog('📤 Creando sesión de acupuntura mínima:', sesionData);
+            const sesionResult = await createSesionAcupuntura(sesionData);
+            debugLog('✅ Sesión de acupuntura creada:', sesionResult.id);
+
+            // Guardar el ID de la sesión para posible actualización posterior
+            formState.sesionId = sesionResult.id;
+            formState.sesionType = 'acupuntura';
+
+        } else if (profesional === 'kinesiologo') {
+            // Crear sesión de kinesiología mínima
+            const sesionData = {
+                paciente_id: formState.pacienteId,
+                motivo_consulta: formState.formData.motivo_consulta || 'No especificado',
+                // Todos los demás campos quedarán null (diagnostico, plan, técnicas, etc.)
+            };
+
+            debugLog('📤 Creando sesión de kinesiología mínima:', sesionData);
+            const sesionResult = await createSesionKinesiologia(sesionData);
+            debugLog('✅ Sesión de kinesiología creada:', sesionResult.id);
+
+            // Guardar el ID de la sesión para posible actualización posterior
+            formState.sesionId = sesionResult.id;
+            formState.sesionType = 'kinesiologia';
+        }
 
         // Mostrar estado de éxito
         showSaveSuccess();
@@ -713,7 +741,7 @@ function generateSummary() {
 }
 
 /**
- * Envía el formulario
+ * Envía el formulario y crea la sesión correspondiente
  */
 async function submitForm() {
     if (formState.isSubmitting) return;
@@ -732,14 +760,82 @@ async function submitForm() {
             return;
         }
 
-        // Guardar en Supabase
-        const result = await createFichaClinica(formState.formData);
+        // Determinar qué tipo de sesión crear basado en el profesional seleccionado
+        const profesional = formState.formData.profesional;
+
+        if (!formState.pacienteId) {
+            throw new Error('Error: Paciente no registrado. Por favor, intenta nuevamente desde el paso 1.');
+        }
+
+        let sesionResult;
+
+        // Verificar si es una actualización de sesión existente o una creación nueva
+        const isUpdate = !!formState.sesionId;
+
+        if (profesional === 'acupunturista') {
+            // Preparar datos para sesión de acupuntura
+            const sesionData = {
+                motivo_consulta: formState.formData.motivo_consulta,
+                datos_mtc: formState.formData.datos_mtc || {},
+                diagnostico_mtc: formState.formData.diagnostico_terapeuta || null,
+                sintomas_generales: formState.formData.sintomas_generales || {},
+                datos_dolor: formState.formData.datos_dolor || {},
+                puntos_acupuntura: formState.formData.puntos_acupuntura || [],
+                tecnicas_aplicadas: formState.formData.tecnicas_aplicadas || [],
+                recomendaciones: formState.formData.recomendaciones || null
+            };
+
+            if (isUpdate && formState.sesionType === 'acupuntura') {
+                // Validar que el RUT del paciente coincida antes de actualizar
+                const currentRut = formState.formData.rut;
+                await validateSessionPatientRut(formState.sesionId, 'acupuntura', currentRut);
+
+                // Actualizar sesión existente
+                debugLog('📝 Actualizando sesión de acupuntura:', sesionData);
+                sesionResult = await updateSesionAcupuntura(formState.sesionId, sesionData);
+            } else {
+                // Crear sesión nueva
+                sesionData.paciente_id = formState.pacienteId;
+                debugLog('📤 Creando sesión de acupuntura:', sesionData);
+                sesionResult = await createSesionAcupuntura(sesionData);
+            }
+
+        } else if (profesional === 'kinesiologo') {
+            // Preparar datos para sesión de kinesiología
+            const sesionData = {
+                motivo_consulta: formState.formData.motivo_consulta,
+                diagnostico: formState.formData.diagnostico_terapeuta || null,
+                plan_tratamiento: formState.formData.plan_tratamiento || null,
+                tecnicas_aplicadas: formState.formData.tecnicas_aplicadas || [],
+                recomendaciones: formState.formData.recomendaciones || null
+            };
+
+            if (isUpdate && formState.sesionType === 'kinesiologia') {
+                // Validar que el RUT del paciente coincida antes de actualizar
+                const currentRut = formState.formData.rut;
+                await validateSessionPatientRut(formState.sesionId, 'kinesiologia', currentRut);
+
+                // Actualizar sesión existente
+                debugLog('📝 Actualizando sesión de kinesiología:', sesionData);
+                sesionResult = await updateSesionKinesiologia(formState.sesionId, sesionData);
+            } else {
+                // Crear sesión nueva
+                sesionData.paciente_id = formState.pacienteId;
+                debugLog('📤 Creando sesión de kinesiología:', sesionData);
+                sesionResult = await createSesionKinesiologia(sesionData);
+            }
+
+        } else {
+            throw new Error('Tipo de profesional no válido');
+        }
 
         // Limpiar borrador
         storage.clearDraft();
 
         // Mostrar éxito
-        notifications.success('¡Ficha clínica guardada exitosamente!');
+        notifications.success('¡Sesión guardada exitosamente!');
+
+        debugLog('✅ Sesión creada con ID:', sesionResult.id);
 
         // Redirigir o limpiar formulario
         setTimeout(() => {
@@ -748,8 +844,8 @@ async function submitForm() {
         }, 2000);
 
     } catch (error) {
-        console.error('❌ Error al guardar ficha:', error);
-        notifications.error('Error al guardar la ficha. Por favor, intenta nuevamente.');
+        console.error('❌ Error al guardar sesión:', error);
+        notifications.error('Error al guardar la sesión. Por favor, intenta nuevamente.');
     } finally {
         formState.isSubmitting = false;
     }
@@ -828,10 +924,18 @@ function resetForm() {
 }
 
 /**
- * Obtiene el estado actual del formulario
+ * Obtiene el estado actual del formulario (copia para lectura)
  */
 export function getFormState() {
     return { ...formState };
+}
+
+/**
+ * Obtiene una referencia al objeto formState interno
+ * IMPORTANTE: Usar solo cuando sea necesario sincronizar cambios globales
+ */
+export function getFormStateRef() {
+    return formState;
 }
 
 /**

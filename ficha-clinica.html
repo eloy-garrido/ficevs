@@ -1158,7 +1158,7 @@
     <!-- App Scripts -->
     <script type="module">
         import { initSupabase, requireAuth, signOut } from './js/auth.js';
-        import { initFormManager } from './js/formManager.js';
+        import { initFormManager, getFormStateRef } from './js/formManager.js';
         import { storage } from './js/utils.js';
 
         // Inicializar aplicación
@@ -1172,6 +1172,9 @@
 
             // Inicializar gestor de formulario
             initFormManager();
+
+            // Exponer formState globalmente para acceso desde otros scripts
+            window.formState = getFormStateRef();
 
             // Setup event listeners adicionales
             setupEventListeners();
@@ -1455,6 +1458,11 @@
                 if (window.formState) {
                     window.formState.existingPatientRut = patient.rut;
                     window.formState.isExistingPatient = true;
+
+                    // Limpiar IDs de sesión anteriores para evitar conflictos
+                    // cuando se carga un paciente diferente
+                    window.formState.sesionId = null;
+                    window.formState.sesionType = null;
                 }
 
                 // Cargar y mostrar historial de visitas anteriores
@@ -1471,6 +1479,23 @@
                         rutInput.classList.remove('border-green-500');
                     }, 2000);
                 }
+
+                // Desplazar a la sección de selección de profesional
+                const profesionalSection = document.querySelector('[id*="profesional"]')?.closest('section') || document.querySelector('section');
+                if (profesionalSection) {
+                    setTimeout(() => {
+                        profesionalSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }, 300);
+                }
+
+                // Mostrar mensaje instructivo
+                const notification = document.createElement('div');
+                notification.className = 'fixed top-4 right-4 bg-blue-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-fadeIn';
+                notification.textContent = '✓ Paciente cargado. Por favor, selecciona un profesional y haz clic en "Siguiente"';
+                document.body.appendChild(notification);
+                setTimeout(() => {
+                    notification.remove();
+                }, 4000);
             }
 
             // Validar formato de teléfono (solo números)
@@ -1488,8 +1513,8 @@
             // Función para cargar historial de visitas del paciente
             async function loadPatientHistory(rut) {
                 try {
-                    const { getPatientHistoryByRut } = await import('./js/supabaseService.js');
-                    const history = await getPatientHistoryByRut(rut);
+                    const { getPatientSessionHistoryByRut } = await import('./js/supabaseService.js');
+                    const history = await getPatientSessionHistoryByRut(rut);
 
                     const historySection = document.getElementById('patient-history');
                     const historyTableBody = document.getElementById('history-table-body');
@@ -1502,16 +1527,16 @@
 
                     if (history && history.length > 0) {
                         // Llenar tabla con historial
-                        history.forEach((visita, index) => {
-                            const fecha = new Date(visita.fecha_ingreso).toLocaleDateString('es-CL');
-                            const motivo = visita.motivo_consulta || 'No especificado';
+                        history.forEach((sesion, index) => {
+                            const fecha = new Date(sesion.fecha_sesion).toLocaleDateString('es-CL');
+                            const motivo = sesion.motivo_consulta || 'No especificado';
 
-                            // Determinar profesional desde el campo tipo_profesional
-                            let profesional = 'No especificado';
-                            if (visita.tipo_profesional === 'kinesiologo') {
-                                profesional = 'Kinesiología';
-                            } else if (visita.tipo_profesional === 'acupunturista') {
-                                profesional = 'Acupuntura';
+                            // Determinar tipo de sesión desde el campo tipo
+                            let tipo = 'No especificado';
+                            if (sesion.tipo === 'kinesiologia') {
+                                tipo = 'Kinesiología';
+                            } else if (sesion.tipo === 'acupuntura') {
+                                tipo = 'Acupuntura';
                             }
 
                             const row = document.createElement('tr');
@@ -1519,7 +1544,7 @@
                             row.innerHTML = `
                                 <td class="py-2 px-2 font-medium">${fecha}</td>
                                 <td class="py-2 px-2">${motivo}</td>
-                                <td class="py-2 px-2">${profesional}</td>
+                                <td class="py-2 px-2">${tipo}</td>
                             `;
                             historyTableBody.appendChild(row);
                         });
