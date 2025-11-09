@@ -959,4 +959,67 @@ header:hover {
         box-shadow: none;
         border: 1px solid var(--gray-300);
     }
+
+    .custom-modal-overlay {
+        display: none !important;
+    }
+}
+
+/* =====================================================
+ * ESTILOS PERSONALIZADOS PARA MODALES
+ * ===================================================== */
+
+/* Animación de entrada para modales */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Override para asegurar que los estilos CSS de modalManager funcionen */
+.custom-modal {
+    animation: slideUp 0.3s ease-out !important;
+}
+
+/* Efecto de hover mejorado en botones de modal */
+.modal-button:hover:not(:disabled) {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Soporte para modo oscuro (si se implementa en el futuro) */
+@media (prefers-color-scheme: dark) {
+    .custom-modal {
+        background: rgba(31, 41, 55, 0.95) !important;
+    }
+
+    .modal-title {
+        color: #f3f4f6 !important;
+    }
+
+    .modal-message {
+        color: #d1d5db !important;
+    }
+
+    .modal-button.secondary {
+        background: #374151 !important;
+        color: #f3f4f6 !important;
+    }
+
+    .modal-button.secondary:hover {
+        background: #4b5563 !important;
+    }
+
+    .modal-button.cancel {
+        color: #d1d5db !important;
+        border-color: #4b5563 !important;
+    }
+
+    .modal-button.cancel:hover {
+        background: #374151 !important;
+    }
 }

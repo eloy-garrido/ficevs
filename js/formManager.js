@@ -17,6 +17,7 @@ import {
     getPatientByRut
 } from './supabaseService.js';
 import { notifications, validators, formHelpers, storage, debugLog, debounce } from './utils.js';
+import { showConfirm, showSuccess } from './modalManager.js';
 
 /**
  * Estado del formulario
@@ -34,12 +35,12 @@ const formState = {
  * =====================================================
  */
 
-export function initFormManager() {
+export async function initFormManager() {
     debugLog('🎯 Inicializando gestor de formulario');
 
     // Cargar borrador si existe
     if (storage.hasDraft()) {
-        showDraftRecoveryDialog();
+        await showDraftRecoveryDialog();
     }
 
     // Configurar navegación
@@ -876,9 +877,15 @@ function setupAutoSave() {
 /**
  * Muestra diálogo de recuperación de borrador
  */
-function showDraftRecoveryDialog() {
-    const recover = confirm(
-        '¿Deseas recuperar el borrador guardado previamente?'
+async function showDraftRecoveryDialog() {
+    const recover = await showConfirm(
+        'Recuperar Borrador',
+        '¿Deseas recuperar el borrador guardado previamente?',
+        {
+            confirmText: 'Sí, Recuperar',
+            cancelText: 'No, Comenzar Nuevo',
+            type: 'question'
+        }
     );
 
     if (recover) {

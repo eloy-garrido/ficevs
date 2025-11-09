@@ -5,6 +5,7 @@
 
 import { calculateAge } from './validation.js';
 import { loadPatientHistory } from './history.js';
+import { showSuccess } from './modalManager.js';
 
 /**
  * Carga los datos de un paciente en el formulario
@@ -119,10 +120,12 @@ export async function deletePatient(rut) {
         await deletePatientByRut(rut);
 
         // Mostrar mensaje de éxito
-        alert('✅ Paciente eliminado exitosamente');
+        await showSuccess('Paciente Eliminado', 'El paciente ha sido eliminado exitosamente');
 
         // Limpiar formulario y recargar página
-        window.location.reload();
+        setTimeout(() => {
+            window.location.reload();
+        }, 1500);
 
     } catch (error) {
         console.error('Error al eliminar paciente:', error);

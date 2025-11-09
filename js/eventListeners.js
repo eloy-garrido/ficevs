@@ -9,6 +9,7 @@ import { setupRutSearch } from './search.js';
 import { loadPatientData, deletePatient } from './patientLoader.js';
 import { calculateAge } from './validation.js';
 import { setupHideHistoryButton, closeSessionDetailModal } from './history.js';
+import { showConfirm, showAlert, showError } from './modalManager.js';
 
 /**
  * Configura todos los event listeners de la aplicación
@@ -16,7 +17,16 @@ import { setupHideHistoryButton, closeSessionDetailModal } from './history.js';
 export function setupEventListeners() {
     // Botón de logout
     document.getElementById('logout-btn')?.addEventListener('click', async () => {
-        if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
+        const confirmed = await showConfirm(
+            'Cerrar Sesión',
+            '¿Estás seguro de que deseas cerrar sesión?',
+            {
+                confirmText: 'Sí, Salir',
+                cancelText: 'Cancelar',
+                type: 'question'
+            }
+        );
+        if (confirmed) {
             await signOut();
         }
     });
@@ -140,29 +150,34 @@ function setupDeletePatient() {
             const nombrePaciente = document.getElementById('nombre-paciente')?.value.trim();
 
             if (!currentRut) {
-                alert('No hay un paciente seleccionado para eliminar');
+                await showAlert('Sin Paciente', 'No hay un paciente seleccionado para eliminar', 'warning');
                 return;
             }
 
             // Primera confirmación
-            const confirmar1 = confirm(
-                `⚠️ ADVERTENCIA: Estás a punto de eliminar COMPLETAMENTE al paciente:\n\n` +
-                `Nombre: ${nombrePaciente}\n` +
-                `RUT: ${currentRut}\n\n` +
-                `Esto eliminará:\n` +
-                `• Todos los registros en la tabla de pacientes\n` +
-                `• Todas las fichas clínicas asociadas\n` +
-                `• Todo el historial de visitas\n\n` +
-                `¿Estás seguro de continuar?`
+            const confirmar1 = await showConfirm(
+                'Eliminar Paciente',
+                `Estás a punto de eliminar COMPLETAMENTE al paciente:\n\n${nombrePaciente} (${currentRut})\n\nEsto eliminará:\n• Todos los registros\n• Todas las fichas clínicas\n• Todo el historial de visitas\n\n¿Estás seguro de continuar?`,
+                {
+                    confirmText: 'Sí, Eliminar',
+                    cancelText: 'Cancelar',
+                    type: 'warning',
+                    isDangerous: true
+                }
             );
 
             if (!confirmar1) return;
 
             // Segunda confirmación (más seria)
-            const confirmar2 = confirm(
-                `🚨 ÚLTIMA CONFIRMACIÓN\n\n` +
-                `Esta acción NO se puede deshacer.\n\n` +
-                `Escribe "CONFIRMAR" en tu mente y presiona OK para eliminar definitivamente al paciente ${nombrePaciente}.`
+            const confirmar2 = await showConfirm(
+                'Última Confirmación',
+                `Esta acción NO se puede deshacer.\n\nEscribe "CONFIRMAR" en tu mente y confirma para eliminar definitivamente al paciente ${nombrePaciente}.`,
+                {
+                    confirmText: 'Sí, Eliminar Definitivamente',
+                    cancelText: 'Cancelar',
+                    type: 'error',
+                    isDangerous: true
+                }
             );
 
             if (!confirmar2) return;
@@ -170,7 +185,7 @@ function setupDeletePatient() {
             try {
                 await deletePatient(currentRut);
             } catch (error) {
-                alert('❌ ' + error.message);
+                await showError('Error al Eliminar', error.message);
             }
         });
     }
