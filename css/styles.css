@@ -65,7 +65,7 @@ body {
     /* Gradiente de fondo mejorado con colores m\u00e1s llamativos y vistosos */
     background: linear-gradient(135deg, #1e3c72 0%, #2a5298 15%, #36a7b3 30%, #34d399 50%, #2dd4bf 70%, #00d4aa 85%, #10b981 100%);
     background-size: 400% 400%;
-    animation: gradientShift 25s ease infinite;
+    animation: gradientShift 120s ease-in-out infinite;
     min-height: 100vh;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
