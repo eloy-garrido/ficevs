@@ -967,6 +967,53 @@ header:hover {
 }
 
 /* =====================================================
+ * MÁRGENES GLOBALES
+ * ===================================================== */
+
+/* Agregar márgenes a elementos principales */
+.card,
+.card form,
+.card form > div,
+main > *,
+form > div,
+input,
+textarea,
+select,
+button,
+.btn {
+    margin-top: 20px !important;
+    margin-bottom: 20px !important;
+}
+
+/* Excepciones para elementos que no necesitan margin adicional */
+.card::before,
+.card::after,
+.tag,
+.dropdown-toggle,
+.dropdown-content,
+.suggestion-item,
+label span,
+svg {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+/* Márgenes para secciones */
+section,
+article,
+.section {
+    margin-top: 20px !important;
+    margin-bottom: 20px !important;
+}
+
+/* Márgenes para contenedores de grid */
+.grid,
+.flex {
+    margin-top: 20px !important;
+    margin-bottom: 20px !important;
+}
+
+/* =====================================================
  * ESTILOS PERSONALIZADOS PARA MODALES
  * ===================================================== */
 
