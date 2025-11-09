@@ -46,6 +46,7 @@ export async function createFichaClinica(fichaData) {
             fecha_nacimiento: fichaData.fecha_nacimiento || null,
             direccion: fichaData.direccion || null,
             fecha_ingreso: fichaData.fecha_ingreso || new Date().toISOString().split('T')[0],
+            tipo_profesional: fichaData.profesional || null,
 
             // Datos MTC (Paso 2) - JSONB
             datos_mtc: fichaData.datos_mtc || {},

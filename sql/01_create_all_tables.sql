@@ -35,6 +35,7 @@ CREATE TABLE IF NOT EXISTS public.fichas_clinicas (
     fecha_nacimiento DATE,                       -- Fecha de nacimiento
     direccion TEXT,                              -- Dirección completa
     fecha_ingreso DATE DEFAULT CURRENT_DATE,     -- Fecha de registro/ingreso
+    tipo_profesional TEXT CHECK (tipo_profesional IN ('kinesiologo', 'acupunturista')), -- Profesional que atiende
 
     -- Datos de Medicina Tradicional China (Paso 2)
     -- Almacenamiento JSONB para flexibilidad

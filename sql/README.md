@@ -2,7 +2,19 @@
 
 ## 🚨 IMPORTANTE: Actualización del Esquema
 
-**NOTA:** La tabla `pacientes` ha sido actualizada para incluir el campo `rut` y prevenir duplicados. Si ya ejecutaste los scripts anteriormente, **DEBES recrear la base de datos** ejecutando `00_drop_all_tables.sql` seguido de `01_create_all_tables.sql`.
+**NOTA:** Las tablas han sido actualizadas:
+- `fichas_clinicas`: Ahora incluye el campo `tipo_profesional` (kinesiologo/acupunturista)
+- `pacientes`: Incluye campo `rut` para prevenir duplicados
+
+**Tienes 2 opciones:**
+
+### Opción A: Migración Incremental (si ya tienes datos que NO quieres perder)
+Ejecuta solo: `06_add_tipo_profesional.sql`
+
+### Opción B: Recrear desde cero (base de datos nueva o no te importa perder datos)
+Ejecuta: `00_drop_all_tables.sql` seguido de `01_create_all_tables.sql`
+
+---
 
 ## 🚨 IMPORTANTE: Empezar desde cero
 
