@@ -436,53 +436,29 @@ export async function searchPatientByRut(rut) {
             return []; // No buscar si está vacío
         }
 
-        // Búsqueda flexible en tabla PACIENTES comparando RUTs sin formato
-        // Usa REPLACE en PostgreSQL para quitar puntos y guiones antes de comparar
+        // Estrategia de búsqueda: Obtener todos los pacientes del terapeuta
+        // y filtrar en el cliente comparando RUTs sin formato
+        // Esto evita problemas de formato (puntos y guiones) y es más confiable
         const { data, error } = await supabase
             .from('pacientes')
             .select('*')
             .eq('terapeuta_id', user.id)
-            .filter('rut', 'ilike', `${searchRut}%`)  // Primero intenta búsqueda directa
-            .order('created_at', { ascending: false })
-            .limit(10);  // Aumentar límite para búsqueda más amplia
-
-        // Si no encuentra resultados con búsqueda directa, buscar limpiando formato
-        if (!data || data.length === 0) {
-            // Intentar búsqueda alternativa comparando solo números
-            const { data: altData, error: altError } = await supabase
-                .rpc('search_patient_by_clean_rut', {
-                    search_rut: searchRut,
-                    therapist_id: user.id
-                });
-
-            if (altError) {
-                // Si no existe la función RPC, hacer búsqueda manual
-                debugLog('⚠️ Función RPC no disponible, usando búsqueda estándar');
-                const { data: manualData } = await supabase
-                    .from('pacientes')
-                    .select('*')
-                    .eq('terapeuta_id', user.id);
-
-                // Filtrar manualmente en el cliente
-                const filtered = (manualData || []).filter(p => {
-                    const cleanDbRut = (p.rut || '').replace(/[.\-]/g, '');
-                    return cleanDbRut.startsWith(searchRut);
-                }).slice(0, 5);
-
-                debugLog('🔍 Búsqueda manual por RUT:', filtered.length, 'pacientes encontrados');
-                return filtered;
-            }
-
-            return altData || [];
-        }
+            .order('created_at', { ascending: false });
 
         if (error) {
             console.error('Error en consulta de búsqueda:', error);
-            // No lanzar error, intentar búsqueda alternativa
+            throw error;
         }
 
-        debugLog('🔍 Búsqueda por RUT en tabla pacientes:', (data || []).length, 'pacientes encontrados');
-        return data || [];
+        // Filtrar en el cliente comparando RUTs limpios
+        const filtered = (data || []).filter(p => {
+            const cleanDbRut = (p.rut || '').replace(/[.\-]/g, '').toLowerCase();
+            const cleanSearchRut = searchRut.replace(/[.\-]/g, '').toLowerCase();
+            return cleanDbRut.startsWith(cleanSearchRut);
+        }).slice(0, 5);
+
+        debugLog('🔍 Búsqueda por RUT en tabla pacientes:', filtered.length, 'pacientes encontrados');
+        return filtered;
 
     } catch (error) {
         console.error('❌ Error al buscar por RUT:', error);
