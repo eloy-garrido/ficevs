@@ -481,7 +481,7 @@ export async function getPatientHistoryByRut(rut) {
 
         const { data, error } = await supabase
             .from('fichas_clinicas')
-            .select('id, fecha_ingreso, motivo_consulta, created_at')
+            .select('id, fecha_ingreso, motivo_consulta, tipo_profesional, created_at')
             .eq('terapeuta_id', user.id)
             .eq('rut', rut)
             .order('fecha_ingreso', { ascending: false });

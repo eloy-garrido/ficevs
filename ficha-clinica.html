@@ -1517,8 +1517,13 @@
                             const fecha = new Date(visita.fecha_ingreso).toLocaleDateString('es-CL');
                             const motivo = visita.motivo_consulta || 'No especificado';
 
-                            // Determinar profesional basado en datos (puedes mejorar esto)
+                            // Determinar profesional desde el campo tipo_profesional
                             let profesional = 'No especificado';
+                            if (visita.tipo_profesional === 'kinesiologo') {
+                                profesional = 'Kinesiología';
+                            } else if (visita.tipo_profesional === 'acupunturista') {
+                                profesional = 'Acupuntura';
+                            }
 
                             const row = document.createElement('tr');
                             row.className = 'border-b border-purple-100 hover:bg-purple-50 transition-colors';
