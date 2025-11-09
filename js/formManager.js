@@ -301,7 +301,7 @@ function collectDataFromStep(step) {
             data.telefono = telefonoNumero ? `${telefonoCodigo} ${telefonoNumero}` : '';
             data.email = document.getElementById('email')?.value.trim();
             data.ocupacion = document.getElementById('ocupacion')?.value.trim();
-            // Campo direccion removido - no existe en esquema base
+            data.direccion = document.getElementById('direccion')?.value.trim();
             data.motivo_consulta = document.getElementById('motivo-consulta')?.value.trim();
             break;
 
@@ -576,7 +576,7 @@ async function saveStep1Data() {
             telefono: formState.formData.telefono || null,
             email: formState.formData.email || null,
             ocupacion: formState.formData.ocupacion || null,
-            // NO incluir direccion - campo no existe en esquema base
+            direccion: formState.formData.direccion || null,
             motivo_consulta: formState.formData.motivo_consulta || '',
             // Campos JSONB vacíos
             datos_mtc: {},

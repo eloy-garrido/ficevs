@@ -225,8 +225,8 @@
                     </div>
                 </div>
 
-                <!-- Email y Ocupación -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <!-- Email, Ocupación y Dirección -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                     <div>
                         <label for="email" class="block text-xs font-medium text-gray-700 mb-1">Email</label>
                         <input type="email" id="email"
@@ -239,6 +239,13 @@
                         <input type="text" id="ocupacion"
                             class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 backdrop-blur-sm bg-white/80"
                             placeholder="Ingeniero">
+                    </div>
+
+                    <div>
+                        <label for="direccion" class="block text-xs font-medium text-gray-700 mb-1">Dirección</label>
+                        <input type="text" id="direccion"
+                            class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 backdrop-blur-sm bg-white/80"
+                            placeholder="Calle 123, Comuna">
                     </div>
                 </div>
 
@@ -1374,7 +1381,7 @@
 
                 document.getElementById('email').value = patient.email || '';
                 document.getElementById('ocupacion').value = patient.ocupacion || '';
-                // Campo direccion removido - no existe en esquema base
+                document.getElementById('direccion').value = patient.direccion || '';
 
                 // NO cargar motivo_consulta - cada visita es única
                 // Dejar que el usuario ingrese un nuevo motivo
