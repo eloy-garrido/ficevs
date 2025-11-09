@@ -64,18 +64,18 @@ body {
     color: var(--text-dark);
     /* Gradiente de fondo mejorado con colores m\u00e1s llamativos y vistosos */
     background: linear-gradient(135deg, #1e3c72 0%, #2a5298 15%, #36a7b3 30%, #34d399 50%, #2dd4bf 70%, #00d4aa 85%, #10b981 100%);
-    background-size: 400% 400%;
+    background-size: 200% 200%;
     animation: gradientShift 120s ease-in-out infinite;
     min-height: 100vh;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
 
-/* Animación de gradiente de fondo */
+/* Animación de gradiente de fondo - velocidad consistente en todas las pantallas */
 @keyframes gradientShift {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+    0% { background-position: 0% 0%; }
+    50% { background-position: 100% 100%; }
+    100% { background-position: 0% 0%; }
 }
 
 /* Animación de gradiente en movimiento para títulos */
