@@ -19,42 +19,19 @@
 </head>
 <body class="bg-gray-50 min-h-screen">
 
-    <!-- Header con Glasmorfismo y Paleta Verde -->
-    <header class="sticky top-0 z-40" style="background: linear-gradient(135deg, rgba(122, 152, 114, 0.1) 0%, rgba(168, 197, 160, 0.1) 100%); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgba(122, 152, 114, 0.2); box-shadow: 0 4px 24px rgba(122, 152, 114, 0.15);">
-        <div class="container mx-auto px-3 md:px-4 py-2">
-            <div class="flex items-center justify-between gap-3">
-                <!-- Logo + Título (compacto) -->
-                <div class="flex items-center gap-2">
-                    <img src="pix/logo-sin-texto.webp" alt="Centro Vida Sana" class="w-7 h-7 drop-shadow-lg flex-shrink-0">
-                    <h1 class="text-xs md:text-sm font-bold text-white drop-shadow-lg hidden sm:block" style="color: #2d3e2d;">Centro Vida Sana</h1>
-                </div>
-
-                <!-- Indicadores de Paso (Centro) -->
-                <div class="flex items-center gap-2">
-                    <div id="step-indicator-1" class="w-7 h-7 rounded-full text-white flex items-center justify-center text-xs font-bold shadow-lg transition-all duration-300" style="background: linear-gradient(135deg, #a8c5a0 0%, #7a9872 100%); color: white;">1</div>
-                    <div class="w-8 md:w-12 h-0.5 rounded-full" style="background: rgba(122, 152, 114, 0.2);">
-                        <div id="progress-line-1" class="h-full rounded-full transition-all duration-500" style="background: linear-gradient(90deg, #a8c5a0 0%, #7a9872 100%); width: 0%;"></div>
-                    </div>
-                    <div id="step-indicator-2" class="w-7 h-7 rounded-full text-white flex items-center justify-center text-xs font-bold shadow-lg transition-all duration-300" style="background: rgba(122, 152, 114, 0.25);">2</div>
-                </div>
-
-                <!-- Botones (compacto) -->
-                <div class="flex items-center gap-1.5">
-                    <button id="save-draft-btn" class="hidden md:flex items-center gap-1 text-xs text-white/90 hover:text-white transition px-2 py-1 rounded-lg hover:bg-white/10">
-                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path>
-                        </svg>
-                    </button>
-                    <button id="logout-btn" class="flex items-center gap-1 text-xs text-white px-2 py-1 rounded-lg transition shadow-lg" style="background: linear-gradient(135deg, #7a9872 0%, #5a7852 100%); color: white;">
-                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
-                        </svg>
-                        <span class="hidden sm:inline">Salir</span>
-                    </button>
-                </div>
-            </div>
+    <!-- Panel de Usuario Flotante -->
+    <div class="fixed top-4 right-4 z-40 flex items-center gap-3">
+        <div class="bg-white rounded-lg shadow-lg px-4 py-2" style="backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);">
+            <p class="text-xs text-gray-600">Sesión de:</p>
+            <p id="current-user-name" class="text-sm font-bold" style="color: #2d3e2d;">Cargando...</p>
         </div>
-    </header>
+        <button id="logout-btn" class="flex items-center gap-1 text-xs text-white px-3 py-2 rounded-lg transition shadow-lg hover:shadow-xl" style="background: linear-gradient(135deg, #7a9872 0%, #5a7852 100%); color: white;">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+            </svg>
+            <span>Salir</span>
+        </button>
+    </div>
 
     <!-- Modal de Guardado con Glassmorfismo Verde -->
     <div id="save-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center" style="background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);">
@@ -84,10 +61,9 @@
     </div>
 
     <!-- Contenedor Principal del Formulario -->
-    <main class="container mx-auto px-4 py-4 max-w-4xl">
-
+    <main class="container mx-auto px-4 max-w-4xl min-h-screen flex flex-col justify-center">
         <!-- PASO 1: Datos del Paciente -->
-        <div id="step-1" class="card fade-in">
+        <div id="step-1" class="card fade-in mx-auto max-w-4xl w-full">
             <h2 class="text-xl md:text-2xl font-bold text-gray-900 mb-4">Paso 1: Datos del Paciente</h2>
 
             <form class="space-y-3">
@@ -1127,12 +1103,10 @@
         <!-- OLD STEPS REMOVED - Content integrated above into step-3-acupunturista -->
 
         <!-- Botones de Navegación -->
-        <div class="flex justify-between items-center mt-8">
+        <div class="flex justify-end items-center mt-8 max-w-4xl w-full mx-auto gap-4">
             <button id="prev-btn" class="hidden bg-gray-500 text-white px-6 py-3 rounded-lg hover:bg-gray-600 transition font-semibold">
                 ← Anterior
             </button>
-
-            <div class="flex-1"></div>
 
             <button id="next-btn" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition font-semibold">
                 Siguiente →
@@ -1153,7 +1127,7 @@
 
     <!-- App Scripts -->
     <script type="module">
-        import { initSupabase, requireAuth, signOut } from './js/auth.js';
+        import { initSupabase, requireAuth, signOut, getCurrentUser } from './js/auth.js';
         import { initFormManager, getFormStateRef } from './js/formManager.js';
         import { storage } from './js/utils.js';
 
@@ -1166,6 +1140,9 @@
             const authenticated = await requireAuth();
             if (!authenticated) return;
 
+            // Cargar nombre del usuario actual
+            await loadCurrentUserName();
+
             // Inicializar gestor de formulario
             initFormManager();
 
@@ -1174,6 +1151,26 @@
 
             // Setup event listeners adicionales
             setupEventListeners();
+        }
+
+        // Función para cargar el nombre del usuario actual
+        async function loadCurrentUserName() {
+            try {
+                const user = await getCurrentUser();
+                const userNameElement = document.getElementById('current-user-name');
+
+                if (user && userNameElement) {
+                    // Usar el email como nombre de usuario
+                    const displayName = user.email || 'Usuario';
+                    userNameElement.textContent = displayName;
+                }
+            } catch (error) {
+                console.error('Error al cargar nombre del usuario:', error);
+                const userNameElement = document.getElementById('current-user-name');
+                if (userNameElement) {
+                    userNameElement.textContent = 'Usuario';
+                }
+            }
         }
 
         function setupEventListeners() {
