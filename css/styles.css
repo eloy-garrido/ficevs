@@ -1015,6 +1015,40 @@ main {
 }
 
 /* =====================================================
+ * FILTROS DE PROFESIONAL EN HISTORIAL
+ * ===================================================== */
+
+.professional-filter-tag {
+    padding: 0.5rem 1rem;
+    font-size: 0.75rem;
+    border-radius: 20px;
+    border: 2px solid #ddd6fe;
+    background-color: #f5f3ff;
+    color: #7c3aed;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    outline: none;
+}
+
+.professional-filter-tag:hover {
+    background-color: #ede9fe;
+    border-color: #c4b5fd;
+}
+
+.professional-filter-tag.active {
+    background: linear-gradient(135deg, #a78bfa 0%, #8b5cf6 100%);
+    color: white;
+    border-color: #7c3aed;
+    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+}
+
+.professional-filter-tag.active:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(124, 58, 237, 0.4);
+}
+
+/* =====================================================
  * ESTILOS PERSONALIZADOS PARA MODALES
  * ===================================================== */
 

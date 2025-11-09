@@ -168,17 +168,39 @@
                             </div>
                         </div>
 
-                        <!-- Buscador por Fecha -->
-                        <div class="mb-4 pb-4 border-b border-purple-200">
-                            <label class="block text-xs font-medium text-purple-900 mb-2">Filtrar por Fecha</label>
-                            <div class="flex gap-2 flex-wrap">
-                                <input type="date" id="history-date-filter"
-                                    class="flex-1 px-3 py-2 text-xs border border-purple-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 bg-white"
-                                    placeholder="Seleccionar fecha">
-                                <button type="button" id="clear-date-filter"
-                                    class="px-3 py-2 text-xs bg-purple-100 text-purple-700 rounded-lg hover:bg-purple-200 transition">
-                                    Limpiar Filtro
-                                </button>
+                        <!-- Filtros: Fecha y Profesional -->
+                        <div class="mb-4 pb-4 border-b border-purple-200 space-y-3">
+                            <!-- Filtro por Fecha -->
+                            <div>
+                                <label class="block text-xs font-medium text-purple-900 mb-2">Filtrar por Fecha</label>
+                                <div class="flex gap-2">
+                                    <input type="date" id="history-date-filter"
+                                        class="flex-1 px-3 py-2 text-xs border border-purple-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 bg-white"
+                                        placeholder="Seleccionar fecha">
+                                    <button type="button" id="clear-date-filter"
+                                        class="px-3 py-2 text-xs bg-purple-100 text-purple-700 rounded-lg hover:bg-purple-200 transition">
+                                        Limpiar
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Filtro por Profesional -->
+                            <div>
+                                <label class="block text-xs font-medium text-purple-900 mb-2">Filtrar por Profesional</label>
+                                <div class="flex gap-2 flex-wrap">
+                                    <button type="button" class="professional-filter-tag" data-professional="all"
+                                        class="px-4 py-2 text-xs rounded-full border-2 border-purple-300 bg-white text-purple-700 hover:bg-purple-50 transition font-medium">
+                                        Todos
+                                    </button>
+                                    <button type="button" class="professional-filter-tag" data-professional="kinesiologia"
+                                        class="px-4 py-2 text-xs rounded-full border-2 border-purple-300 bg-white text-purple-700 hover:bg-purple-50 transition font-medium">
+                                        Kinesiología
+                                    </button>
+                                    <button type="button" class="professional-filter-tag" data-professional="acupuntura"
+                                        class="px-4 py-2 text-xs rounded-full border-2 border-purple-300 bg-white text-purple-700 hover:bg-purple-50 transition font-medium">
+                                        Acupuntura
+                                    </button>
+                                </div>
                             </div>
                         </div>
 

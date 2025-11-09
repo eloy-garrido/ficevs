@@ -8,6 +8,12 @@ import { getPatientSessionHistoryByRut } from './supabaseService.js';
 // Almacenar historial en memoria para acceso rápido
 let patientHistoryCache = [];
 
+// Estado actual de filtros
+let filterState = {
+    date: null,
+    professional: 'all'
+};
+
 /**
  * Carga y muestra el historial de visitas del paciente
  * @param {string} rut - RUT del paciente
@@ -69,9 +75,12 @@ export async function loadPatientHistory(rut) {
             historyTableBody.parentElement.classList.add('hidden');
         }
 
-        // Mostrar sección de historial con animación
+        // Mostrar sección de historial pero con contenido oculto (expandible)
         historySection.classList.remove('hidden');
         historySection.classList.add('animate-fade-in');
+
+        // Ocultar el contenido del historial por defecto
+        hidePatientHistory();
 
     } catch (error) {
         console.error('Error al cargar historial:', error);
@@ -467,49 +476,8 @@ export function showPatientHistory() {
  */
 function filterHistoryByDate() {
     const dateFilter = document.getElementById('history-date-filter').value;
-    const historyTableBody = document.getElementById('history-table-body');
-    const noFilteredResultsMsg = document.getElementById('no-filtered-results-msg');
-
-    if (!historyTableBody) return;
-
-    const rows = historyTableBody.querySelectorAll('tr');
-    let visibleCount = 0;
-
-    // Convertir fecha del input (YYYY-MM-DD) a formato DD/MM/YYYY para comparación
-    let searchDate = '';
-    if (dateFilter) {
-        searchDate = formatDateForComparison(dateFilter);
-    }
-
-    rows.forEach(row => {
-        if (!dateFilter) {
-            // Si no hay filtro, mostrar todas las filas
-            row.classList.remove('hidden');
-            visibleCount++;
-        } else {
-            // Obtener la fecha de la primera columna
-            const dateCell = row.querySelector('td:first-child');
-            if (dateCell) {
-                const rowDate = dateCell.textContent.trim();
-                // Comparar fechas en formato DD/MM/YYYY
-                if (rowDate === searchDate) {
-                    row.classList.remove('hidden');
-                    visibleCount++;
-                } else {
-                    row.classList.add('hidden');
-                }
-            }
-        }
-    });
-
-    // Mostrar mensaje si no hay resultados
-    if (noFilteredResultsMsg) {
-        if (visibleCount === 0 && dateFilter) {
-            noFilteredResultsMsg.classList.remove('hidden');
-        } else {
-            noFilteredResultsMsg.classList.add('hidden');
-        }
-    }
+    filterState.date = dateFilter;
+    applyAllFilters();
 }
 
 /**
@@ -524,6 +492,8 @@ function clearDateFilter() {
         dateFilter.value = '';
     }
 
+    filterState.date = null;
+
     if (noFilteredResultsMsg) {
         noFilteredResultsMsg.classList.add('hidden');
     }
@@ -532,6 +502,82 @@ function clearDateFilter() {
         historyTableBody.querySelectorAll('tr').forEach(row => {
             row.classList.remove('hidden');
         });
+    }
+
+    applyAllFilters();
+}
+
+/**
+ * Filtra la tabla de historial por profesional
+ */
+function filterHistoryByProfessional(professionalType) {
+    filterState.professional = professionalType;
+    applyAllFilters();
+}
+
+/**
+ * Aplica todos los filtros activos a la tabla
+ */
+function applyAllFilters() {
+    const historyTableBody = document.getElementById('history-table-body');
+    const noFilteredResultsMsg = document.getElementById('no-filtered-results-msg');
+
+    if (!historyTableBody) return;
+
+    const rows = historyTableBody.querySelectorAll('tr');
+    let visibleCount = 0;
+
+    // Convertir fecha del filtro de fecha si existe
+    let searchDate = '';
+    if (filterState.date) {
+        searchDate = formatDateForComparison(filterState.date);
+    }
+
+    rows.forEach((row, index) => {
+        // Obtener datos de la fila
+        const dateCell = row.querySelector('td:nth-child(1)');
+        const profesionalCell = row.querySelector('td:nth-child(3)');
+
+        const rowDate = dateCell ? dateCell.textContent.trim() : '';
+        const rowProfessional = profesionalCell ? profesionalCell.textContent.trim() : '';
+
+        // Convertir nombre de profesional a tipo
+        let rowProfessionalType = 'unknown';
+        if (rowProfessional === 'Kinesiología') {
+            rowProfessionalType = 'kinesiologia';
+        } else if (rowProfessional === 'Acupuntura') {
+            rowProfessionalType = 'acupuntura';
+        }
+
+        // Aplicar filtros
+        let showRow = true;
+
+        // Filtro de fecha
+        if (searchDate && rowDate !== searchDate) {
+            showRow = false;
+        }
+
+        // Filtro de profesional
+        if (filterState.professional !== 'all' && rowProfessionalType !== filterState.professional) {
+            showRow = false;
+        }
+
+        // Mostrar u ocultar fila
+        if (showRow) {
+            row.classList.remove('hidden');
+            visibleCount++;
+        } else {
+            row.classList.add('hidden');
+        }
+    });
+
+    // Mostrar mensaje si no hay resultados
+    if (noFilteredResultsMsg) {
+        if (visibleCount === 0 && (searchDate || filterState.professional !== 'all')) {
+            noFilteredResultsMsg.classList.remove('hidden');
+        } else {
+            noFilteredResultsMsg.classList.add('hidden');
+        }
     }
 }
 
@@ -576,6 +622,30 @@ export function setupHistoryControls() {
     const clearFilterBtn = document.getElementById('clear-date-filter');
     if (clearFilterBtn) {
         clearFilterBtn.addEventListener('click', clearDateFilter);
+    }
+
+    // Filtros por profesional
+    const professionalTags = document.querySelectorAll('.professional-filter-tag');
+    professionalTags.forEach(tag => {
+        tag.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            // Remover clase active de todos los botones
+            professionalTags.forEach(t => t.classList.remove('active'));
+
+            // Agregar clase active al botón clickeado
+            tag.classList.add('active');
+
+            // Aplicar filtro
+            const professional = tag.getAttribute('data-professional');
+            filterHistoryByProfessional(professional);
+        });
+    });
+
+    // Marcar "Todos" como activo por defecto
+    const allTag = document.querySelector('[data-professional="all"]');
+    if (allTag) {
+        allTag.classList.add('active');
     }
 }
 
