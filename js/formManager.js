@@ -604,6 +604,7 @@ async function saveStep1Data() {
             ocupacion: formState.formData.ocupacion || null,
             direccion: formState.formData.direccion || null,
             motivo_consulta: formState.formData.motivo_consulta || '',
+            profesional: formState.formData.profesional || null,  // IMPORTANTE: Tipo de profesional seleccionado
             // Campos JSONB vacíos
             datos_mtc: {},
             sintomas_generales: {},
