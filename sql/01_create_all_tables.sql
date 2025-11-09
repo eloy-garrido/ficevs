@@ -131,6 +131,8 @@ CREATE TABLE IF NOT EXISTS public.pacientes (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     terapeuta_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
 
+    -- Datos personales
+    rut TEXT,                                        -- RUT del paciente (único por terapeuta)
     nombre_completo TEXT NOT NULL,
     fecha_nacimiento DATE,
     telefono TEXT,
@@ -146,8 +148,8 @@ CREATE TABLE IF NOT EXISTS public.pacientes (
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
 
-    -- Índice único para evitar duplicados
-    UNIQUE(terapeuta_id, email)
+    -- Índice único para evitar duplicados por RUT
+    UNIQUE(terapeuta_id, rut)
 );
 
 -- =====================================================
@@ -190,6 +192,13 @@ ON public.sesiones_tratamiento(ficha_id);
 
 CREATE INDEX IF NOT EXISTS idx_sesiones_fecha
 ON public.sesiones_tratamiento(fecha_sesion DESC);
+
+-- Índices para pacientes
+CREATE INDEX IF NOT EXISTS idx_pacientes_terapeuta
+ON public.pacientes(terapeuta_id);
+
+CREATE INDEX IF NOT EXISTS idx_pacientes_rut
+ON public.pacientes(rut);
 
 -- =====================================================
 -- TRIGGERS PARA ACTUALIZACIÓN AUTOMÁTICA

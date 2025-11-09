@@ -7,7 +7,7 @@
  */
 
 import { APP_CONFIG } from './config.js';
-import { createFichaClinica } from './supabaseService.js';
+import { createFichaClinica, createOrUpdatePatient } from './supabaseService.js';
 import { notifications, validators, formHelpers, storage, debugLog, debounce } from './utils.js';
 
 /**
@@ -586,7 +586,19 @@ async function saveStep1Data() {
 
         debugLog('📤 Datos a enviar:', partialData);
 
-        // Guardar en la BD
+        // IMPORTANTE: Primero crear/actualizar el paciente en la tabla pacientes
+        // Esto asegura que no haya duplicados por RUT
+        if (partialData.rut) {
+            try {
+                await createOrUpdatePatient(partialData);
+                debugLog('✅ Paciente registrado/actualizado en tabla pacientes');
+            } catch (patientError) {
+                console.error('⚠️ Error al gestionar paciente, pero continuando:', patientError);
+                // Continuar aunque falle, la ficha se creará de todos modos
+            }
+        }
+
+        // Guardar en la BD (crear la ficha clínica)
         const result = await createFichaClinica(partialData);
 
         debugLog('✅ Ficha guardada con ID:', result.id);

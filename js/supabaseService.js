@@ -493,6 +493,121 @@ export async function getPatientHistoryByRut(rut) {
 
 /**
  * =====================================================
+ * GESTIÓN DE PACIENTES (Tabla pacientes)
+ * =====================================================
+ */
+
+/**
+ * Busca un paciente en la tabla pacientes por RUT
+ */
+export async function getPatientByRut(rut) {
+    try {
+        const supabase = getSupabaseClient();
+        const user = await getCurrentUser();
+
+        if (!user) {
+            throw new Error('Usuario no autenticado');
+        }
+
+        if (!rut) {
+            return null;
+        }
+
+        const { data, error } = await supabase
+            .from('pacientes')
+            .select('*')
+            .eq('terapeuta_id', user.id)
+            .eq('rut', rut.trim())
+            .single();
+
+        if (error) {
+            // Si no existe, error.code será 'PGRST116'
+            if (error.code === 'PGRST116') {
+                debugLog('ℹ️ Paciente no existe en tabla pacientes:', rut);
+                return null;
+            }
+            throw error;
+        }
+
+        debugLog('✅ Paciente encontrado en tabla pacientes:', data);
+        return data;
+
+    } catch (error) {
+        console.error('❌ Error al buscar paciente:', error);
+        return null;
+    }
+}
+
+/**
+ * Crea o actualiza un paciente en la tabla pacientes
+ * Asegura que solo exista un paciente por RUT
+ */
+export async function createOrUpdatePatient(patientData) {
+    try {
+        const supabase = getSupabaseClient();
+        const user = await getCurrentUser();
+
+        if (!user) {
+            throw new Error('Usuario no autenticado');
+        }
+
+        if (!patientData.rut) {
+            debugLog('⚠️ No se puede crear/actualizar paciente sin RUT');
+            return null;
+        }
+
+        // Verificar si el paciente ya existe
+        const existingPatient = await getPatientByRut(patientData.rut);
+
+        const payload = {
+            terapeuta_id: user.id,
+            rut: patientData.rut,
+            nombre_completo: patientData.nombre_paciente,
+            fecha_nacimiento: patientData.fecha_nacimiento || null,
+            telefono: patientData.telefono || null,
+            email: patientData.email || null,
+            direccion: patientData.direccion || null,
+            // Campos médicos se pueden agregar después
+            alergias: null,
+            medicamentos_actuales: null,
+            condiciones_medicas: null
+        };
+
+        if (existingPatient) {
+            // Actualizar paciente existente
+            const { data, error } = await supabase
+                .from('pacientes')
+                .update(payload)
+                .eq('id', existingPatient.id)
+                .select()
+                .single();
+
+            if (error) throw error;
+
+            debugLog('✅ Paciente actualizado:', data);
+            return data;
+        } else {
+            // Crear nuevo paciente
+            const { data, error } = await supabase
+                .from('pacientes')
+                .insert([payload])
+                .select()
+                .single();
+
+            if (error) throw error;
+
+            debugLog('✅ Nuevo paciente creado:', data);
+            return data;
+        }
+
+    } catch (error) {
+        console.error('❌ Error al crear/actualizar paciente:', error);
+        throw error;
+    }
+}
+
+/**
+ * =====================================================
  * ESTADÍSTICAS Y REPORTES
  * =====================================================
  */

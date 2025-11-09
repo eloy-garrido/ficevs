@@ -1,5 +1,9 @@
 # 📋 Instrucciones de Instalación de Base de Datos
 
+## 🚨 IMPORTANTE: Actualización del Esquema
+
+**NOTA:** La tabla `pacientes` ha sido actualizada para incluir el campo `rut` y prevenir duplicados. Si ya ejecutaste los scripts anteriormente, **DEBES recrear la base de datos** ejecutando `00_drop_all_tables.sql` seguido de `01_create_all_tables.sql`.
+
 ## 🚨 IMPORTANTE: Empezar desde cero
 
 Si ya tienes tablas creadas y están dando errores, sigue estos pasos:
@@ -33,7 +37,7 @@ Si ya ejecutaste scripts anteriores y tienes errores, **primero limpia todo**:
 ✅ Este archivo crea:
 - Tabla `fichas_clinicas` con TODOS los campos (incluye rut, fecha_nacimiento, direccion, fecha_ingreso)
 - Tabla `sesiones_tratamiento`
-- Tabla `pacientes`
+- Tabla `pacientes` con campo `rut` y restricción única por RUT (previene duplicados)
 - Todos los índices necesarios
 - Función `calcular_edad()`
 - Triggers automáticos
