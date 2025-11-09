@@ -62,10 +62,10 @@ body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     line-height: 1.6;
     color: var(--text-dark);
-    /* Gradiente de fondo con paleta verde del Centro Vida Sana */
-    background: linear-gradient(135deg, #f8faf8 0%, #c9d9c3 25%, #a8c5a0 50%, #8fb185 75%, #7a9872 100%);
+    /* Gradiente de fondo mejorado con colores m\u00e1s llamativos y vistosos */
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 15%, #36a7b3 30%, #34d399 50%, #2dd4bf 70%, #00d4aa 85%, #10b981 100%);
     background-size: 400% 400%;
-    animation: gradientShift 20s ease infinite;
+    animation: gradientShift 25s ease infinite;
     min-height: 100vh;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -399,20 +399,21 @@ header:hover {
 }
 
 /* =====================================================
- * TARJETAS Y CONTENEDORES - GLASSMORFISMO PREMIUM
+ * TARJETAS Y CONTENEDORES - GLASSMORFISMO PREMIUM MEJORADO
  * ===================================================== */
 .card {
-    /* Glassmorfismo premium mejorado */
-    background: rgba(255, 255, 255, 0.92);
-    backdrop-filter: blur(30px) saturate(180%);
-    -webkit-backdrop-filter: blur(30px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    border-radius: 20px;
-    box-shadow: 0 12px 40px rgba(31, 38, 135, 0.15),
-                0 4px 16px rgba(31, 38, 135, 0.08),
-                inset 0 1px 1px rgba(255, 255, 255, 0.6);
-    padding: 1.5rem;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Glasmorfismo ultra premium - Muy transparente y visible */
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(50px) saturate(220%) brightness(1.15);
+    -webkit-backdrop-filter: blur(50px) saturate(220%) brightness(1.15);
+    border: 1.5px solid rgba(255, 255, 255, 0.85);
+    border-radius: 24px;
+    box-shadow: 0 30px 80px rgba(30, 60, 114, 0.2),
+                0 12px 40px rgba(52, 211, 153, 0.12),
+                inset 0 1px 3px rgba(255, 255, 255, 0.9),
+                inset 0 -1px 3px rgba(30, 60, 114, 0.08);
+    padding: 2rem;
+    transition: all 0.3s ease;
     position: relative;
 }
 
@@ -422,76 +423,146 @@ header:hover {
     top: 0;
     left: 0;
     right: 0;
-    height: 1px;
+    height: 2px;
     background: linear-gradient(90deg,
         transparent,
-        rgba(255, 255, 255, 0.8),
+        rgba(255, 255, 255, 0.9),
         transparent);
-    border-radius: 20px 20px 0 0;
+    border-radius: 24px 24px 0 0;
 }
 
-/* Contenedor con gradiente (para secciones dentro del card) - Glassmorfismo premium */
+/* Contenedor con gradiente (para secciones dentro del card) - Glasmorfismo premium mejorado */
 .bg-blue-50 {
-    background: linear-gradient(135deg, rgba(201, 217, 195, 0.8) 0%, rgba(168, 197, 160, 0.8) 100%) !important;
-    backdrop-filter: blur(16px) saturate(150%);
-    -webkit-backdrop-filter: blur(16px) saturate(150%);
-    border: 1px solid rgba(122, 152, 114, 0.5);
-    box-shadow: 0 4px 16px 0 rgba(122, 152, 114, 0.12),
-                inset 0 1px 1px rgba(255, 255, 255, 0.4);
+    background: linear-gradient(135deg, rgba(207, 250, 254, 0.85) 0%, rgba(165, 243, 252, 0.85) 100%) !important;
+    backdrop-filter: blur(20px) saturate(180%) brightness(1.05);
+    -webkit-backdrop-filter: blur(20px) saturate(180%) brightness(1.05);
+    border: 2px solid rgba(52, 211, 153, 0.4);
+    box-shadow: 0 8px 24px rgba(52, 211, 153, 0.15),
+                inset 0 1px 2px rgba(255, 255, 255, 0.6),
+                inset 0 -1px 1px rgba(30, 60, 114, 0.05);
+    transition: all 0.3s ease;
+}
+
+.bg-blue-50:hover {
+    backdrop-filter: blur(25px) saturate(200%) brightness(1.08);
+    -webkit-backdrop-filter: blur(25px) saturate(200%) brightness(1.08);
+    box-shadow: 0 12px 32px rgba(52, 211, 153, 0.2),
+                inset 0 1px 2px rgba(255, 255, 255, 0.8),
+                inset 0 -1px 1px rgba(30, 60, 114, 0.05);
 }
 
 .bg-green-50 {
-    background: linear-gradient(135deg, rgba(201, 217, 195, 0.8) 0%, rgba(168, 197, 160, 0.8) 100%) !important;
-    backdrop-filter: blur(16px) saturate(150%);
-    -webkit-backdrop-filter: blur(16px) saturate(150%);
-    border: 1px solid rgba(122, 152, 114, 0.5);
-    box-shadow: 0 4px 16px 0 rgba(122, 152, 114, 0.12),
-                inset 0 1px 1px rgba(255, 255, 255, 0.4);
+    background: linear-gradient(135deg, rgba(209, 250, 229, 0.85) 0%, rgba(167, 243, 208, 0.85) 100%) !important;
+    backdrop-filter: blur(20px) saturate(180%) brightness(1.05);
+    -webkit-backdrop-filter: blur(20px) saturate(180%) brightness(1.05);
+    border: 2px solid rgba(16, 185, 129, 0.4);
+    box-shadow: 0 8px 24px rgba(16, 185, 129, 0.15),
+                inset 0 1px 2px rgba(255, 255, 255, 0.6),
+                inset 0 -1px 1px rgba(30, 60, 114, 0.05);
+    transition: all 0.3s ease;
+}
+
+.bg-green-50:hover {
+    backdrop-filter: blur(25px) saturate(200%) brightness(1.08);
+    -webkit-backdrop-filter: blur(25px) saturate(200%) brightness(1.08);
+    box-shadow: 0 12px 32px rgba(16, 185, 129, 0.2),
+                inset 0 1px 2px rgba(255, 255, 255, 0.8),
+                inset 0 -1px 1px rgba(30, 60, 114, 0.05);
 }
 
 .bg-yellow-50 {
-    background: linear-gradient(135deg, rgba(254, 249, 195, 0.8) 0%, rgba(254, 240, 138, 0.8) 100%) !important;
-    backdrop-filter: blur(16px) saturate(150%);
-    -webkit-backdrop-filter: blur(16px) saturate(150%);
-    border: 1px solid rgba(253, 224, 71, 0.5);
-    box-shadow: 0 4px 16px 0 rgba(234, 179, 8, 0.12),
-                inset 0 1px 1px rgba(255, 255, 255, 0.4);
+    background: linear-gradient(135deg, rgba(254, 252, 191, 0.85) 0%, rgba(254, 243, 137, 0.85) 100%) !important;
+    backdrop-filter: blur(20px) saturate(180%) brightness(1.05);
+    -webkit-backdrop-filter: blur(20px) saturate(180%) brightness(1.05);
+    border: 2px solid rgba(234, 179, 8, 0.4);
+    box-shadow: 0 8px 24px rgba(234, 179, 8, 0.15),
+                inset 0 1px 2px rgba(255, 255, 255, 0.6),
+                inset 0 -1px 1px rgba(30, 60, 114, 0.05);
+    transition: all 0.3s ease;
+}
+
+.bg-yellow-50:hover {
+    backdrop-filter: blur(25px) saturate(200%) brightness(1.08);
+    -webkit-backdrop-filter: blur(25px) saturate(200%) brightness(1.08);
+    box-shadow: 0 12px 32px rgba(234, 179, 8, 0.2),
+                inset 0 1px 2px rgba(255, 255, 255, 0.8),
+                inset 0 -1px 1px rgba(30, 60, 114, 0.05);
 }
 
 .bg-purple-50 {
-    background: linear-gradient(135deg, rgba(250, 245, 255, 0.8) 0%, rgba(243, 232, 255, 0.8) 100%) !important;
-    backdrop-filter: blur(16px) saturate(150%);
-    -webkit-backdrop-filter: blur(16px) saturate(150%);
-    border: 1px solid rgba(216, 180, 254, 0.5);
-    box-shadow: 0 4px 16px 0 rgba(168, 85, 247, 0.12),
-                inset 0 1px 1px rgba(255, 255, 255, 0.4);
+    background: linear-gradient(135deg, rgba(243, 232, 255, 0.85) 0%, rgba(233, 213, 255, 0.85) 100%) !important;
+    backdrop-filter: blur(20px) saturate(180%) brightness(1.05);
+    -webkit-backdrop-filter: blur(20px) saturate(180%) brightness(1.05);
+    border: 2px solid rgba(168, 85, 247, 0.4);
+    box-shadow: 0 8px 24px rgba(168, 85, 247, 0.15),
+                inset 0 1px 2px rgba(255, 255, 255, 0.6),
+                inset 0 -1px 1px rgba(30, 60, 114, 0.05);
+    transition: all 0.3s ease;
+}
+
+.bg-purple-50:hover {
+    backdrop-filter: blur(25px) saturate(200%) brightness(1.08);
+    -webkit-backdrop-filter: blur(25px) saturate(200%) brightness(1.08);
+    box-shadow: 0 12px 32px rgba(168, 85, 247, 0.2),
+                inset 0 1px 2px rgba(255, 255, 255, 0.8),
+                inset 0 -1px 1px rgba(30, 60, 114, 0.05);
 }
 
 .bg-red-50 {
-    background: linear-gradient(135deg, rgba(254, 226, 226, 0.8) 0%, rgba(254, 202, 202, 0.8) 100%) !important;
-    backdrop-filter: blur(16px) saturate(150%);
-    -webkit-backdrop-filter: blur(16px) saturate(150%);
-    border: 1px solid rgba(252, 165, 165, 0.5);
-    box-shadow: 0 4px 16px 0 rgba(239, 68, 68, 0.12),
-                inset 0 1px 1px rgba(255, 255, 255, 0.4);
+    background: linear-gradient(135deg, rgba(254, 226, 226, 0.85) 0%, rgba(254, 202, 202, 0.85) 100%) !important;
+    backdrop-filter: blur(20px) saturate(180%) brightness(1.05);
+    -webkit-backdrop-filter: blur(20px) saturate(180%) brightness(1.05);
+    border: 2px solid rgba(239, 68, 68, 0.4);
+    box-shadow: 0 8px 24px rgba(239, 68, 68, 0.15),
+                inset 0 1px 2px rgba(255, 255, 255, 0.6),
+                inset 0 -1px 1px rgba(30, 60, 114, 0.05);
+    transition: all 0.3s ease;
+}
+
+.bg-red-50:hover {
+    backdrop-filter: blur(25px) saturate(200%) brightness(1.08);
+    -webkit-backdrop-filter: blur(25px) saturate(200%) brightness(1.08);
+    box-shadow: 0 12px 32px rgba(239, 68, 68, 0.2),
+                inset 0 1px 2px rgba(255, 255, 255, 0.8),
+                inset 0 -1px 1px rgba(30, 60, 114, 0.05);
 }
 
 .bg-orange-50 {
-    background: linear-gradient(135deg, rgba(255, 237, 213, 0.8) 0%, rgba(254, 215, 170, 0.8) 100%) !important;
-    backdrop-filter: blur(16px) saturate(150%);
-    -webkit-backdrop-filter: blur(16px) saturate(150%);
-    border: 1px solid rgba(251, 191, 36, 0.5);
-    box-shadow: 0 4px 16px 0 rgba(249, 115, 22, 0.12),
-                inset 0 1px 1px rgba(255, 255, 255, 0.4);
+    background: linear-gradient(135deg, rgba(255, 237, 213, 0.85) 0%, rgba(254, 215, 170, 0.85) 100%) !important;
+    backdrop-filter: blur(20px) saturate(180%) brightness(1.05);
+    -webkit-backdrop-filter: blur(20px) saturate(180%) brightness(1.05);
+    border: 2px solid rgba(249, 115, 22, 0.4);
+    box-shadow: 0 8px 24px rgba(249, 115, 22, 0.15),
+                inset 0 1px 2px rgba(255, 255, 255, 0.6),
+                inset 0 -1px 1px rgba(30, 60, 114, 0.05);
+    transition: all 0.3s ease;
+}
+
+.bg-orange-50:hover {
+    backdrop-filter: blur(25px) saturate(200%) brightness(1.08);
+    -webkit-backdrop-filter: blur(25px) saturate(200%) brightness(1.08);
+    box-shadow: 0 12px 32px rgba(249, 115, 22, 0.2),
+                inset 0 1px 2px rgba(255, 255, 255, 0.8),
+                inset 0 -1px 1px rgba(30, 60, 114, 0.05);
 }
 
 .bg-pink-50 {
-    background: linear-gradient(135deg, rgba(252, 231, 243, 0.8) 0%, rgba(251, 207, 232, 0.8) 100%) !important;
-    backdrop-filter: blur(16px) saturate(150%);
-    -webkit-backdrop-filter: blur(16px) saturate(150%);
-    border: 1px solid rgba(244, 114, 182, 0.5);
-    box-shadow: 0 4px 16px 0 rgba(236, 72, 153, 0.12),
-                inset 0 1px 1px rgba(255, 255, 255, 0.4);
+    background: linear-gradient(135deg, rgba(252, 231, 243, 0.85) 0%, rgba(251, 207, 232, 0.85) 100%) !important;
+    backdrop-filter: blur(20px) saturate(180%) brightness(1.05);
+    -webkit-backdrop-filter: blur(20px) saturate(180%) brightness(1.05);
+    border: 2px solid rgba(236, 72, 153, 0.4);
+    box-shadow: 0 8px 24px rgba(236, 72, 153, 0.15),
+                inset 0 1px 2px rgba(255, 255, 255, 0.6),
+                inset 0 -1px 1px rgba(30, 60, 114, 0.05);
+    transition: all 0.3s ease;
+}
+
+.bg-pink-50:hover {
+    backdrop-filter: blur(25px) saturate(200%) brightness(1.08);
+    -webkit-backdrop-filter: blur(25px) saturate(200%) brightness(1.08);
+    box-shadow: 0 12px 32px rgba(236, 72, 153, 0.2),
+                inset 0 1px 2px rgba(255, 255, 255, 0.8),
+                inset 0 -1px 1px rgba(30, 60, 114, 0.05);
 }
 
 /* =====================================================

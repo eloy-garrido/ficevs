@@ -17,7 +17,7 @@
     <!-- Manifest PWA -->
     <link rel="manifest" href="manifest.json">
 </head>
-<body class="bg-gray-50 min-h-screen">
+<body class="min-h-screen" style="background: linear-gradient(135deg, #1e3c72 0%, #2a5298 15%, #36a7b3 30%, #34d399 50%, #2dd4bf 70%, #00d4aa 85%, #10b981 100%); background-size: 400% 400%; animation: gradientShift 25s ease infinite;">
 
     <!-- Panel de Usuario Flotante -->
     <div class="fixed top-4 right-4 z-40 flex items-center gap-3">
@@ -33,9 +33,9 @@
         </button>
     </div>
 
-    <!-- Modal de Guardado con Glassmorfismo Verde -->
-    <div id="save-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center" style="background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);">
-        <div class="save-modal-content" style="background: rgba(255, 255, 255, 0.97); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); border: 1px solid rgba(122, 152, 114, 0.3); border-radius: 24px; box-shadow: 0 20px 60px rgba(122, 152, 114, 0.2); padding: 3rem; min-width: 320px; text-align: center;">
+    <!-- Modal de Guardado con Glassmorfismo Premium Ultra Transparente -->
+    <div id="save-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center" style="background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);">
+        <div class="save-modal-content" style="background: rgba(255, 255, 255, 0.65); backdrop-filter: blur(50px) saturate(220%) brightness(1.15); -webkit-backdrop-filter: blur(50px) saturate(220%) brightness(1.15); border: 1.5px solid rgba(255, 255, 255, 0.85); border-radius: 24px; box-shadow: 0 30px 80px rgba(30, 60, 114, 0.2), 0 12px 40px rgba(52, 211, 153, 0.12), inset 0 1px 3px rgba(255, 255, 255, 0.9), inset 0 -1px 3px rgba(30, 60, 114, 0.08); padding: 3rem; min-width: 320px; text-align: center;">
             <!-- Estado: Guardando -->
             <div id="save-modal-saving" class="save-state">
                 <div class="save-spinner">
@@ -60,7 +60,7 @@
         </div>
     </div>
 
-    <!-- Modal de Detalles de Sesión Histórica -->
+    <!-- Modal de Detalles de Sesión Histórica - Blanco -->
     <div id="session-detail-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center" style="background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);">
         <div class="bg-white rounded-2xl shadow-2xl w-full max-w-3xl mx-4 max-h-[90vh] overflow-y-auto" style="animation: slideUp 0.3s ease-out;">
             <!-- Cabecera -->
@@ -100,7 +100,7 @@
     </div>
 
     <!-- Contenedor Principal del Formulario -->
-    <main class="container mx-auto px-4 max-w-4xl min-h-screen flex flex-col justify-center">
+    <main class="container mx-auto px-4 max-w-4xl min-h-screen flex flex-col justify-center" style="perspective: 1000px;">
         <!-- PASO 1: Datos del Paciente -->
         <div id="step-1" class="card fade-in mx-auto max-w-4xl w-full">
             <h2 class="text-xl md:text-2xl font-bold text-gray-900 mb-4">Paso 1: Datos del Paciente</h2>
