@@ -1326,12 +1326,29 @@
                 patients.forEach(patient => {
                     const suggestion = document.createElement('div');
                     suggestion.className = 'suggestion-item p-4 cursor-pointer hover:bg-blue-50 border-b border-blue-100 transition-colors';
+
+                    // Manejar nombre de tabla pacientes (nombre_completo) o fichas (nombre_paciente)
+                    const nombrePaciente = patient.nombre_completo || patient.nombre_paciente || 'Sin nombre';
+
+                    // Calcular edad si viene fecha_nacimiento pero no edad
+                    let edad = patient.edad || 'N/A';
+                    if (!patient.edad && patient.fecha_nacimiento) {
+                        const birthDate = new Date(patient.fecha_nacimiento);
+                        const today = new Date();
+                        let calculatedAge = today.getFullYear() - birthDate.getFullYear();
+                        const monthDiff = today.getMonth() - birthDate.getMonth();
+                        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                            calculatedAge--;
+                        }
+                        edad = calculatedAge;
+                    }
+
                     suggestion.innerHTML = `
                         <div class="flex items-center justify-between">
                             <div>
-                                <p class="font-semibold text-gray-900">${patient.nombre_paciente}</p>
+                                <p class="font-semibold text-gray-900">${nombrePaciente}</p>
                                 <p class="text-sm text-gray-600">RUT: ${patient.rut}</p>
-                                <p class="text-xs text-gray-500">Edad: ${patient.edad || 'N/A'} • Tel: ${patient.telefono || 'N/A'}</p>
+                                <p class="text-xs text-gray-500">Edad: ${edad} • Tel: ${patient.telefono || 'N/A'}</p>
                             </div>
                             <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
@@ -1364,9 +1381,25 @@
                 // Llenar solo los datos demográficos del paciente
                 // NO cargar motivo_consulta ya que cada visita tiene su propio motivo
                 document.getElementById('rut').value = patient.rut || '';
-                document.getElementById('nombre-paciente').value = patient.nombre_paciente || '';
+
+                // Manejar ambos campos: nombre_completo (tabla pacientes) y nombre_paciente (tabla fichas)
+                document.getElementById('nombre-paciente').value = patient.nombre_completo || patient.nombre_paciente || '';
+
                 document.getElementById('fecha-nacimiento').value = patient.fecha_nacimiento || '';
-                document.getElementById('edad').value = patient.edad || '';
+
+                // Calcular edad desde fecha_nacimiento si no viene el campo edad
+                if (patient.fecha_nacimiento && !patient.edad) {
+                    const birthDate = new Date(patient.fecha_nacimiento);
+                    const today = new Date();
+                    let age = today.getFullYear() - birthDate.getFullYear();
+                    const monthDiff = today.getMonth() - birthDate.getMonth();
+                    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                        age--;
+                    }
+                    document.getElementById('edad').value = age;
+                } else {
+                    document.getElementById('edad').value = patient.edad || '';
+                }
 
                 // Separar el teléfono en código y número
                 if (patient.telefono) {
@@ -1402,7 +1435,7 @@
                 await loadPatientHistory(patient.rut);
 
                 // Mostrar notificación
-                console.log('✅ Datos del paciente cargados:', patient.nombre_paciente);
+                console.log('✅ Datos del paciente cargados:', patient.nombre_completo || patient.nombre_paciente);
 
                 // Agregar indicador visual de que se cargaron datos existentes
                 const rutInput = document.getElementById('rut');

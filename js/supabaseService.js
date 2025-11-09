@@ -418,6 +418,7 @@ export async function searchFichas(searchTerm) {
 
 /**
  * Busca pacientes por RUT (para autocompletado)
+ * IMPORTANTE: Busca en la tabla 'pacientes' para evitar duplicados
  */
 export async function searchPatientByRut(rut) {
     try {
@@ -435,9 +436,9 @@ export async function searchPatientByRut(rut) {
             return []; // No buscar si es muy corto
         }
 
-        // Búsqueda flexible: busca el RUT tal como viene (con formato)
+        // Búsqueda en tabla PACIENTES (no fichas_clinicas) para evitar duplicados
         const { data, error } = await supabase
-            .from('fichas_clinicas')
+            .from('pacientes')
             .select('*')
             .eq('terapeuta_id', user.id)
             .ilike('rut', `${searchRut}%`)
@@ -449,7 +450,7 @@ export async function searchPatientByRut(rut) {
             throw error;
         }
 
-        debugLog('🔍 Búsqueda por RUT:', data.length, 'pacientes encontrados');
+        debugLog('🔍 Búsqueda por RUT en tabla pacientes:', data.length, 'pacientes encontrados');
         return data || [];
 
     } catch (error) {
