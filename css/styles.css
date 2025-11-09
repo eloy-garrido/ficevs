@@ -78,6 +78,37 @@ body {
     100% { background-position: 0% 50%; }
 }
 
+/* Animación de gradiente en movimiento para títulos */
+@keyframes animatedGradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Clase para títulos con gradiente animado */
+.animated-gradient-text {
+    background: linear-gradient(
+        90deg,
+        #5a7852 0%,
+        #7a9872 25%,
+        #a8c5a0 50%,
+        #7a9872 75%,
+        #5a7852 100%
+    );
+    background-size: 200% 200%;
+    animation: animatedGradient 4s ease infinite;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+}
+
 /* =====================================================
  * TIPOGRAFÍA
  * ===================================================== */
