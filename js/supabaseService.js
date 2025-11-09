@@ -154,18 +154,25 @@ export async function createSesionKinesiologia(sesionData) {
             fecha_sesion: sesionData.fecha_sesion || new Date().toISOString(),
             numero_sesion: nextNumero,
 
-            // Evaluación funcional
-            evaluacion_funcional: sesionData.evaluacion_funcional || {},
+            // Evaluación funcional (mapeo de nombres)
+            movilidad_articular: sesionData.evaluacion_funcional?.movilidad || null,
+            fuerza_muscular: sesionData.evaluacion_funcional?.fuerza || null,
+            analisis_postural: sesionData.evaluacion_funcional?.postura || null,
 
             // Evaluación del dolor
-            evaluacion_dolor: sesionData.evaluacion_dolor || {},
+            ubicacion_dolor: sesionData.evaluacion_dolor?.ubicaciones || [],
+            intensidad_dolor: sesionData.evaluacion_dolor?.intensidad || null,
+            caracteristicas_dolor: sesionData.evaluacion_dolor?.caracteristicas || null,
 
-            // Pruebas y diagnóstico
-            pruebas_diagnostico: sesionData.pruebas_diagnostico || {},
+            // Pruebas especiales y diagnóstico
+            tests_especiales: sesionData.pruebas_diagnostico?.tests || null,
+            diagnostico: sesionData.pruebas_diagnostico?.diagnostico || null,
 
-            // Diagnóstico y plan
-            diagnostico: sesionData.diagnostico || null,
-            plan_tratamiento: sesionData.plan_tratamiento || {},
+            // Plan de tratamiento
+            objetivos_tratamiento: sesionData.plan_tratamiento?.objetivos || null,
+            frecuencia_sesiones: sesionData.plan_tratamiento?.frecuencia || null,
+            duracion_estimada: sesionData.plan_tratamiento?.duracion || null,
+            ejercicios_casa: sesionData.plan_tratamiento?.ejercicios_casa || null,
 
             // Técnicas aplicadas
             tecnicas_aplicadas: sesionData.tecnicas_aplicadas || [],
@@ -174,7 +181,10 @@ export async function createSesionKinesiologia(sesionData) {
             duracion_minutos: sesionData.duracion_minutos || null,
             recomendaciones: sesionData.recomendaciones || null,
             observaciones: sesionData.observaciones || null,
-            proxima_cita: sesionData.proxima_cita || null
+            proxima_cita: sesionData.proxima_cita || null,
+
+            // Consentimiento informado
+            consentimiento_informado: sesionData.consentimiento_informado || false
         };
 
         debugLog('📤 Enviando sesión de kinesiología a Supabase:', payload);

@@ -881,7 +881,8 @@ async function submitForm() {
                 evaluacion_dolor: formState.formData.evaluacion_dolor || {},
                 pruebas_diagnostico: formState.formData.pruebas_diagnostico || {},
                 plan_tratamiento: formState.formData.plan_tratamiento_kine || {},
-                recomendaciones: formState.formData.recomendaciones || null
+                recomendaciones: formState.formData.recomendaciones || null,
+                consentimiento_informado: formState.formData.consentimiento_kine || false
             };
 
             if (isUpdate && formState.sesionType === 'kinesiologia') {
