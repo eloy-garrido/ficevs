@@ -557,6 +557,36 @@ header:hover {
     background: rgba(59, 130, 246, 0.8);
 }
 
+/* =====================================================
+ * TABLA DE HISTORIAL DE VISITAS
+ * ===================================================== */
+
+#patient-history {
+    animation: slideDown 0.3s ease;
+}
+
+#patient-history table {
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+#patient-history thead {
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.15) 0%, rgba(236, 72, 153, 0.15) 100%);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+#patient-history tbody tr:hover {
+    background: linear-gradient(135deg, rgba(250, 245, 255, 0.9) 0%, rgba(252, 231, 243, 0.9) 100%);
+    transform: translateX(2px);
+    transition: all 0.2s ease;
+}
+
+#patient-history tbody tr:last-child {
+    border-bottom: none;
+}
+
 /* Slide in from left */
 @keyframes slideInLeft {
     from {

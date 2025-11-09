@@ -457,6 +457,39 @@ export async function searchPatientByRut(rut) {
 }
 
 /**
+ * Obtiene el historial de fichas de un paciente por RUT
+ */
+export async function getPatientHistoryByRut(rut) {
+    try {
+        const supabase = getSupabaseClient();
+        const user = await getCurrentUser();
+
+        if (!user) {
+            throw new Error('Usuario no autenticado');
+        }
+
+        const { data, error } = await supabase
+            .from('fichas_clinicas')
+            .select('id, fecha_ingreso, motivo_consulta, created_at')
+            .eq('terapeuta_id', user.id)
+            .eq('rut', rut)
+            .order('fecha_ingreso', { ascending: false });
+
+        if (error) {
+            console.error('Error al obtener historial:', error);
+            throw error;
+        }
+
+        debugLog('📋 Historial obtenido:', data.length, 'visitas');
+        return data || [];
+
+    } catch (error) {
+        console.error('❌ Error al obtener historial del paciente:', error);
+        return [];
+    }
+}
+
+/**
  * =====================================================
  * ESTADÍSTICAS Y REPORTES
  * =====================================================

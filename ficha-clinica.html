@@ -12,7 +12,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/styles.css?v=5.1">
+    <link rel="stylesheet" href="css/styles.css?v=6.0">
 
     <!-- Manifest PWA -->
     <link rel="manifest" href="manifest.json">
@@ -123,6 +123,49 @@
                     <p class="text-xs text-blue-700 mt-2">
                         💡 Ingrese el RUT del paciente. Si ya está registrado, se autocompletarán sus datos.
                     </p>
+                </div>
+
+                <!-- Historial de Visitas Anteriores (solo visible para pacientes existentes) -->
+                <div id="patient-history" class="hidden mb-4">
+                    <div class="bg-gradient-to-r from-purple-50 to-pink-50 p-4 rounded-xl border-2 border-purple-200"
+                        style="backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-sm font-bold text-purple-900">
+                                <svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                Historial de Visitas Anteriores
+                            </h3>
+                            <button type="button" id="hide-history-btn" class="text-purple-600 hover:text-purple-800 text-xs font-medium">
+                                Ocultar ✕
+                            </button>
+                        </div>
+
+                        <!-- Tabla de historial -->
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-xs">
+                                <thead>
+                                    <tr class="border-b border-purple-200">
+                                        <th class="text-left py-2 px-2 text-purple-900 font-semibold">Fecha</th>
+                                        <th class="text-left py-2 px-2 text-purple-900 font-semibold">Motivo de Consulta</th>
+                                        <th class="text-left py-2 px-2 text-purple-900 font-semibold">Profesional</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="history-table-body" class="text-gray-700">
+                                    <!-- Las filas se insertarán aquí dinámicamente -->
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Mensaje si no hay historial -->
+                        <div id="no-history-msg" class="hidden text-center py-4 text-purple-600 text-xs">
+                            No hay visitas anteriores registradas
+                        </div>
+
+                        <p class="text-xs text-purple-600 mt-3 italic">
+                            📋 Este es el historial de consultas anteriores. La nueva ficha será independiente.
+                        </p>
+                    </div>
                 </div>
 
                 <!-- Nombre del Paciente -->
@@ -1317,7 +1360,7 @@
             }
 
             // Función para cargar datos del paciente
-            function loadPatientData(patient) {
+            async function loadPatientData(patient) {
                 console.log('📋 Cargando datos del paciente:', patient);
 
                 // Llenar solo los datos demográficos del paciente
@@ -1357,6 +1400,9 @@
                     window.formState.isExistingPatient = true;
                 }
 
+                // Cargar y mostrar historial de visitas anteriores
+                await loadPatientHistory(patient.rut);
+
                 // Mostrar notificación
                 console.log('✅ Datos del paciente cargados:', patient.nombre_paciente);
 
@@ -1395,6 +1441,73 @@
             if (telefonoNumeroInput) {
                 telefonoNumeroInput.addEventListener('input', (e) => {
                     e.target.value = e.target.value.replace(/[^0-9]/g, '');
+                });
+            }
+
+            // ====================================
+            // HISTORIAL DE VISITAS
+            // ====================================
+
+            // Función para cargar historial de visitas del paciente
+            async function loadPatientHistory(rut) {
+                try {
+                    const { getPatientHistoryByRut } = await import('./js/supabaseService.js');
+                    const history = await getPatientHistoryByRut(rut);
+
+                    const historySection = document.getElementById('patient-history');
+                    const historyTableBody = document.getElementById('history-table-body');
+                    const noHistoryMsg = document.getElementById('no-history-msg');
+
+                    if (!historySection || !historyTableBody) return;
+
+                    // Limpiar tabla
+                    historyTableBody.innerHTML = '';
+
+                    if (history && history.length > 0) {
+                        // Llenar tabla con historial
+                        history.forEach((visita, index) => {
+                            const fecha = new Date(visita.fecha_ingreso).toLocaleDateString('es-CL');
+                            const motivo = visita.motivo_consulta || 'No especificado';
+
+                            // Determinar profesional basado en datos (puedes mejorar esto)
+                            let profesional = 'No especificado';
+
+                            const row = document.createElement('tr');
+                            row.className = 'border-b border-purple-100 hover:bg-purple-50 transition-colors';
+                            row.innerHTML = `
+                                <td class="py-2 px-2 font-medium">${fecha}</td>
+                                <td class="py-2 px-2">${motivo}</td>
+                                <td class="py-2 px-2">${profesional}</td>
+                            `;
+                            historyTableBody.appendChild(row);
+                        });
+
+                        // Mostrar tabla, ocultar mensaje
+                        if (noHistoryMsg) noHistoryMsg.classList.add('hidden');
+                        historyTableBody.parentElement.classList.remove('hidden');
+                    } else {
+                        // Mostrar mensaje, ocultar tabla
+                        if (noHistoryMsg) noHistoryMsg.classList.remove('hidden');
+                        historyTableBody.parentElement.classList.add('hidden');
+                    }
+
+                    // Mostrar sección de historial con animación
+                    historySection.classList.remove('hidden');
+                    historySection.classList.add('animate-fade-in');
+
+                } catch (error) {
+                    console.error('Error al cargar historial:', error);
+                }
+            }
+
+            // Botón para ocultar historial
+            const hideHistoryBtn = document.getElementById('hide-history-btn');
+            if (hideHistoryBtn) {
+                hideHistoryBtn.addEventListener('click', () => {
+                    const historySection = document.getElementById('patient-history');
+                    if (historySection) {
+                        historySection.classList.add('hidden');
+                    }
                 });
             }
         }
