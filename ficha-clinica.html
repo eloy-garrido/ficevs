@@ -371,225 +371,336 @@
 
         <!-- PASO 2 - KINESIÓLOGO -->
         <div id="step-2-kinesiologo" class="card fade-in hidden">
-            <h2 class="text-3xl font-bold text-gray-900 mb-6">Paso 2: Evaluación Kinesiológica</h2>
+            <h2 class="text-xl md:text-2xl font-bold text-gray-900 mb-4">Paso 2: Evaluación Kinesiológica</h2>
 
-            <form class="space-y-8">
-                <!-- Evaluación Funcional -->
-                <div class="bg-blue-50 p-6 rounded-lg">
-                    <h3 class="text-xl font-semibold text-blue-900 mb-4">Evaluación Funcional</h3>
+            <form class="space-y-4">
+                <!-- SECCIÓN 1: Evaluación Funcional (Expandible) -->
+                <div class="border border-gray-200 rounded-lg">
+                    <button type="button" class="dropdown-toggle w-full px-4 py-3 flex items-center justify-between hover:bg-gray-50 transition"
+                        data-target="evaluacion-funcional">
+                        <h3 class="text-sm font-semibold text-gray-900 flex items-center">
+                            <svg class="w-5 h-5 mr-2" style="color: #7a9872;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                            </svg>
+                            Evaluación Funcional
+                        </h3>
+                        <svg class="dropdown-icon w-5 h-5 text-gray-600 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7-7m0 0L5 14m7-7v12"></path>
+                        </svg>
+                    </button>
+                    <div id="evaluacion-funcional" class="dropdown-content border-t border-gray-200 px-4 py-3 space-y-3 hidden">
+                        <!-- Movilidad Articular -->
+                        <div>
+                            <label class="block text-xs font-medium text-gray-700 mb-1">Movilidad Articular</label>
+                            <textarea id="kine-movilidad" rows="2"
+                                class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                placeholder="Describa limitaciones de movilidad, rangos articulares..."></textarea>
+                        </div>
 
-                    <!-- Movilidad Articular -->
-                    <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Movilidad Articular</label>
-                        <textarea id="kine-movilidad" rows="3"
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                            placeholder="Describa limitaciones de movilidad, rangos articulares..."></textarea>
-                    </div>
+                        <!-- Fuerza Muscular -->
+                        <div>
+                            <label class="block text-xs font-medium text-gray-700 mb-1">Fuerza Muscular</label>
+                            <textarea id="kine-fuerza" rows="2"
+                                class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                placeholder="Evaluación de grupos musculares, debilidades detectadas..."></textarea>
+                        </div>
 
-                    <!-- Fuerza Muscular -->
-                    <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Fuerza Muscular</label>
-                        <textarea id="kine-fuerza" rows="3"
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                            placeholder="Evaluación de grupos musculares, debilidades detectadas..."></textarea>
-                    </div>
-
-                    <!-- Postura -->
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Análisis Postural</label>
-                        <textarea id="kine-postura" rows="3"
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                            placeholder="Alteraciones posturales, desviaciones, compensaciones..."></textarea>
+                        <!-- Análisis Postural -->
+                        <div>
+                            <label class="block text-xs font-medium text-gray-700 mb-1">Análisis Postural</label>
+                            <textarea id="kine-postura" rows="2"
+                                class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                placeholder="Alteraciones posturales, desviaciones, compensaciones..."></textarea>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Evaluación del Dolor -->
-                <div class="bg-red-50 p-6 rounded-lg">
-                    <h3 class="text-xl font-semibold text-red-900 mb-4">Evaluación del Dolor</h3>
-
-                    <!-- Ubicación -->
-                    <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Ubicación del Dolor/Lesión</label>
-                        <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
-                            <label class="flex items-center space-x-2 cursor-pointer">
-                                <input type="checkbox" name="kine-dolor-ubicacion" value="cervical" class="text-red-600">
-                                <span>Cervical</span>
-                            </label>
-                            <label class="flex items-center space-x-2 cursor-pointer">
-                                <input type="checkbox" name="kine-dolor-ubicacion" value="hombro" class="text-red-600">
-                                <span>Hombro</span>
-                            </label>
-                            <label class="flex items-center space-x-2 cursor-pointer">
-                                <input type="checkbox" name="kine-dolor-ubicacion" value="codo" class="text-red-600">
-                                <span>Codo</span>
-                            </label>
-                            <label class="flex items-center space-x-2 cursor-pointer">
-                                <input type="checkbox" name="kine-dolor-ubicacion" value="muneca" class="text-red-600">
-                                <span>Muñeca/Mano</span>
-                            </label>
-                            <label class="flex items-center space-x-2 cursor-pointer">
-                                <input type="checkbox" name="kine-dolor-ubicacion" value="dorsal" class="text-red-600">
-                                <span>Dorsal</span>
-                            </label>
-                            <label class="flex items-center space-x-2 cursor-pointer">
-                                <input type="checkbox" name="kine-dolor-ubicacion" value="lumbar" class="text-red-600">
-                                <span>Lumbar</span>
-                            </label>
-                            <label class="flex items-center space-x-2 cursor-pointer">
-                                <input type="checkbox" name="kine-dolor-ubicacion" value="cadera" class="text-red-600">
-                                <span>Cadera</span>
-                            </label>
-                            <label class="flex items-center space-x-2 cursor-pointer">
-                                <input type="checkbox" name="kine-dolor-ubicacion" value="rodilla" class="text-red-600">
-                                <span>Rodilla</span>
-                            </label>
-                            <label class="flex items-center space-x-2 cursor-pointer">
-                                <input type="checkbox" name="kine-dolor-ubicacion" value="tobillo" class="text-red-600">
-                                <span>Tobillo/Pie</span>
-                            </label>
+                <!-- SECCIÓN 2: Evaluación del Dolor -->
+                <div class="border border-gray-200 rounded-lg">
+                    <button type="button" class="dropdown-toggle w-full px-4 py-3 flex items-center justify-between hover:bg-gray-50 transition"
+                        data-target="evaluacion-dolor">
+                        <h3 class="text-sm font-semibold text-gray-900 flex items-center">
+                            <svg class="w-5 h-5 mr-2" style="color: #7a9872;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                            </svg>
+                            Evaluación del Dolor
+                        </h3>
+                        <svg class="dropdown-icon w-5 h-5 text-gray-600 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7-7m0 0L5 14m7-7v12"></path>
+                        </svg>
+                    </button>
+                    <div id="evaluacion-dolor" class="dropdown-content border-t border-gray-200 px-4 py-3 space-y-3 hidden">
+                        <!-- Ubicación del Dolor -->
+                        <div>
+                            <label class="block text-xs font-medium text-gray-700 mb-2">Ubicación del Dolor/Lesión</label>
+                            <div id="kine-dolor-tags" class="flex flex-wrap gap-2 p-2 bg-gray-50 rounded-lg border border-gray-200 min-h-10">
+                                <!-- Tags se insertarán aquí dinámicamente -->
+                            </div>
+                            <div class="hidden">
+                                <div class="grid grid-cols-2 md:grid-cols-3 gap-2 mt-2">
+                                    <label class="flex items-center space-x-1 cursor-pointer">
+                                        <input type="checkbox" name="kine-dolor-ubicacion" value="cervical" class="ubicacion-checkbox">
+                                        <span class="text-xs">Cervical</span>
+                                    </label>
+                                    <label class="flex items-center space-x-1 cursor-pointer">
+                                        <input type="checkbox" name="kine-dolor-ubicacion" value="hombro" class="ubicacion-checkbox">
+                                        <span class="text-xs">Hombro</span>
+                                    </label>
+                                    <label class="flex items-center space-x-1 cursor-pointer">
+                                        <input type="checkbox" name="kine-dolor-ubicacion" value="codo" class="ubicacion-checkbox">
+                                        <span class="text-xs">Codo</span>
+                                    </label>
+                                    <label class="flex items-center space-x-1 cursor-pointer">
+                                        <input type="checkbox" name="kine-dolor-ubicacion" value="muneca" class="ubicacion-checkbox">
+                                        <span class="text-xs">Muñeca/Mano</span>
+                                    </label>
+                                    <label class="flex items-center space-x-1 cursor-pointer">
+                                        <input type="checkbox" name="kine-dolor-ubicacion" value="dorsal" class="ubicacion-checkbox">
+                                        <span class="text-xs">Dorsal</span>
+                                    </label>
+                                    <label class="flex items-center space-x-1 cursor-pointer">
+                                        <input type="checkbox" name="kine-dolor-ubicacion" value="lumbar" class="ubicacion-checkbox">
+                                        <span class="text-xs">Lumbar</span>
+                                    </label>
+                                    <label class="flex items-center space-x-1 cursor-pointer">
+                                        <input type="checkbox" name="kine-dolor-ubicacion" value="cadera" class="ubicacion-checkbox">
+                                        <span class="text-xs">Cadera</span>
+                                    </label>
+                                    <label class="flex items-center space-x-1 cursor-pointer">
+                                        <input type="checkbox" name="kine-dolor-ubicacion" value="rodilla" class="ubicacion-checkbox">
+                                        <span class="text-xs">Rodilla</span>
+                                    </label>
+                                    <label class="flex items-center space-x-1 cursor-pointer">
+                                        <input type="checkbox" name="kine-dolor-ubicacion" value="tobillo" class="ubicacion-checkbox">
+                                        <span class="text-xs">Tobillo/Pie</span>
+                                    </label>
+                                </div>
+                            </div>
                         </div>
-                    </div>
 
-                    <!-- Intensidad del Dolor -->
-                    <div class="mb-4">
-                        <label for="kine-dolor-intensidad" class="block text-sm font-medium text-gray-700 mb-2">
-                            Intensidad del Dolor (1-10)
-                        </label>
-                        <div class="flex items-center space-x-4">
-                            <span class="text-sm text-gray-600">Leve</span>
+                        <!-- Intensidad del Dolor -->
+                        <div>
+                            <label for="kine-dolor-intensidad" class="block text-xs font-medium text-gray-700 mb-2">
+                                Intensidad del Dolor: <span id="kine-dolor-intensidad-valor" class="font-bold" style="color: #7a9872;">5</span>/10
+                            </label>
                             <input type="range" id="kine-dolor-intensidad" min="1" max="10" value="5"
-                                class="flex-1 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
-                            <span class="text-sm text-gray-600">Severo</span>
-                            <span id="kine-dolor-intensidad-valor" class="text-2xl font-bold text-red-600 ml-4">5</span>
+                                class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                        </div>
+
+                        <!-- Características del Dolor -->
+                        <div>
+                            <label for="kine-dolor-caracteristicas" class="block text-xs font-medium text-gray-700 mb-1">
+                                Características del Dolor
+                            </label>
+                            <textarea id="kine-dolor-caracteristicas" rows="2"
+                                class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                placeholder="Tipo de dolor (punzante, sordo, quemante), frecuencia..."></textarea>
                         </div>
                     </div>
+                </div>
 
-                    <!-- Características del Dolor -->
-                    <div>
-                        <label for="kine-dolor-caracteristicas" class="block text-sm font-medium text-gray-700 mb-2">
-                            Características del Dolor
-                        </label>
-                        <textarea id="kine-dolor-caracteristicas" rows="2"
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
-                            placeholder="Tipo de dolor (punzante, sordo, quemante), frecuencia, factores que lo agravan o alivian..."></textarea>
+                <!-- SECCIÓN 3: Pruebas y Diagnóstico (Expandible) -->
+                <div class="border border-gray-200 rounded-lg">
+                    <button type="button" class="dropdown-toggle w-full px-4 py-3 flex items-center justify-between hover:bg-gray-50 transition"
+                        data-target="pruebas-diagnostico">
+                        <h3 class="text-sm font-semibold text-gray-900 flex items-center">
+                            <svg class="w-5 h-5 mr-2" style="color: #7a9872;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                            </svg>
+                            Pruebas, Tests y Diagnóstico
+                        </h3>
+                        <svg class="dropdown-icon w-5 h-5 text-gray-600 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7-7m0 0L5 14m7-7v12"></path>
+                        </svg>
+                    </button>
+                    <div id="pruebas-diagnostico" class="dropdown-content border-t border-gray-200 px-4 py-3 space-y-3 hidden">
+                        <!-- Pruebas Especiales -->
+                        <div>
+                            <label for="kine-tests" class="block text-xs font-medium text-gray-700 mb-1">Pruebas Especiales y Tests</label>
+                            <textarea id="kine-tests" rows="2"
+                                class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                placeholder="Resultados de tests especiales, maniobras diagnósticas realizadas..."></textarea>
+                        </div>
+
+                        <!-- Diagnóstico Kinesiológico -->
+                        <div>
+                            <label for="kine-diagnostico" class="block text-xs font-medium text-gray-700 mb-1">Diagnóstico Kinesiológico</label>
+                            <textarea id="kine-diagnostico" rows="3"
+                                class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                placeholder="Diagnóstico kinesiológico, hipótesis diagnóstica..."></textarea>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Pruebas Especiales -->
-                <div class="bg-green-50 p-6 rounded-lg">
-                    <h3 class="text-xl font-semibold text-green-900 mb-4">Pruebas Especiales y Tests</h3>
-                    <textarea id="kine-tests" rows="4"
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
-                        placeholder="Resultados de tests especiales, maniobras diagnósticas realizadas..."></textarea>
-                </div>
+                <!-- SECCIÓN 4: Plan de Tratamiento -->
+                <div class="border border-gray-200 rounded-lg">
+                    <button type="button" class="dropdown-toggle w-full px-4 py-3 flex items-center justify-between hover:bg-gray-50 transition"
+                        data-target="plan-tratamiento">
+                        <h3 class="text-sm font-semibold text-gray-900 flex items-center">
+                            <svg class="w-5 h-5 mr-2" style="color: #7a9872;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            Plan de Tratamiento
+                        </h3>
+                        <svg class="dropdown-icon w-5 h-5 text-gray-600 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7-7m0 0L5 14m7-7v12"></path>
+                        </svg>
+                    </button>
+                    <div id="plan-tratamiento" class="dropdown-content border-t border-gray-200 px-4 py-3 space-y-3 hidden">
+                        <!-- Objetivos -->
+                        <div>
+                            <label for="kine-objetivos" class="block text-xs font-medium text-gray-700 mb-1">
+                                Objetivos del Tratamiento
+                            </label>
+                            <textarea id="kine-objetivos" rows="2"
+                                class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                placeholder="Objetivos a corto y largo plazo..."></textarea>
+                        </div>
 
-                <!-- Diagnóstico Kinesiológico -->
-                <div class="bg-purple-50 p-6 rounded-lg">
-                    <h3 class="text-xl font-semibold text-purple-900 mb-4">Diagnóstico Kinesiológico</h3>
-                    <textarea id="kine-diagnostico" rows="4"
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
-                        placeholder="Diagnóstico kinesiológico, hipótesis diagnóstica..."></textarea>
-                </div>
+                        <!-- Técnicas a Aplicar con Tags -->
+                        <div>
+                            <label class="block text-xs font-medium text-gray-700 mb-2">Técnicas y Modalidades</label>
+                            <div id="kine-tecnicas-tags" class="flex flex-wrap gap-2 p-2 bg-gray-50 rounded-lg border border-gray-200 min-h-10">
+                                <!-- Tags se insertarán aquí dinámicamente -->
+                            </div>
+                            <div class="hidden">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-2">
+                                    <label class="flex items-center space-x-1 cursor-pointer">
+                                        <input type="checkbox" name="kine-tecnicas" value="terapia_manual" class="tecnicas-checkbox">
+                                        <span class="text-xs">Terapia Manual</span>
+                                    </label>
+                                    <label class="flex items-center space-x-1 cursor-pointer">
+                                        <input type="checkbox" name="kine-tecnicas" value="ejercicios" class="tecnicas-checkbox">
+                                        <span class="text-xs">Ejercicios Terapéuticos</span>
+                                    </label>
+                                    <label class="flex items-center space-x-1 cursor-pointer">
+                                        <input type="checkbox" name="kine-tecnicas" value="electroterapia" class="tecnicas-checkbox">
+                                        <span class="text-xs">Electroterapia</span>
+                                    </label>
+                                    <label class="flex items-center space-x-1 cursor-pointer">
+                                        <input type="checkbox" name="kine-tecnicas" value="ultrasonido" class="tecnicas-checkbox">
+                                        <span class="text-xs">Ultrasonido</span>
+                                    </label>
+                                    <label class="flex items-center space-x-1 cursor-pointer">
+                                        <input type="checkbox" name="kine-tecnicas" value="calor_frio" class="tecnicas-checkbox">
+                                        <span class="text-xs">Termoterapia/Crioterapia</span>
+                                    </label>
+                                    <label class="flex items-center space-x-1 cursor-pointer">
+                                        <input type="checkbox" name="kine-tecnicas" value="vendaje" class="tecnicas-checkbox">
+                                        <span class="text-xs">Vendaje/Kinesiotape</span>
+                                    </label>
+                                    <label class="flex items-center space-x-1 cursor-pointer">
+                                        <input type="checkbox" name="kine-tecnicas" value="masoterapia" class="tecnicas-checkbox">
+                                        <span class="text-xs">Masoterapia</span>
+                                    </label>
+                                    <label class="flex items-center space-x-1 cursor-pointer">
+                                        <input type="checkbox" name="kine-tecnicas" value="reeducacion" class="tecnicas-checkbox">
+                                        <span class="text-xs">Reeducación Postural</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
 
-                <!-- Plan de Tratamiento -->
-                <div class="bg-yellow-50 p-6 rounded-lg">
-                    <h3 class="text-xl font-semibold text-yellow-900 mb-4">Plan de Tratamiento</h3>
-
-                    <!-- Objetivos -->
-                    <div class="mb-4">
-                        <label for="kine-objetivos" class="block text-sm font-medium text-gray-700 mb-2">
-                            Objetivos del Tratamiento
-                        </label>
-                        <textarea id="kine-objetivos" rows="3"
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500"
-                            placeholder="Objetivos a corto y largo plazo..."></textarea>
-                    </div>
-
-                    <!-- Técnicas a Aplicar -->
-                    <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Técnicas y Modalidades</label>
+                        <!-- Frecuencia y Duración -->
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                            <label class="flex items-center space-x-2 cursor-pointer">
-                                <input type="checkbox" name="kine-tecnicas" value="terapia_manual" class="text-yellow-600">
-                                <span>Terapia Manual</span>
-                            </label>
-                            <label class="flex items-center space-x-2 cursor-pointer">
-                                <input type="checkbox" name="kine-tecnicas" value="ejercicios" class="text-yellow-600">
-                                <span>Ejercicios Terapéuticos</span>
-                            </label>
-                            <label class="flex items-center space-x-2 cursor-pointer">
-                                <input type="checkbox" name="kine-tecnicas" value="electroterapia" class="text-yellow-600">
-                                <span>Electroterapia</span>
-                            </label>
-                            <label class="flex items-center space-x-2 cursor-pointer">
-                                <input type="checkbox" name="kine-tecnicas" value="ultrasonido" class="text-yellow-600">
-                                <span>Ultrasonido</span>
-                            </label>
-                            <label class="flex items-center space-x-2 cursor-pointer">
-                                <input type="checkbox" name="kine-tecnicas" value="calor_frio" class="text-yellow-600">
-                                <span>Termoterapia/Crioterapia</span>
-                            </label>
-                            <label class="flex items-center space-x-2 cursor-pointer">
-                                <input type="checkbox" name="kine-tecnicas" value="vendaje" class="text-yellow-600">
-                                <span>Vendaje Funcional/Kinesiotape</span>
-                            </label>
-                            <label class="flex items-center space-x-2 cursor-pointer">
-                                <input type="checkbox" name="kine-tecnicas" value="masoterapia" class="text-yellow-600">
-                                <span>Masoterapia</span>
-                            </label>
-                            <label class="flex items-center space-x-2 cursor-pointer">
-                                <input type="checkbox" name="kine-tecnicas" value="reeducacion" class="text-yellow-600">
-                                <span>Reeducación Postural</span>
-                            </label>
+                            <div>
+                                <label for="kine-frecuencia" class="block text-xs font-medium text-gray-700 mb-1">
+                                    Frecuencia de Sesiones
+                                </label>
+                                <input type="text" id="kine-frecuencia"
+                                    class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    placeholder="Ej: 2-3 veces por semana">
+                            </div>
+                            <div>
+                                <label for="kine-duracion" class="block text-xs font-medium text-gray-700 mb-1">
+                                    Duración Estimada
+                                </label>
+                                <input type="text" id="kine-duracion"
+                                    class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    placeholder="Ej: 4-6 semanas">
+                            </div>
                         </div>
-                    </div>
 
-                    <!-- Frecuencia y Duración -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <!-- Ejercicios en Casa -->
                         <div>
-                            <label for="kine-frecuencia" class="block text-sm font-medium text-gray-700 mb-2">
-                                Frecuencia de Sesiones
+                            <label for="kine-ejercicios-casa" class="block text-xs font-medium text-gray-700 mb-1">
+                                Ejercicios en Casa / Recomendaciones
                             </label>
-                            <input type="text" id="kine-frecuencia"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500"
-                                placeholder="Ej: 2-3 veces por semana">
+                            <textarea id="kine-ejercicios-casa" rows="2"
+                                class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                placeholder="Ejercicios y recomendaciones para realizar en casa..."></textarea>
                         </div>
-                        <div>
-                            <label for="kine-duracion" class="block text-sm font-medium text-gray-700 mb-2">
-                                Duración Estimada
-                            </label>
-                            <input type="text" id="kine-duracion"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500"
-                                placeholder="Ej: 4-6 semanas">
-                        </div>
-                    </div>
-
-                    <!-- Ejercicios en Casa -->
-                    <div>
-                        <label for="kine-ejercicios-casa" class="block text-sm font-medium text-gray-700 mb-2">
-                            Ejercicios en Casa / Recomendaciones
-                        </label>
-                        <textarea id="kine-ejercicios-casa" rows="3"
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500"
-                            placeholder="Ejercicios y recomendaciones para realizar en casa..."></textarea>
                     </div>
                 </div>
 
-                <!-- Consentimiento Informado -->
-                <div class="bg-green-50 p-6 rounded-lg border-2 border-green-200">
+                <!-- SECCIÓN 5: Consentimiento Informado -->
+                <div class="border border-gray-200 rounded-lg p-4 bg-gray-50">
                     <label class="flex items-start space-x-3 cursor-pointer">
-                        <input type="checkbox" id="kine-consentimiento" required class="mt-1 text-green-600">
+                        <input type="checkbox" id="kine-consentimiento" required class="mt-1" style="accent-color: #7a9872;">
                         <div>
-                            <span class="font-semibold text-green-900">Consentimiento Informado <span class="text-red-500">*</span></span>
-                            <p class="text-sm text-gray-700 mt-1">
+                            <span class="font-semibold text-gray-900">Consentimiento Informado <span class="text-red-500">*</span></span>
+                            <p class="text-xs text-gray-600 mt-1">
                                 El paciente ha sido informado sobre el tratamiento kinesiológico propuesto, sus posibles beneficios,
-                                riesgos y alternativas. El paciente da su consentimiento para proceder con el tratamiento y entiende
-                                que puede retirarlo en cualquier momento.
+                                riesgos y alternativas. El paciente da su consentimiento para proceder.
                             </p>
                         </div>
                     </label>
                 </div>
             </form>
+
+            <!-- Estilos para Tags -->
+            <style>
+                .tag {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    padding: 0.35rem 0.75rem;
+                    background: linear-gradient(135deg, #7a9872 0%, #5a7852 100%);
+                    color: white;
+                    border-radius: 20px;
+                    font-size: 0.75rem;
+                    font-weight: 500;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+                }
+
+                .tag:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 12px rgba(122, 152, 114, 0.3);
+                }
+
+                .tag svg {
+                    width: 14px;
+                    height: 14px;
+                }
+
+                .dropdown-toggle {
+                    outline: none;
+                }
+
+                .dropdown-content {
+                    animation: slideDown 0.3s ease-out;
+                }
+
+                @keyframes slideDown {
+                    from {
+                        opacity: 0;
+                        transform: translateY(-10px);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                }
+
+                .dropdown-icon {
+                    transition: transform 0.3s ease;
+                }
+
+                .dropdown-toggle[aria-expanded="true"] .dropdown-icon {
+                    transform: rotate(180deg);
+                }
+            </style>
         </div>
 
         <!-- PASO 3 - ACUPUNTURISTA: MTC (Lengua y Pulso) -->

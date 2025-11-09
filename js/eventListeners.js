@@ -63,6 +63,10 @@ export function setupEventListeners() {
 
     // Configurar modal de detalles de sesión
     setupSessionDetailModal();
+
+    // Configurar dropdowns y tags
+    setupKinesiologyDropdowns();
+    setupKinesiologyTags();
 }
 
 /**
@@ -234,4 +238,120 @@ function setupSessionDetailModal() {
 
         observer.observe(modal, { attributes: true, attributeFilter: ['class'] });
     }
+}
+
+/**
+ * Configura los dropdowns (accordion) del formulario de kinesiología
+ */
+function setupKinesiologyDropdowns() {
+    const toggleButtons = document.querySelectorAll('.dropdown-toggle');
+
+    toggleButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetId = button.getAttribute('data-target');
+            const content = document.getElementById(targetId);
+
+            if (content) {
+                const isHidden = content.classList.contains('hidden');
+
+                // Toggle aria-expanded
+                button.setAttribute('aria-expanded', !isHidden);
+
+                // Toggle contenido
+                if (isHidden) {
+                    content.classList.remove('hidden');
+                } else {
+                    content.classList.add('hidden');
+                }
+            }
+        });
+    });
+}
+
+/**
+ * Configura el sistema de tags para ubicaciones de dolor y técnicas
+ */
+function setupKinesiologyTags() {
+    // Configurar tags para ubicación de dolor
+    setupTagsContainer('kine-dolor-ubicacion', 'kine-dolor-tags', 'ubicacion-checkbox');
+
+    // Configurar tags para técnicas
+    setupTagsContainer('kine-tecnicas', 'kine-tecnicas-tags', 'tecnicas-checkbox');
+}
+
+/**
+ * Configura un contenedor de tags
+ * @param {string} inputName - Nombre de los inputs (checkboxes)
+ * @param {string} containerId - ID del contenedor de tags
+ * @param {string} checkboxClass - Clase de los checkboxes
+ */
+function setupTagsContainer(inputName, containerId, checkboxClass) {
+    const container = document.getElementById(containerId);
+    const checkboxes = document.querySelectorAll(`input[name="${inputName}"]`);
+
+    if (!container || checkboxes.length === 0) return;
+
+    // Mapeo de valores a etiquetas amigables
+    const labelMap = {
+        'cervical': 'Cervical',
+        'hombro': 'Hombro',
+        'codo': 'Codo',
+        'muneca': 'Muñeca/Mano',
+        'dorsal': 'Dorsal',
+        'lumbar': 'Lumbar',
+        'cadera': 'Cadera',
+        'rodilla': 'Rodilla',
+        'tobillo': 'Tobillo/Pie',
+        'terapia_manual': 'Terapia Manual',
+        'ejercicios': 'Ejercicios Terapéuticos',
+        'electroterapia': 'Electroterapia',
+        'ultrasonido': 'Ultrasonido',
+        'calor_frio': 'Termoterapia/Crioterapia',
+        'vendaje': 'Vendaje/Kinesiotape',
+        'masoterapia': 'Masoterapia',
+        'reeducacion': 'Reeducación Postural'
+    };
+
+    // Función para renderizar tags
+    const updateTags = () => {
+        container.innerHTML = '';
+        let hasItems = false;
+
+        checkboxes.forEach(checkbox => {
+            if (checkbox.checked) {
+                hasItems = true;
+                const tag = document.createElement('div');
+                tag.className = 'tag';
+                tag.innerHTML = `
+                    ${labelMap[checkbox.value] || checkbox.value}
+                    <svg fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                    </svg>
+                `;
+
+                tag.addEventListener('click', () => {
+                    checkbox.checked = false;
+                    updateTags();
+                    // Disparar evento de cambio para el form manager
+                    checkbox.dispatchEvent(new Event('change', { bubbles: true }));
+                });
+
+                container.appendChild(tag);
+            }
+        });
+
+        // Si no hay items, mostrar placeholder
+        if (!hasItems) {
+            container.innerHTML = '<span class="text-xs text-gray-400 italic px-2 py-1">Sin selecciones</span>';
+        }
+    };
+
+    // Agregar listeners a checkboxes
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', updateTags);
+    });
+
+    // Render inicial
+    updateTags();
 }
