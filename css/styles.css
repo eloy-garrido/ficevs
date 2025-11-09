@@ -977,6 +977,44 @@ main {
 }
 
 /* =====================================================
+ * TAG BUTTONS - SELECCIONABLES
+ * ===================================================== */
+
+.tag-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: #f3f4f6;
+    color: #374151;
+    border: 2px solid #d1d5db;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    outline: none;
+}
+
+.tag-button:hover {
+    background-color: #e5e7eb;
+    border-color: #9ca3af;
+    transform: translateY(-1px);
+}
+
+.tag-button.active {
+    background: linear-gradient(135deg, #7a9872 0%, #5a7852 100%);
+    color: white;
+    border-color: #5a7852;
+    box-shadow: 0 4px 12px rgba(122, 152, 114, 0.3);
+}
+
+.tag-button.active:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(122, 152, 114, 0.4);
+}
+
+/* =====================================================
  * ESTILOS PERSONALIZADOS PARA MODALES
  * ===================================================== */
 

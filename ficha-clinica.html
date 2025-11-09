@@ -433,46 +433,28 @@
                         <!-- Ubicación del Dolor -->
                         <div>
                             <label class="block text-xs font-medium text-gray-700 mb-2">Ubicación del Dolor/Lesión</label>
-                            <div class="grid grid-cols-2 md:grid-cols-3 gap-2 mb-3">
-                                <label class="flex items-center space-x-2 cursor-pointer">
-                                    <input type="checkbox" name="kine-dolor-ubicacion" value="cervical" class="ubicacion-checkbox">
-                                    <span class="text-xs">Cervical</span>
-                                </label>
-                                <label class="flex items-center space-x-2 cursor-pointer">
-                                    <input type="checkbox" name="kine-dolor-ubicacion" value="hombro" class="ubicacion-checkbox">
-                                    <span class="text-xs">Hombro</span>
-                                </label>
-                                <label class="flex items-center space-x-2 cursor-pointer">
-                                    <input type="checkbox" name="kine-dolor-ubicacion" value="codo" class="ubicacion-checkbox">
-                                    <span class="text-xs">Codo</span>
-                                </label>
-                                <label class="flex items-center space-x-2 cursor-pointer">
-                                    <input type="checkbox" name="kine-dolor-ubicacion" value="muneca" class="ubicacion-checkbox">
-                                    <span class="text-xs">Muñeca/Mano</span>
-                                </label>
-                                <label class="flex items-center space-x-2 cursor-pointer">
-                                    <input type="checkbox" name="kine-dolor-ubicacion" value="dorsal" class="ubicacion-checkbox">
-                                    <span class="text-xs">Dorsal</span>
-                                </label>
-                                <label class="flex items-center space-x-2 cursor-pointer">
-                                    <input type="checkbox" name="kine-dolor-ubicacion" value="lumbar" class="ubicacion-checkbox">
-                                    <span class="text-xs">Lumbar</span>
-                                </label>
-                                <label class="flex items-center space-x-2 cursor-pointer">
-                                    <input type="checkbox" name="kine-dolor-ubicacion" value="cadera" class="ubicacion-checkbox">
-                                    <span class="text-xs">Cadera</span>
-                                </label>
-                                <label class="flex items-center space-x-2 cursor-pointer">
-                                    <input type="checkbox" name="kine-dolor-ubicacion" value="rodilla" class="ubicacion-checkbox">
-                                    <span class="text-xs">Rodilla</span>
-                                </label>
-                                <label class="flex items-center space-x-2 cursor-pointer">
-                                    <input type="checkbox" name="kine-dolor-ubicacion" value="tobillo" class="ubicacion-checkbox">
-                                    <span class="text-xs">Tobillo/Pie</span>
-                                </label>
+                            <div class="flex flex-wrap gap-2 mb-3">
+                                <button type="button" class="tag-button" data-value="cervical" data-label="Cervical">Cervical</button>
+                                <button type="button" class="tag-button" data-value="hombro" data-label="Hombro">Hombro</button>
+                                <button type="button" class="tag-button" data-value="codo" data-label="Codo">Codo</button>
+                                <button type="button" class="tag-button" data-value="muneca" data-label="Muñeca/Mano">Muñeca/Mano</button>
+                                <button type="button" class="tag-button" data-value="dorsal" data-label="Dorsal">Dorsal</button>
+                                <button type="button" class="tag-button" data-value="lumbar" data-label="Lumbar">Lumbar</button>
+                                <button type="button" class="tag-button" data-value="cadera" data-label="Cadera">Cadera</button>
+                                <button type="button" class="tag-button" data-value="rodilla" data-label="Rodilla">Rodilla</button>
+                                <button type="button" class="tag-button" data-value="tobillo" data-label="Tobillo/Pie">Tobillo/Pie</button>
                             </div>
-                            <div id="kine-dolor-tags" class="flex flex-wrap gap-2 p-2 bg-gray-50 rounded-lg border border-gray-200 min-h-10">
-                                <!-- Tags se insertarán aquí dinámicamente -->
+                            <!-- Hidden checkboxes for data storage -->
+                            <div class="hidden">
+                                <input type="checkbox" name="kine-dolor-ubicacion" value="cervical" class="ubicacion-checkbox">
+                                <input type="checkbox" name="kine-dolor-ubicacion" value="hombro" class="ubicacion-checkbox">
+                                <input type="checkbox" name="kine-dolor-ubicacion" value="codo" class="ubicacion-checkbox">
+                                <input type="checkbox" name="kine-dolor-ubicacion" value="muneca" class="ubicacion-checkbox">
+                                <input type="checkbox" name="kine-dolor-ubicacion" value="dorsal" class="ubicacion-checkbox">
+                                <input type="checkbox" name="kine-dolor-ubicacion" value="lumbar" class="ubicacion-checkbox">
+                                <input type="checkbox" name="kine-dolor-ubicacion" value="cadera" class="ubicacion-checkbox">
+                                <input type="checkbox" name="kine-dolor-ubicacion" value="rodilla" class="ubicacion-checkbox">
+                                <input type="checkbox" name="kine-dolor-ubicacion" value="tobillo" class="ubicacion-checkbox">
                             </div>
                         </div>
 
@@ -558,42 +540,26 @@
                         <!-- Técnicas a Aplicar con Tags -->
                         <div>
                             <label class="block text-xs font-medium text-gray-700 mb-2">Técnicas y Modalidades</label>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mb-3">
-                                <label class="flex items-center space-x-2 cursor-pointer">
-                                    <input type="checkbox" name="kine-tecnicas" value="terapia_manual" class="tecnicas-checkbox">
-                                    <span class="text-xs">Terapia Manual</span>
-                                </label>
-                                <label class="flex items-center space-x-2 cursor-pointer">
-                                    <input type="checkbox" name="kine-tecnicas" value="ejercicios" class="tecnicas-checkbox">
-                                    <span class="text-xs">Ejercicios Terapéuticos</span>
-                                </label>
-                                <label class="flex items-center space-x-2 cursor-pointer">
-                                    <input type="checkbox" name="kine-tecnicas" value="electroterapia" class="tecnicas-checkbox">
-                                    <span class="text-xs">Electroterapia</span>
-                                </label>
-                                <label class="flex items-center space-x-2 cursor-pointer">
-                                    <input type="checkbox" name="kine-tecnicas" value="ultrasonido" class="tecnicas-checkbox">
-                                    <span class="text-xs">Ultrasonido</span>
-                                </label>
-                                <label class="flex items-center space-x-2 cursor-pointer">
-                                    <input type="checkbox" name="kine-tecnicas" value="calor_frio" class="tecnicas-checkbox">
-                                    <span class="text-xs">Termoterapia/Crioterapia</span>
-                                </label>
-                                <label class="flex items-center space-x-2 cursor-pointer">
-                                    <input type="checkbox" name="kine-tecnicas" value="vendaje" class="tecnicas-checkbox">
-                                    <span class="text-xs">Vendaje/Kinesiotape</span>
-                                </label>
-                                <label class="flex items-center space-x-2 cursor-pointer">
-                                    <input type="checkbox" name="kine-tecnicas" value="masoterapia" class="tecnicas-checkbox">
-                                    <span class="text-xs">Masoterapia</span>
-                                </label>
-                                <label class="flex items-center space-x-2 cursor-pointer">
-                                    <input type="checkbox" name="kine-tecnicas" value="reeducacion" class="tecnicas-checkbox">
-                                    <span class="text-xs">Reeducación Postural</span>
-                                </label>
+                            <div class="flex flex-wrap gap-2 mb-3">
+                                <button type="button" class="tag-button" data-value="terapia_manual" data-label="Terapia Manual">Terapia Manual</button>
+                                <button type="button" class="tag-button" data-value="ejercicios" data-label="Ejercicios Terapéuticos">Ejercicios Terapéuticos</button>
+                                <button type="button" class="tag-button" data-value="electroterapia" data-label="Electroterapia">Electroterapia</button>
+                                <button type="button" class="tag-button" data-value="ultrasonido" data-label="Ultrasonido">Ultrasonido</button>
+                                <button type="button" class="tag-button" data-value="calor_frio" data-label="Termoterapia/Crioterapia">Termoterapia/Crioterapia</button>
+                                <button type="button" class="tag-button" data-value="vendaje" data-label="Vendaje/Kinesiotape">Vendaje/Kinesiotape</button>
+                                <button type="button" class="tag-button" data-value="masoterapia" data-label="Masoterapia">Masoterapia</button>
+                                <button type="button" class="tag-button" data-value="reeducacion" data-label="Reeducación Postural">Reeducación Postural</button>
                             </div>
-                            <div id="kine-tecnicas-tags" class="flex flex-wrap gap-2 p-2 bg-gray-50 rounded-lg border border-gray-200 min-h-10">
-                                <!-- Tags se insertarán aquí dinámicamente -->
+                            <!-- Hidden checkboxes for data storage -->
+                            <div class="hidden">
+                                <input type="checkbox" name="kine-tecnicas" value="terapia_manual" class="tecnicas-checkbox">
+                                <input type="checkbox" name="kine-tecnicas" value="ejercicios" class="tecnicas-checkbox">
+                                <input type="checkbox" name="kine-tecnicas" value="electroterapia" class="tecnicas-checkbox">
+                                <input type="checkbox" name="kine-tecnicas" value="ultrasonido" class="tecnicas-checkbox">
+                                <input type="checkbox" name="kine-tecnicas" value="calor_frio" class="tecnicas-checkbox">
+                                <input type="checkbox" name="kine-tecnicas" value="vendaje" class="tecnicas-checkbox">
+                                <input type="checkbox" name="kine-tecnicas" value="masoterapia" class="tecnicas-checkbox">
+                                <input type="checkbox" name="kine-tecnicas" value="reeducacion" class="tecnicas-checkbox">
                             </div>
                         </div>
 

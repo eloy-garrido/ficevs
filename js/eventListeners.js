@@ -67,6 +67,7 @@ export function setupEventListeners() {
     // Configurar dropdowns y tags
     setupKinesiologyDropdowns();
     setupKinesiologyTags();
+    setupTagButtons();
 }
 
 /**
@@ -354,4 +355,41 @@ function setupTagsContainer(inputName, containerId, checkboxClass) {
 
     // Render inicial
     updateTags();
+}
+
+/**
+ * Configura los tag-buttons clickeables para ubicación y técnicas
+ */
+function setupTagButtons() {
+    const tagButtons = document.querySelectorAll('.tag-button');
+
+    tagButtons.forEach(button => {
+        // Establecer estado inicial basado en checkboxes
+        const value = button.getAttribute('data-value');
+        const checkbox = document.querySelector(`input[value="${value}"]`);
+
+        if (checkbox && checkbox.checked) {
+            button.classList.add('active');
+        }
+
+        // Agregar listener al botón
+        button.addEventListener('click', (e) => {
+            e.preventDefault();
+            const checkbox = document.querySelector(`input[value="${value}"]`);
+
+            if (checkbox) {
+                checkbox.checked = !checkbox.checked;
+
+                // Actualizar estado visual del botón
+                if (checkbox.checked) {
+                    button.classList.add('active');
+                } else {
+                    button.classList.remove('active');
+                }
+
+                // Disparar evento de cambio para actualizar los datos
+                checkbox.dispatchEvent(new Event('change', { bubbles: true }));
+            }
+        });
+    });
 }
