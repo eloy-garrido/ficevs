@@ -433,21 +433,155 @@ export function closeSessionDetailModal() {
 }
 
 /**
- * Oculta la sección de historial de visitas
+ * Oculta el contenido del historial y muestra un botón para volver a abrirlo
  */
 export function hidePatientHistory() {
-    const historySection = document.getElementById('patient-history');
-    if (historySection) {
-        historySection.classList.add('hidden');
+    const historyContent = document.getElementById('history-content');
+    const showHistoryBtn = document.getElementById('show-history-btn-container');
+
+    if (historyContent) {
+        historyContent.classList.add('hidden');
+    }
+    if (showHistoryBtn) {
+        showHistoryBtn.classList.remove('hidden');
     }
 }
 
 /**
- * Configura el evento del botón para ocultar el historial
+ * Muestra el contenido del historial y oculta el botón de mostrar
  */
-export function setupHideHistoryButton() {
+export function showPatientHistory() {
+    const historyContent = document.getElementById('history-content');
+    const showHistoryBtn = document.getElementById('show-history-btn-container');
+
+    if (historyContent) {
+        historyContent.classList.remove('hidden');
+    }
+    if (showHistoryBtn) {
+        showHistoryBtn.classList.add('hidden');
+    }
+}
+
+/**
+ * Filtra la tabla de historial por fecha
+ */
+function filterHistoryByDate() {
+    const dateFilter = document.getElementById('history-date-filter').value;
+    const historyTableBody = document.getElementById('history-table-body');
+    const noFilteredResultsMsg = document.getElementById('no-filtered-results-msg');
+
+    if (!historyTableBody) return;
+
+    const rows = historyTableBody.querySelectorAll('tr');
+    let visibleCount = 0;
+
+    // Convertir fecha del input (YYYY-MM-DD) a formato DD/MM/YYYY para comparación
+    let searchDate = '';
+    if (dateFilter) {
+        searchDate = formatDateForComparison(dateFilter);
+    }
+
+    rows.forEach(row => {
+        if (!dateFilter) {
+            // Si no hay filtro, mostrar todas las filas
+            row.classList.remove('hidden');
+            visibleCount++;
+        } else {
+            // Obtener la fecha de la primera columna
+            const dateCell = row.querySelector('td:first-child');
+            if (dateCell) {
+                const rowDate = dateCell.textContent.trim();
+                // Comparar fechas en formato DD/MM/YYYY
+                if (rowDate === searchDate) {
+                    row.classList.remove('hidden');
+                    visibleCount++;
+                } else {
+                    row.classList.add('hidden');
+                }
+            }
+        }
+    });
+
+    // Mostrar mensaje si no hay resultados
+    if (noFilteredResultsMsg) {
+        if (visibleCount === 0 && dateFilter) {
+            noFilteredResultsMsg.classList.remove('hidden');
+        } else {
+            noFilteredResultsMsg.classList.add('hidden');
+        }
+    }
+}
+
+/**
+ * Limpia el filtro de fecha y muestra todas las filas
+ */
+function clearDateFilter() {
+    const dateFilter = document.getElementById('history-date-filter');
+    const noFilteredResultsMsg = document.getElementById('no-filtered-results-msg');
+    const historyTableBody = document.getElementById('history-table-body');
+
+    if (dateFilter) {
+        dateFilter.value = '';
+    }
+
+    if (noFilteredResultsMsg) {
+        noFilteredResultsMsg.classList.add('hidden');
+    }
+
+    if (historyTableBody) {
+        historyTableBody.querySelectorAll('tr').forEach(row => {
+            row.classList.remove('hidden');
+        });
+    }
+}
+
+/**
+ * Convierte una fecha ISO (YYYY-MM-DD) al formato de búsqueda esperado (DD/MM/YYYY)
+ */
+function formatDateForComparison(dateString) {
+    try {
+        const date = new Date(dateString);
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear();
+        return `${day}/${month}/${year}`;
+    } catch {
+        return dateString;
+    }
+}
+
+/**
+ * Configura los eventos de los botones del historial
+ */
+export function setupHistoryControls() {
+    // Botón para ocultar
     const hideHistoryBtn = document.getElementById('hide-history-btn');
     if (hideHistoryBtn) {
         hideHistoryBtn.addEventListener('click', hidePatientHistory);
     }
+
+    // Botón para mostrar
+    const showHistoryBtn = document.getElementById('show-history-btn');
+    if (showHistoryBtn) {
+        showHistoryBtn.addEventListener('click', showPatientHistory);
+    }
+
+    // Filtro por fecha
+    const dateFilter = document.getElementById('history-date-filter');
+    if (dateFilter) {
+        dateFilter.addEventListener('change', filterHistoryByDate);
+    }
+
+    // Botón para limpiar filtro
+    const clearFilterBtn = document.getElementById('clear-date-filter');
+    if (clearFilterBtn) {
+        clearFilterBtn.addEventListener('click', clearDateFilter);
+    }
+}
+
+/**
+ * Configura el evento del botón para ocultar el historial (función heredada)
+ */
+export function setupHideHistoryButton() {
+    setupHistoryControls();
 }

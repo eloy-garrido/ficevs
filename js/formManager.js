@@ -440,7 +440,20 @@ function restoreStepData(step) {
  */
 function validateStep(step, data) {
     // Limpiar errores previos
-    formHelpers.clearAllErrors(document.querySelector(`#step-${step}`));
+    let stepElement = document.querySelector(`#step-${step}`);
+
+    // Para el paso 2, buscar el formulario específico del profesional seleccionado
+    if (step === 2) {
+        const profesional = formState.formData.profesional ||
+                           document.querySelector('input[name="profesional"]:checked')?.value;
+        if (profesional === 'kinesiologo') {
+            stepElement = document.getElementById('step-2-kinesiologo');
+        } else if (profesional === 'acupunturista') {
+            stepElement = document.getElementById('step-2-acupunturista');
+        }
+    }
+
+    formHelpers.clearAllErrors(stepElement);
 
     let isValid = true;
     const errors = [];

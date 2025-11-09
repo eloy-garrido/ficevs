@@ -303,6 +303,11 @@ export const formHelpers = {
      * Limpia todos los errores de un formulario
      */
     clearAllErrors(formElement) {
+        // Manejar caso cuando formElement es null
+        if (!formElement) {
+            return;
+        }
+
         const errorDivs = formElement.querySelectorAll('[id$="-error"]');
         errorDivs.forEach(div => div.remove());
 

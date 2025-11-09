@@ -134,9 +134,20 @@
 
                 <!-- Historial de Visitas Anteriores (solo visible para pacientes existentes) -->
                 <div id="patient-history" class="hidden mb-4">
-                    <div class="bg-gradient-to-r from-purple-50 to-pink-50 p-4 rounded-xl border-2 border-purple-200"
+                    <!-- Botón para mostrar historial (visible cuando el contenido está oculto) -->
+                    <div id="show-history-btn-container" class="hidden mb-4">
+                        <button type="button" id="show-history-btn" class="w-full px-4 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-medium rounded-lg hover:shadow-lg transition-all flex items-center justify-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            Mostrar Historial de Visitas
+                        </button>
+                    </div>
+
+                    <!-- Contenedor del historial expandible -->
+                    <div id="history-content" class="bg-gradient-to-r from-purple-50 to-pink-50 p-4 rounded-xl border-2 border-purple-200"
                         style="backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);">
-                        <div class="flex items-center justify-between mb-3">
+                        <div class="flex items-center justify-between mb-4">
                             <h3 class="text-sm font-bold text-purple-900">
                                 <svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
@@ -153,6 +164,20 @@
                                 </button>
                                 <button type="button" id="hide-history-btn" class="text-purple-600 hover:text-purple-800 text-xs font-medium">
                                     Ocultar ✕
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Buscador por Fecha -->
+                        <div class="mb-4 pb-4 border-b border-purple-200">
+                            <label class="block text-xs font-medium text-purple-900 mb-2">Filtrar por Fecha</label>
+                            <div class="flex gap-2 flex-wrap">
+                                <input type="date" id="history-date-filter"
+                                    class="flex-1 px-3 py-2 text-xs border border-purple-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 bg-white"
+                                    placeholder="Seleccionar fecha">
+                                <button type="button" id="clear-date-filter"
+                                    class="px-3 py-2 text-xs bg-purple-100 text-purple-700 rounded-lg hover:bg-purple-200 transition">
+                                    Limpiar Filtro
                                 </button>
                             </div>
                         </div>
@@ -176,6 +201,11 @@
                         <!-- Mensaje si no hay historial -->
                         <div id="no-history-msg" class="hidden text-center py-4 text-purple-600 text-xs">
                             No hay visitas anteriores registradas
+                        </div>
+
+                        <!-- Mensaje cuando no hay resultados con el filtro -->
+                        <div id="no-filtered-results-msg" class="hidden text-center py-4 text-purple-600 text-xs">
+                            No hay visitas en la fecha seleccionada
                         </div>
 
                         <p class="text-xs text-purple-600 mt-3 italic">
