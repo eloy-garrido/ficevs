@@ -562,26 +562,34 @@ async function saveStep1Data() {
         // Simular delay mínimo para que se vea la animación
         await new Promise(resolve => setTimeout(resolve, 800));
 
-        // Preparar datos solo con campos del paso 1 (sin is_draft ni step_completed)
+        // Preparar datos solo con campos del paso 1
+        // Asegurar que la edad sea número o null
+        const edadValue = formState.formData.edad;
+        const edadNum = edadValue && edadValue !== '' ? parseInt(edadValue) : null;
+
         const partialData = {
-            nombre_paciente: formState.formData.nombre_paciente,
-            rut: formState.formData.rut,
-            fecha_nacimiento: formState.formData.fecha_nacimiento,
-            edad: formState.formData.edad,
-            fecha_ingreso: formState.formData.fecha_ingreso,
-            telefono: formState.formData.telefono,
-            email: formState.formData.email,
-            ocupacion: formState.formData.ocupacion,
-            direccion: formState.formData.direccion,
-            motivo_consulta: formState.formData.motivo_consulta,
-            // Campos opcionales vacíos para evitar errores
+            nombre_paciente: formState.formData.nombre_paciente || '',
+            rut: formState.formData.rut || null,
+            fecha_nacimiento: formState.formData.fecha_nacimiento || null,
+            edad: edadNum,
+            fecha_ingreso: formState.formData.fecha_ingreso || new Date().toISOString().split('T')[0],
+            telefono: formState.formData.telefono || null,
+            email: formState.formData.email || null,
+            ocupacion: formState.formData.ocupacion || null,
+            direccion: formState.formData.direccion || null,
+            motivo_consulta: formState.formData.motivo_consulta || '',
+            // Campos JSONB vacíos
             datos_mtc: {},
             sintomas_generales: {},
             datos_dolor: {}
         };
 
+        debugLog('📤 Datos a enviar:', partialData);
+
         // Guardar en la BD
         const result = await createFichaClinica(partialData);
+
+        debugLog('✅ Ficha guardada con ID:', result.id);
 
         // Guardar el ID de la ficha para actualizaciones futuras
         formState.fichaId = result.id;
@@ -602,12 +610,15 @@ async function saveStep1Data() {
 
     } catch (error) {
         console.error('Error al guardar paso 1:', error);
+        console.error('Error completo:', JSON.stringify(error, null, 2));
         hideSaveModal();
 
         // Mostrar mensaje de error más específico
         let errorMessage = 'Error al guardar los datos. ';
         if (error.message) {
             errorMessage += error.message;
+        } else if (error.details) {
+            errorMessage += error.details;
         } else {
             errorMessage += 'Por favor, intenta nuevamente.';
         }

@@ -12,7 +12,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/styles.css?v=5.0">
+    <link rel="stylesheet" href="css/styles.css?v=5.1">
 
     <!-- Manifest PWA -->
     <link rel="manifest" href="manifest.json">
@@ -1318,7 +1318,10 @@
 
             // Función para cargar datos del paciente
             function loadPatientData(patient) {
-                // Llenar todos los campos del formulario
+                console.log('📋 Cargando datos del paciente:', patient);
+
+                // Llenar solo los datos demográficos del paciente
+                // NO cargar motivo_consulta ya que cada visita tiene su propio motivo
                 document.getElementById('rut').value = patient.rut || '';
                 document.getElementById('nombre-paciente').value = patient.nombre_paciente || '';
                 document.getElementById('fecha-nacimiento').value = patient.fecha_nacimiento || '';
@@ -1338,12 +1341,20 @@
                 document.getElementById('email').value = patient.email || '';
                 document.getElementById('ocupacion').value = patient.ocupacion || '';
                 document.getElementById('direccion').value = patient.direccion || '';
-                document.getElementById('motivo-consulta').value = patient.motivo_consulta || '';
-                document.getElementById('fecha-ingreso').value = patient.fecha_ingreso || new Date().toISOString().split('T')[0];
 
-                // Guardar el ID de la ficha existente para posibles actualizaciones
+                // NO cargar motivo_consulta - cada visita es única
+                // Dejar que el usuario ingrese un nuevo motivo
+                document.getElementById('motivo-consulta').value = '';
+                document.getElementById('motivo-consulta').placeholder = 'Ingrese el motivo de esta consulta...';
+
+                // Usar fecha actual para nueva ficha
+                document.getElementById('fecha-ingreso').value = new Date().toISOString().split('T')[0];
+
+                // Guardar referencia al paciente existente (no al ID de ficha)
+                // Esto nos ayudará a saber que es un paciente recurrente
                 if (window.formState) {
-                    window.formState.existingFichaId = patient.id;
+                    window.formState.existingPatientRut = patient.rut;
+                    window.formState.isExistingPatient = true;
                 }
 
                 // Mostrar notificación

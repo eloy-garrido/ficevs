@@ -79,7 +79,17 @@ export async function createFichaClinica(fichaData) {
 
         loader.hide();
 
-        if (error) throw error;
+        if (error) {
+            console.error('❌ Error de Supabase:', error);
+            console.error('📋 Detalles del error:', {
+                message: error.message,
+                details: error.details,
+                hint: error.hint,
+                code: error.code
+            });
+            console.error('📦 Payload enviado:', payload);
+            throw error;
+        }
 
         notifications.success('Ficha clínica guardada exitosamente!');
         debugLog('✅ Ficha creada:', data.id);
@@ -89,7 +99,17 @@ export async function createFichaClinica(fichaData) {
     } catch (error) {
         loader.hide();
         console.error('❌ Error al crear ficha:', error);
-        notifications.error('Error al guardar la ficha clínica');
+
+        // Mensaje de error más descriptivo
+        let errorMsg = 'Error al guardar la ficha clínica';
+        if (error.message) {
+            errorMsg += ': ' + error.message;
+        }
+        if (error.details) {
+            errorMsg += ' (' + error.details + ')';
+        }
+
+        notifications.error(errorMsg);
         throw error;
     }
 }
@@ -406,25 +426,29 @@ export async function searchPatientByRut(rut) {
             throw new Error('Usuario no autenticado');
         }
 
-        // Limpiar el RUT para la búsqueda (quitar puntos y guiones)
-        const cleanRut = rut.replace(/\./g, '').replace(/-/g, '');
+        // Buscar tanto con el formato original como limpio
+        const searchRut = rut.trim();
 
-        if (cleanRut.length < 3) {
+        if (searchRut.length < 3) {
             return []; // No buscar si es muy corto
         }
 
+        // Búsqueda flexible: busca el RUT tal como viene (con formato)
         const { data, error } = await supabase
             .from('fichas_clinicas')
             .select('*')
             .eq('terapeuta_id', user.id)
-            .ilike('rut', `%${cleanRut}%`)
+            .ilike('rut', `${searchRut}%`)
             .order('created_at', { ascending: false })
             .limit(5);
 
-        if (error) throw error;
+        if (error) {
+            console.error('Error en consulta de búsqueda:', error);
+            throw error;
+        }
 
         debugLog('🔍 Búsqueda por RUT:', data.length, 'pacientes encontrados');
-        return data;
+        return data || [];
 
     } catch (error) {
         console.error('❌ Error al buscar por RUT:', error);
