@@ -8,7 +8,7 @@ import { storage } from './utils.js';
 import { setupRutSearch } from './search.js';
 import { loadPatientData, deletePatient } from './patientLoader.js';
 import { calculateAge } from './validation.js';
-import { setupHideHistoryButton } from './history.js';
+import { setupHideHistoryButton, closeSessionDetailModal } from './history.js';
 
 /**
  * Configura todos los event listeners de la aplicación
@@ -50,6 +50,9 @@ export function setupEventListeners() {
 
     // Configurar eliminación de paciente
     setupDeletePatient();
+
+    // Configurar modal de detalles de sesión
+    setupSessionDetailModal();
 }
 
 /**
@@ -168,6 +171,39 @@ function setupDeletePatient() {
                 await deletePatient(currentRut);
             } catch (error) {
                 alert('❌ ' + error.message);
+            }
+        });
+    }
+}
+
+/**
+ * Configura los eventos del modal de detalles de sesión
+ */
+function setupSessionDetailModal() {
+    const modal = document.getElementById('session-detail-modal');
+    const closeBtn = document.getElementById('close-session-modal');
+    const closeBtnBottom = document.getElementById('close-session-modal-btn');
+
+    if (closeBtn) {
+        closeBtn.addEventListener('click', closeSessionDetailModal);
+    }
+
+    if (closeBtnBottom) {
+        closeBtnBottom.addEventListener('click', closeSessionDetailModal);
+    }
+
+    // Cerrar modal al hacer click fuera del contenido
+    if (modal) {
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeSessionDetailModal();
+            }
+        });
+
+        // Cerrar modal con tecla Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+                closeSessionDetailModal();
             }
         });
     }

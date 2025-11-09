@@ -60,6 +60,45 @@
         </div>
     </div>
 
+    <!-- Modal de Detalles de Sesión Histórica -->
+    <div id="session-detail-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center" style="background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-3xl mx-4 max-h-[90vh] overflow-y-auto" style="animation: slideUp 0.3s ease-out;">
+            <!-- Cabecera -->
+            <div class="sticky top-0 bg-gradient-to-r from-purple-50 to-pink-50 px-6 py-3 border-b border-purple-200 flex items-center justify-between">
+                <div>
+                    <h2 class="text-lg font-bold text-gray-900">Resumen de Sesión</h2>
+                    <p id="modal-session-header" class="text-xs text-purple-600 mt-1">Sesión sin datos</p>
+                </div>
+                <button id="close-session-modal" class="text-gray-400 hover:text-gray-600 transition">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Contenido Comprimido -->
+            <div class="p-4 space-y-4">
+                <!-- Motivo de Consulta Completo -->
+                <div>
+                    <h3 class="text-xs font-bold text-gray-600 uppercase tracking-wide mb-2">Motivo de Consulta</h3>
+                    <p id="modal-consultation-reason" class="text-sm text-gray-900 bg-gray-50 p-3 rounded border border-gray-200 max-h-32 overflow-y-auto">Sin datos</p>
+                </div>
+
+                <!-- Contenido específico según tipo de sesión (Kinesiología o Acupuntura) -->
+                <div id="modal-session-content" class="space-y-3">
+                    <!-- Se llenará dinámicamente según el tipo -->
+                </div>
+            </div>
+
+            <!-- Pie -->
+            <div class="sticky bottom-0 bg-gray-50 px-6 py-3 border-t border-gray-200">
+                <button id="close-session-modal-btn" class="w-full bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition font-semibold text-sm">
+                    Cerrar
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Contenedor Principal del Formulario -->
     <main class="container mx-auto px-4 max-w-4xl min-h-screen flex flex-col justify-center">
         <!-- PASO 1: Datos del Paciente -->
