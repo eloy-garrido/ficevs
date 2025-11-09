@@ -478,9 +478,51 @@ export async function updateSesionKinesiologia(sesionId, updates) {
             throw new Error('Usuario no autenticado');
         }
 
+        // Mapear datos a nombres de columnas correctas
+        const mappedUpdates = {};
+
+        // Mapear campos de evaluación funcional
+        if (updates.evaluacion_funcional) {
+            mappedUpdates.movilidad_articular = updates.evaluacion_funcional.movilidad || null;
+            mappedUpdates.fuerza_muscular = updates.evaluacion_funcional.fuerza || null;
+            mappedUpdates.analisis_postural = updates.evaluacion_funcional.postura || null;
+        }
+
+        // Mapear campos de evaluación del dolor
+        if (updates.evaluacion_dolor) {
+            mappedUpdates.ubicacion_dolor = updates.evaluacion_dolor.ubicaciones || [];
+            mappedUpdates.intensidad_dolor = updates.evaluacion_dolor.intensidad || null;
+            mappedUpdates.caracteristicas_dolor = updates.evaluacion_dolor.caracteristicas || null;
+        }
+
+        // Mapear campos de pruebas diagnóstico
+        if (updates.pruebas_diagnostico) {
+            mappedUpdates.tests_especiales = updates.pruebas_diagnostico.tests || null;
+            mappedUpdates.diagnostico = updates.pruebas_diagnostico.diagnostico || null;
+        }
+
+        // Mapear campos de plan de tratamiento
+        if (updates.plan_tratamiento) {
+            mappedUpdates.objetivos_tratamiento = updates.plan_tratamiento.objetivos || null;
+            mappedUpdates.frecuencia_sesiones = updates.plan_tratamiento.frecuencia || null;
+            mappedUpdates.duracion_estimada = updates.plan_tratamiento.duracion || null;
+            mappedUpdates.ejercicios_casa = updates.plan_tratamiento.ejercicios_casa || null;
+        }
+
+        // Copiar otros campos que no necesitan mapeo
+        if (updates.motivo_consulta !== undefined) mappedUpdates.motivo_consulta = updates.motivo_consulta;
+        if (updates.tecnicas_aplicadas !== undefined) mappedUpdates.tecnicas_aplicadas = updates.tecnicas_aplicadas;
+        if (updates.recomendaciones !== undefined) mappedUpdates.recomendaciones = updates.recomendaciones;
+        if (updates.consentimiento_informado !== undefined) mappedUpdates.consentimiento_informado = updates.consentimiento_informado;
+        if (updates.duracion_minutos !== undefined) mappedUpdates.duracion_minutos = updates.duracion_minutos;
+        if (updates.observaciones !== undefined) mappedUpdates.observaciones = updates.observaciones;
+        if (updates.proxima_cita !== undefined) mappedUpdates.proxima_cita = updates.proxima_cita;
+
+        debugLog('📤 Actualizando sesión de kinesiología con:', mappedUpdates);
+
         const { data, error } = await supabase
             .from('sesiones_kinesiologia')
-            .update(updates)
+            .update(mappedUpdates)
             .eq('id', sesionId)
             .eq('profesional_id', user.id)
             .select()
