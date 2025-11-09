@@ -139,6 +139,7 @@ CREATE TABLE IF NOT EXISTS public.pacientes (
     telefono TEXT,
     email TEXT,
     direccion TEXT,
+    ocupacion TEXT,                                  -- Ocupación del paciente
 
     -- Datos médicos básicos
     alergias TEXT,

@@ -4,12 +4,14 @@
 
 **NOTA:** Las tablas han sido actualizadas:
 - `fichas_clinicas`: Ahora incluye el campo `tipo_profesional` (kinesiologo/acupunturista)
-- `pacientes`: Incluye campo `rut` para prevenir duplicados
+- `pacientes`: Incluye campos `rut` (prevenir duplicados) y `ocupacion` (ocupación del paciente)
 
 **Tienes 2 opciones:**
 
 ### Opción A: Migración Incremental (si ya tienes datos que NO quieres perder)
-Ejecuta solo: `06_add_tipo_profesional.sql`
+Ejecuta en orden:
+1. `06_add_tipo_profesional.sql` - Agrega campo tipo_profesional a fichas_clinicas
+2. `07_add_ocupacion_to_pacientes.sql` - Agrega campo ocupacion a pacientes
 
 ### Opción B: Recrear desde cero (base de datos nueva o no te importa perder datos)
 Ejecuta: `00_drop_all_tables.sql` seguido de `01_create_all_tables.sql`

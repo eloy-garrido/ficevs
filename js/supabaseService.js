@@ -576,6 +576,7 @@ export async function createOrUpdatePatient(patientData) {
             telefono: patientData.telefono || null,
             email: patientData.email || null,
             direccion: patientData.direccion || null,
+            ocupacion: patientData.ocupacion || null,
             // Campos médicos se pueden agregar después
             alergias: null,
             medicamentos_actuales: null,
