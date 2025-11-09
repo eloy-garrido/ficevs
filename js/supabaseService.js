@@ -154,9 +154,18 @@ export async function createSesionKinesiologia(sesionData) {
             fecha_sesion: sesionData.fecha_sesion || new Date().toISOString(),
             numero_sesion: nextNumero,
 
+            // Evaluación funcional
+            evaluacion_funcional: sesionData.evaluacion_funcional || {},
+
+            // Evaluación del dolor
+            evaluacion_dolor: sesionData.evaluacion_dolor || {},
+
+            // Pruebas y diagnóstico
+            pruebas_diagnostico: sesionData.pruebas_diagnostico || {},
+
             // Diagnóstico y plan
             diagnostico: sesionData.diagnostico || null,
-            plan_tratamiento: sesionData.plan_tratamiento || null,
+            plan_tratamiento: sesionData.plan_tratamiento || {},
 
             // Técnicas aplicadas
             tecnicas_aplicadas: sesionData.tecnicas_aplicadas || [],

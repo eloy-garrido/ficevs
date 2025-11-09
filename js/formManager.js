@@ -329,22 +329,58 @@ function collectDataFromStep(step) {
             break;
 
         case 2:
-            // Datos de MTC (Lengua y Pulso)
-            data.datos_mtc = {
-                lengua: {
-                    color: formHelpers.getRadioValue('lengua-color'),
-                    saburra: formHelpers.getRadioValue('lengua-saburra'),
-                    forma: formHelpers.getRadioValue('lengua-forma'),
-                    observaciones: document.getElementById('lengua-observaciones')?.value.trim()
-                },
-                pulso: {
-                    profundidad: formHelpers.getRadioValue('pulso-profundidad'),
-                    velocidad: formHelpers.getRadioValue('pulso-velocidad'),
-                    fuerza: formHelpers.getRadioValue('pulso-fuerza'),
-                    calidad: formHelpers.getRadioValue('pulso-calidad'),
-                    observaciones: document.getElementById('pulso-observaciones')?.value.trim()
-                }
-            };
+            // Determinar si es Kinesiología o Acupuntura
+            const profesional = formState.formData.profesional ||
+                               document.querySelector('input[name="profesional"]:checked')?.value;
+
+            if (profesional === 'kinesiologo') {
+                // Datos de Kinesiología
+                data.evaluacion_funcional = {
+                    movilidad: document.getElementById('kine-movilidad')?.value.trim(),
+                    fuerza: document.getElementById('kine-fuerza')?.value.trim(),
+                    postura: document.getElementById('kine-postura')?.value.trim()
+                };
+
+                data.evaluacion_dolor = {
+                    ubicaciones: formHelpers.getCheckedValues('kine-dolor-ubicacion'),
+                    intensidad: document.getElementById('kine-dolor-intensidad')?.value,
+                    caracteristicas: document.getElementById('kine-dolor-caracteristicas')?.value.trim()
+                };
+
+                data.pruebas_diagnostico = {
+                    tests: document.getElementById('kine-tests')?.value.trim(),
+                    diagnostico: document.getElementById('kine-diagnostico')?.value.trim()
+                };
+
+                data.plan_tratamiento_kine = {
+                    objetivos: document.getElementById('kine-objetivos')?.value.trim(),
+                    tecnicas: formHelpers.getCheckedValues('kine-tecnicas'),
+                    frecuencia: document.getElementById('kine-frecuencia')?.value.trim(),
+                    duracion: document.getElementById('kine-duracion')?.value.trim(),
+                    ejercicios_casa: document.getElementById('kine-ejercicios-casa')?.value.trim()
+                };
+
+                // Recomendaciones y consentimiento
+                data.recomendaciones = document.getElementById('kine-ejercicios-casa')?.value.trim();
+                data.consentimiento_kine = document.getElementById('kine-consentimiento')?.checked || false;
+            } else {
+                // Datos de MTC (Lengua y Pulso) para Acupuntura
+                data.datos_mtc = {
+                    lengua: {
+                        color: formHelpers.getRadioValue('lengua-color'),
+                        saburra: formHelpers.getRadioValue('lengua-saburra'),
+                        forma: formHelpers.getRadioValue('lengua-forma'),
+                        observaciones: document.getElementById('lengua-observaciones')?.value.trim()
+                    },
+                    pulso: {
+                        profundidad: formHelpers.getRadioValue('pulso-profundidad'),
+                        velocidad: formHelpers.getRadioValue('pulso-velocidad'),
+                        fuerza: formHelpers.getRadioValue('pulso-fuerza'),
+                        calidad: formHelpers.getRadioValue('pulso-calidad'),
+                        observaciones: document.getElementById('pulso-observaciones')?.value.trim()
+                    }
+                };
+            }
             break;
 
         case 3:
@@ -537,6 +573,22 @@ function validateStep(step, data) {
             }
             break;
 
+        case 2:
+            // Validar según el profesional
+            const profesional = formState.formData.profesional ||
+                               document.querySelector('input[name="profesional"]:checked')?.value;
+
+            if (profesional === 'kinesiologo') {
+                // Validar consentimiento de kinesiología
+                if (!data.consentimiento_kine) {
+                    formHelpers.showFieldError('kine-consentimiento', 'Debes aceptar el consentimiento informado');
+                    errors.push('Consentimiento requerido');
+                    isValid = false;
+                }
+            }
+            // Para acupuntura, los datos son opcionales en este paso
+            break;
+
         case 5:
             // Validar consentimiento
             if (!data.consentimiento_aceptado) {
@@ -546,7 +598,7 @@ function validateStep(step, data) {
             }
             break;
 
-        // Los pasos 2, 3, 4 son opcionales (no requieren validación estricta)
+        // Los pasos 3, 4 son opcionales (no requieren validación estricta)
     }
 
     if (!isValid) {
@@ -763,6 +815,12 @@ async function submitForm() {
     try {
         formState.isSubmitting = true;
 
+        // Mostrar modal de guardado
+        showSaveModal();
+
+        // Simular delay mínimo para que se vea la animación
+        await new Promise(resolve => setTimeout(resolve, 800));
+
         // Recolectar datos del paso final
         const finalData = collectDataFromStep(formState.currentStep);
         Object.assign(formState.formData, finalData);
@@ -771,6 +829,7 @@ async function submitForm() {
         const isValid = validateStep(formState.currentStep, finalData);
         if (!isValid) {
             formState.isSubmitting = false;
+            hideSaveModal();
             return;
         }
 
@@ -818,9 +877,10 @@ async function submitForm() {
             // Preparar datos para sesión de kinesiología
             const sesionData = {
                 motivo_consulta: formState.formData.motivo_consulta,
-                diagnostico: formState.formData.diagnostico_terapeuta || null,
-                plan_tratamiento: formState.formData.plan_tratamiento || null,
-                tecnicas_aplicadas: formState.formData.tecnicas_aplicadas || [],
+                evaluacion_funcional: formState.formData.evaluacion_funcional || {},
+                evaluacion_dolor: formState.formData.evaluacion_dolor || {},
+                pruebas_diagnostico: formState.formData.pruebas_diagnostico || {},
+                plan_tratamiento: formState.formData.plan_tratamiento_kine || {},
                 recomendaciones: formState.formData.recomendaciones || null
             };
 
@@ -846,10 +906,19 @@ async function submitForm() {
         // Limpiar borrador
         storage.clearDraft();
 
-        // Mostrar éxito
-        notifications.success('¡Sesión guardada exitosamente!');
+        // Mostrar estado de éxito en el modal
+        showSaveSuccess();
+
+        // Esperar un momento para que se vea el éxito
+        await new Promise(resolve => setTimeout(resolve, 1500));
+
+        // Ocultar modal
+        hideSaveModal();
 
         debugLog('✅ Sesión creada con ID:', sesionResult.id);
+
+        // Mostrar notificación de éxito
+        notifications.success('¡Sesión guardada exitosamente!');
 
         // Redirigir o limpiar formulario
         setTimeout(() => {
@@ -859,7 +928,16 @@ async function submitForm() {
 
     } catch (error) {
         console.error('❌ Error al guardar sesión:', error);
-        notifications.error('Error al guardar la sesión. Por favor, intenta nuevamente.');
+        hideSaveModal();
+        let errorMessage = 'Error al guardar la sesión. ';
+        if (error.message) {
+            errorMessage += error.message;
+        } else if (error.details) {
+            errorMessage += error.details;
+        } else {
+            errorMessage += 'Por favor, intenta nuevamente.';
+        }
+        notifications.error(errorMessage);
     } finally {
         formState.isSubmitting = false;
     }
