@@ -35,7 +35,7 @@
 
     <!-- Modal de Guardado con Glassmorfismo Premium Ultra Transparente -->
     <div id="save-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center" style="background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);">
-        <div class="save-modal-content" style="background: rgba(255, 255, 255, 0.65); backdrop-filter: blur(50px) saturate(220%) brightness(1.15); -webkit-backdrop-filter: blur(50px) saturate(220%) brightness(1.15); border: 1.5px solid rgba(255, 255, 255, 0.85); border-radius: 24px; box-shadow: 0 30px 80px rgba(30, 60, 114, 0.2), 0 12px 40px rgba(52, 211, 153, 0.12), inset 0 1px 3px rgba(255, 255, 255, 0.9), inset 0 -1px 3px rgba(30, 60, 114, 0.08); padding: 3rem; min-width: 320px; text-align: center;">
+        <div class="save-modal-content" style="background: #ffffff; border: 1.5px solid rgba(122, 152, 114, 0.2); border-radius: 24px; box-shadow: 0 30px 80px rgba(30, 60, 114, 0.2), 0 12px 40px rgba(122, 152, 114, 0.15); padding: 3rem; min-width: 320px; text-align: center;">
             <!-- Estado: Guardando -->
             <div id="save-modal-saving" class="save-state">
                 <div class="save-spinner">
@@ -64,7 +64,7 @@
     <div id="session-detail-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center" style="background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);">
         <div class="bg-white rounded-2xl shadow-2xl w-full max-w-3xl mx-4 max-h-[90vh] overflow-y-auto" style="animation: slideUp 0.3s ease-out;">
             <!-- Cabecera -->
-            <div class="sticky top-0 bg-gradient-to-r from-purple-50 to-pink-50 px-6 py-3 border-b border-purple-200 flex items-center justify-between">
+            <div class="sticky top-0 z-10 bg-gradient-to-r from-purple-50 to-pink-50 px-6 py-3 border-b border-purple-200 flex items-center justify-between">
                 <div>
                     <h2 class="text-lg font-bold text-gray-900">Resumen de Sesión</h2>
                     <p id="modal-session-header" class="text-xs text-purple-600 mt-1">Sesión sin datos</p>
@@ -91,7 +91,7 @@
             </div>
 
             <!-- Pie -->
-            <div class="sticky bottom-0 bg-gray-50 px-6 py-3 border-t border-gray-200">
+            <div class="sticky bottom-0 z-10 bg-gray-50 px-6 py-3 border-t border-gray-200">
                 <button id="close-session-modal-btn" class="w-full bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition font-semibold text-sm">
                     Cerrar
                 </button>

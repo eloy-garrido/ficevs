@@ -221,5 +221,17 @@ function setupSessionDetailModal() {
                 closeSessionDetailModal();
             }
         });
+
+        // Observar cambios en el modal (cuando se abre/cierra)
+        const observer = new MutationObserver(() => {
+            const isHidden = modal.classList.contains('hidden');
+            if (isHidden) {
+                document.body.style.overflow = '';
+            } else {
+                document.body.style.overflow = 'hidden';
+            }
+        });
+
+        observer.observe(modal, { attributes: true, attributeFilter: ['class'] });
     }
 }

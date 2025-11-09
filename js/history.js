@@ -152,33 +152,39 @@ async function loadKinesiologiaSessionDetails(sessionId, contentContainer) {
                 <!-- Evaluación Funcional -->
                 <div>
                     <h4 class="text-xs font-bold text-gray-700 mb-1">Movilidad Articular</h4>
-                    <p class="text-sm text-gray-900 bg-blue-50 p-2 rounded border border-blue-200">${sesion.kine_movilidad || 'Sin información'}</p>
+                    <p class="text-sm text-gray-900 bg-blue-50 p-2 rounded border border-blue-200">${sesion.movilidad_articular || 'Sin información'}</p>
                 </div>
 
                 <div>
                     <h4 class="text-xs font-bold text-gray-700 mb-1">Fuerza Muscular</h4>
-                    <p class="text-sm text-gray-900 bg-blue-50 p-2 rounded border border-blue-200">${sesion.kine_fuerza || 'Sin información'}</p>
+                    <p class="text-sm text-gray-900 bg-blue-50 p-2 rounded border border-blue-200">${sesion.fuerza_muscular || 'Sin información'}</p>
                 </div>
 
                 <div>
                     <h4 class="text-xs font-bold text-gray-700 mb-1">Análisis Postural</h4>
-                    <p class="text-sm text-gray-900 bg-blue-50 p-2 rounded border border-blue-200">${sesion.kine_postura || 'Sin información'}</p>
+                    <p class="text-sm text-gray-900 bg-blue-50 p-2 rounded border border-blue-200">${sesion.analisis_postural || 'Sin información'}</p>
+                </div>
+
+                <!-- Ubicación del Dolor -->
+                <div>
+                    <h4 class="text-xs font-bold text-gray-700 mb-1">Ubicación del Dolor</h4>
+                    <p class="text-sm text-gray-900 bg-red-50 p-2 rounded border border-red-200">${sesion.ubicacion_dolor ? Object.values(sesion.ubicacion_dolor).filter(v => v).join(', ') || 'Sin información' : 'Sin información'}</p>
                 </div>
 
                 <!-- Evaluación del Dolor -->
                 <div>
-                    <h4 class="text-xs font-bold text-gray-700">Intensidad del Dolor: <span class="text-red-600">${sesion.kine_dolor_intensidad ? sesion.kine_dolor_intensidad + '/10' : 'Sin información'}</span></h4>
+                    <h4 class="text-xs font-bold text-gray-700">Intensidad del Dolor: <span class="text-red-600">${sesion.intensidad_dolor ? sesion.intensidad_dolor + '/10' : 'Sin información'}</span></h4>
                 </div>
 
                 <div>
                     <h4 class="text-xs font-bold text-gray-700 mb-1">Características del Dolor</h4>
-                    <p class="text-sm text-gray-900 bg-red-50 p-2 rounded border border-red-200">${sesion.kine_dolor_caracteristicas || 'Sin información'}</p>
+                    <p class="text-sm text-gray-900 bg-red-50 p-2 rounded border border-red-200">${sesion.caracteristicas_dolor || 'Sin información'}</p>
                 </div>
 
                 <!-- Pruebas Especiales -->
                 <div>
                     <h4 class="text-xs font-bold text-gray-700 mb-1">Pruebas Especiales</h4>
-                    <p class="text-sm text-gray-900 bg-green-50 p-2 rounded border border-green-200">${sesion.kine_tests || 'Sin información'}</p>
+                    <p class="text-sm text-gray-900 bg-green-50 p-2 rounded border border-green-200">${sesion.tests_especiales || 'Sin información'}</p>
                 </div>
 
                 <!-- Diagnóstico -->
@@ -195,8 +201,8 @@ async function loadKinesiologiaSessionDetails(sessionId, contentContainer) {
 
                 <!-- Objetivos -->
                 <div>
-                    <h4 class="text-xs font-bold text-gray-700 mb-1">Objetivos</h4>
-                    <p class="text-sm text-gray-900 bg-yellow-50 p-2 rounded border border-yellow-200">${sesion.kine_objetivos || 'Sin información'}</p>
+                    <h4 class="text-xs font-bold text-gray-700 mb-1">Objetivos del Tratamiento</h4>
+                    <p class="text-sm text-gray-900 bg-yellow-50 p-2 rounded border border-yellow-200">${sesion.objetivos_tratamiento || 'Sin información'}</p>
                 </div>
 
                 <!-- Técnicas Aplicadas -->
@@ -210,19 +216,31 @@ async function loadKinesiologiaSessionDetails(sessionId, contentContainer) {
                 <!-- Frecuencia y Duración -->
                 <div class="grid grid-cols-2 gap-2 text-sm">
                     <div>
-                        <h4 class="text-xs font-bold text-gray-700">Frecuencia</h4>
-                        <p class="text-gray-900">${sesion.kine_frecuencia || 'Sin información'}</p>
+                        <h4 class="text-xs font-bold text-gray-700">Frecuencia de Sesiones</h4>
+                        <p class="text-gray-900">${sesion.frecuencia_sesiones || 'Sin información'}</p>
                     </div>
                     <div>
-                        <h4 class="text-xs font-bold text-gray-700">Duración</h4>
-                        <p class="text-gray-900">${sesion.duracion_minutos ? sesion.duracion_minutos + ' min' : 'Sin información'}</p>
+                        <h4 class="text-xs font-bold text-gray-700">Duración Estimada</h4>
+                        <p class="text-gray-900">${sesion.duracion_estimada || 'Sin información'}</p>
                     </div>
+                </div>
+
+                <!-- Duración de la Sesión -->
+                <div>
+                    <h4 class="text-xs font-bold text-gray-700">Duración de Sesión:</h4>
+                    <p class="text-sm text-gray-900">${sesion.duracion_minutos ? sesion.duracion_minutos + ' minutos' : 'Sin información'}</p>
                 </div>
 
                 <!-- Ejercicios en Casa -->
                 <div>
-                    <h4 class="text-xs font-bold text-gray-700 mb-1">Ejercicios en Casa</h4>
-                    <p class="text-sm text-gray-900 bg-indigo-50 p-2 rounded border border-indigo-200">${sesion.kine_ejercicios_casa || 'Sin información'}</p>
+                    <h4 class="text-xs font-bold text-gray-700 mb-1">Ejercicios en Casa / Recomendaciones</h4>
+                    <p class="text-sm text-gray-900 bg-indigo-50 p-2 rounded border border-indigo-200">${sesion.ejercicios_casa || 'Sin información'}</p>
+                </div>
+
+                <!-- Consentimiento Informado -->
+                <div>
+                    <h4 class="text-xs font-bold text-gray-700">Consentimiento Informado:</h4>
+                    <p class="text-sm text-gray-900">${sesion.consentimiento_informado ? '✓ Consentimiento otorgado' : 'Sin consentimiento registrado'}</p>
                 </div>
 
                 <!-- Recomendaciones -->
