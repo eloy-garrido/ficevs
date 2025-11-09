@@ -94,7 +94,7 @@ export async function createFichaClinica(fichaData) {
             throw error;
         }
 
-        notifications.success('Ficha clínica guardada exitosamente!');
+        // No mostrar notificación aquí - el modal animado ya muestra el éxito
         debugLog('✅ Ficha creada:', data.id);
 
         return data;
@@ -611,6 +611,60 @@ export async function createOrUpdatePatient(patientData) {
 
     } catch (error) {
         console.error('❌ Error al crear/actualizar paciente:', error);
+        throw error;
+    }
+}
+
+/**
+ * Elimina un paciente y todas sus fichas por RUT
+ * PELIGRO: Esta operación es irreversible
+ */
+export async function deletePatientByRut(rut) {
+    try {
+        const supabase = getSupabaseClient();
+        const user = await getCurrentUser();
+
+        if (!user) {
+            throw new Error('Usuario no autenticado');
+        }
+
+        if (!rut) {
+            throw new Error('RUT no proporcionado');
+        }
+
+        debugLog('🗑️ Iniciando eliminación de paciente con RUT:', rut);
+
+        // 1. Eliminar todas las fichas clínicas asociadas al RUT
+        const { error: fichasError } = await supabase
+            .from('fichas_clinicas')
+            .delete()
+            .eq('terapeuta_id', user.id)
+            .eq('rut', rut);
+
+        if (fichasError) {
+            console.error('Error al eliminar fichas:', fichasError);
+            throw new Error('Error al eliminar fichas clínicas: ' + fichasError.message);
+        }
+
+        debugLog('✅ Fichas clínicas eliminadas');
+
+        // 2. Eliminar el registro del paciente
+        const { error: pacienteError } = await supabase
+            .from('pacientes')
+            .delete()
+            .eq('terapeuta_id', user.id)
+            .eq('rut', rut);
+
+        if (pacienteError) {
+            console.error('Error al eliminar paciente:', pacienteError);
+            throw new Error('Error al eliminar paciente: ' + pacienteError.message);
+        }
+
+        debugLog('✅ Paciente eliminado completamente');
+        return { success: true, message: 'Paciente eliminado exitosamente' };
+
+    } catch (error) {
+        console.error('❌ Error al eliminar paciente:', error);
         throw error;
     }
 }
