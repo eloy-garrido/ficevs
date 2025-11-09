@@ -273,7 +273,7 @@
                                         </svg>
                                     </div>
                                     <div class="flex-1 text-left">
-                                        <h4 class="text-sm font-bold text-gray-900">Kinesiólogo</h4>
+                                        <h4 class="text-sm font-bold text-gray-900">Kinesiología</h4>
                                         <p class="text-xs text-gray-600">Rehabilitación y terapia física</p>
                                     </div>
                                 </div>
@@ -291,7 +291,7 @@
                                         </svg>
                                     </div>
                                     <div class="flex-1 text-left">
-                                        <h4 class="text-sm font-bold text-gray-900">Acupunturista</h4>
+                                        <h4 class="text-sm font-bold text-gray-900">Acupuntura</h4>
                                         <p class="text-xs text-gray-600">Medicina Tradicional China</p>
                                     </div>
                                 </div>
@@ -304,21 +304,43 @@
                         <p class="text-xs">Por favor, seleccione un profesional para continuar</p>
                     </div>
 
-                    <!-- Estilos para botones seleccionados -->
+                    <!-- Estilos para botones seleccionados y hover -->
                     <style>
+                        /* Hover effects para botones de profesional */
+                        .profesional-button:hover {
+                            border-color: #9ca3af;
+                            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+                            transform: translateY(-2px);
+                        }
+
+                        /* Estado seleccionado */
                         .profesional-radio:checked + .profesional-button {
                             border-width: 2px;
                             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
                         }
 
+                        /* Kinesiología - seleccionado */
                         #profesional-kinesiologo:checked + .profesional-button {
                             border-color: #3b82f6;
                             background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(59, 130, 246, 0.08) 100%);
                         }
 
+                        /* Kinesiología - hover cuando no está seleccionado */
+                        #profesional-kinesiologo:not(:checked) + .profesional-button:hover {
+                            border-color: #60a5fa;
+                            background: linear-gradient(135deg, rgba(59, 130, 246, 0.02) 0%, rgba(59, 130, 246, 0.04) 100%);
+                        }
+
+                        /* Acupuntura - seleccionado */
                         #profesional-acupunturista:checked + .profesional-button {
                             border-color: #a855f7;
                             background: linear-gradient(135deg, rgba(168, 85, 247, 0.05) 0%, rgba(168, 85, 247, 0.08) 100%);
+                        }
+
+                        /* Acupuntura - hover cuando no está seleccionado */
+                        #profesional-acupunturista:not(:checked) + .profesional-button:hover {
+                            border-color: #c084fc;
+                            background: linear-gradient(135deg, rgba(168, 85, 247, 0.02) 0%, rgba(168, 85, 247, 0.04) 100%);
                         }
                     </style>
                 </div>
