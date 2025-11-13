@@ -1,0 +1,22 @@
+name: Keep Supabase Active - Ping Log CVS
+on:
+  schedule:
+    # Corre a las 00:00 UTC cada Lunes (1) y Jueves (4).
+    # Máximo 4 días de inactividad, asegurando que no se pause.
+    - cron: '0 0 * * 1,4' 
+  workflow_dispatch: # Permite ejecutar la tarea manualmente
+
+jobs:
+  ping_db:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send INSERT Request to Supabase Ping Log
+        # Utilizamos 'curl' para hacer una solicitud POST (inserción).
+        # El cuerpo (body) de la solicitud va vacío ({}), ya que la base de datos
+        # inserta automáticamente el campo ping_time con la hora actual (DEFAULT now()).
+        run: |
+          curl -s -X POST "${{ secrets.SUPABASE_URL }}/rest/v1/ping_log" \
+          -H "apikey: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}" \
+          -H "Authorization: Bearer ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}" \
+          -H "Content-Type: application/json" \
+          -d "{}"
