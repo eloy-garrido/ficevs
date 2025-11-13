@@ -811,7 +811,7 @@ export async function searchPatientByRut(rut) {
         }
 
         // Estrategia de búsqueda: Obtener todos los pacientes del terapeuta
-        // y filtrar en el cliente comparando RUTs sin formato
+        // y filtrar en el cliente comparando RUTs sin formato y nombres
         // Esto evita problemas de formato (puntos y guiones) y es más confiable
         const { data, error } = await supabase
             .from('pacientes')
@@ -824,18 +824,27 @@ export async function searchPatientByRut(rut) {
             throw error;
         }
 
-        // Filtrar en el cliente comparando RUTs limpios
+        // Filtrar en el cliente comparando RUTs limpios o nombres
         const filtered = (data || []).filter(p => {
+            // Búsqueda por RUT: comparar RUTs limpios
             const cleanDbRut = (p.rut || '').replace(/[.\-]/g, '').toLowerCase();
             const cleanSearchRut = searchRut.replace(/[.\-]/g, '').toLowerCase();
-            return cleanDbRut.startsWith(cleanSearchRut);
+            const matchesRut = cleanDbRut.startsWith(cleanSearchRut);
+
+            // Búsqueda por nombre: comparar nombre completo (case-insensitive)
+            const searchTerm = searchRut.toLowerCase();
+            const nombreCompleto = (p.nombre_completo || '').toLowerCase();
+            const matchesName = nombreCompleto.includes(searchTerm);
+
+            // Retornar si coincide con RUT O con nombre
+            return matchesRut || matchesName;
         }).slice(0, 5);
 
-        debugLog('🔍 Búsqueda por RUT en tabla pacientes:', filtered.length, 'pacientes encontrados');
+        debugLog('🔍 Búsqueda por RUT/Nombre en tabla pacientes:', filtered.length, 'pacientes encontrados');
         return filtered;
 
     } catch (error) {
-        console.error('❌ Error al buscar por RUT:', error);
+        console.error('❌ Error al buscar por RUT/Nombre:', error);
         return [];
     }
 }
